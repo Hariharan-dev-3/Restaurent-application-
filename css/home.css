@@ -6,6 +6,14 @@
     scroll-behavior: smooth;
     
 }
+
+
+:root{
+    --back:linear-gradient(rgb(87, 88, 88),rgb(0, 0, 0));
+    --sub:linear-gradient(to left,rgb(30, 126, 1),#72ff91);
+}
+
+
 #home{
     width: 100vw;
     height: 100vh;
@@ -16,10 +24,7 @@
 
 
 
-:root{
-    --back:linear-gradient(rgb(87, 88, 88),rgb(0, 0, 0));
-    --sub:linear-gradient(to left,rgb(30, 126, 1),#72ff91);
-}
+
 
 
 .home_head{
@@ -55,7 +60,7 @@ nav{
     margin-left: 1em;
     margin-bottom: 2.5rem;
     opacity: 0.5;
-font-weight: 700;
+    font-weight: 700;
 }
 
 #hang{
@@ -97,7 +102,6 @@ h2{
     margin-left: 3vw;
     font-size: 1.2rem;
     display: inline-block;
-    
     font-weight: 600;
 }
 .banner{
@@ -129,6 +133,7 @@ h1{
     background: linear-gradient(rgb(246, 255, 0),rgb(211, 255, 203));
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    
 }
 p{
     font-family: 'Courier New', Courier, monospace;
@@ -246,7 +251,7 @@ article{
     transform: scale(1.1);
     transition: 0.2s ease;
 }
-.item .n{
+.item .foodName{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .item .tex{
@@ -282,7 +287,7 @@ article{
     align-content: center;
 }
 
-#order .sidecard{
+#order .sideCard{
      width:50%;
      height: 80%;
      justify-self: center;
@@ -301,7 +306,7 @@ article{
     justify-items: center;
     
     background:linear-gradient(rgb(255, 76, 106),rgb(0, 0, 0)) ;
-   border-radius: 10px;
+    border-radius: 10px;
 }
 
 @keyframes movecard{
@@ -334,7 +339,7 @@ article{
 .con .mid{
     width: 95%;
     height: 30%;
-    color: white;
+    color: rgb(247, 255, 2);
     align-content: center;
     align-items: center;
     display: flex;
@@ -344,6 +349,9 @@ article{
     width:2rem;
     height: 2rem;
     cursor: pointer;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: none;
 }
 
 
@@ -443,7 +451,7 @@ article{
 #gallery .images img{
     
     height: 90%;
-    animation: scroll 10s ease-in-out infinite; 
+    animation: scroll 10s ease-in-out infinite alternate; 
     border-radius: 20px;
 
     
@@ -466,7 +474,7 @@ article{
     font-weight: 700;
     font-size: 2.3rem;
     -webkit-text-fill-color: transparent;
-    animation: movetext 10s infinite;
+    animation: movetext 10s infinite alternate;
     margin-left: -15rem;
 }
 @keyframes movetext{
@@ -526,6 +534,26 @@ article{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center;
     line-height: 8vh;
+}
+
+#about{
+    width: 100vw;
+    height: 100vh;
+    background:var(--back) ;
+    color: white;
+    
+}
+#about .story{
+font-family: cursive;
+font-size: 1.5em;
+font-
+
+}
+#about .facts{
+font-family: 'Times New Roman', Times, serif;
+font-size: 1.5em;
+font-style: normal;
+
 }
 
 
