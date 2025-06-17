@@ -34,13 +34,25 @@
    justify-self: center;
    display: grid;
    grid-template-columns: 1fr 1fr;
-   gap: 5vw;
+   gap: 4.5em;
    align-items: center;
    align-content: center;
 
     
 }
+/* #home .navbar{
+    width: 100%;
+    height: 10%;
+    background:var(--sub);
+   
+}
+#home .navbar.vertical{
+    width:10%;
+    height: 100vh;
+} */
 nav{
+    position: fixed;
+    z-index: 1;
     width: 85vw;
     height: 12vh;
     background:linear-gradient(to left,rgb(181, 255, 158),#72ff91);
@@ -56,36 +68,17 @@ nav{
     
     
 }
+/* nav{
+    display: flex;
+    flex-direction: column;
+    width:5%;
+    max-height: 100%;
+} */
 .home_icon{
-    margin-left: 1em;
-    margin-bottom: 2.5rem;
-    opacity: 0.5;
-    font-weight: 700;
-}
-
-#hang{
     color: white;
-    font-size:large;
-    position: fixed;
-    
-   
-    
-    
-    
+    padding
 }
 
-
-.bar{
-    width: 30px;
-    height: 50px;
-    position: fixed;
-    color: #000000;
-    font-weight: bold;
-    font-size: 1rem;
-    border-radius: 10px;
-
-
-}
 
 
 h2{
