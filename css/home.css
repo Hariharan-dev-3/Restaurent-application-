@@ -67,6 +67,7 @@ nav{
     color: white;
     font-size:large;
     position: fixed;
+    
    
     
     
@@ -539,29 +540,29 @@ article{
 #about{
     width: 100vw;
     height: 100vh;
-    color: rgb(0, 0, 0);
+    background-color: rgb(255, 220, 62);
     display: inline-block;
-    position: relative;
+    
+    
     
 }
 #about .backround {
     width: 100%;
     height: 100%;
-    position: relative;
     display: inline-block;
+    justify-items: center;
 }
-#about .backround::before {
+/* #about .backround::before {
     content: "";
     position: absolute;
-
     width: 100%;
     height: 100%;
-    background: url('../Images/beach.jpg');
-    background-size: cover;
+    background: url('../Images/about1.jpg');
+    background-size:cover ;
     background-repeat: no-repeat;
-    filter: blur(6px);
+    filter: blur(4px);
     z-index: -1;
-}
+} */
 
 
 
@@ -590,9 +591,15 @@ margin: 1em;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border-radius: 10px;
+   animation: jump 5s infinite alternate;
    
 
 }
+
+
+
+
 
 .review .customer{
     width: 20%;
@@ -604,7 +611,6 @@ margin: 1em;
     color: #000000;
    
 }
-
 
 
 
