@@ -539,13 +539,35 @@ article{
 #about{
     width: 100vw;
     height: 100vh;
-    background:var(--back) ;
-    color: white;
+    color: rgb(0, 0, 0);
+    display: inline-block;
+    position: relative;
     
 }
+#about .backround {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#about .backround::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('../Images/pexels-robinstickel-70497.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(6px);
+    z-index: -1;
+}
+
+
+
 #about .story{
 font-family: cursive;
-font-size: 1.5em;
+font-size: 1.3em;
+width: 85%;
+margin: 1em;
 
 
 }
@@ -553,25 +575,31 @@ font-size: 1.5em;
     font-family: fantasy;
     font-size: 1.5em;
     font-style: normal;
+    width: 85%;
+    margin: 1em;
 
 }
 
 #about .review{
     width: 80%;
     height: 40%;
-    background-color: #01ffdd;
+    background-color: #305b55;
     justify-self: center;
     display: flex;
     justify-content: space-around;
     align-items: center;
+   
 
 }
 
 .review .customer{
-    width: 25%;
+    width: 20%;
     height: 70%;
-    background-color: #000000;
+    background-color: #ffffff;
     border-radius: 10px;
+    align-content: center;
+    text-align: center;
+    color: #000000;
    
 }
 
