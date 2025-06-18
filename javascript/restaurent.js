@@ -1,13 +1,12 @@
+const menu=document.querySelector('.hamburger');
+const closeBtn=document.querySelector('.Close');
+const imageContainer=document.querySelector('.imageContainer');
+const menuitem=document.querySelector('.item');
+const listBox=document.querySelector('.box');
+
+
 document.addEventListener('DOMContentLoaded',()=>{
-    const navbar=document.querySelector('.navbar');
-    const menu=document.querySelector('.hamburger');
-    const closeBtn=document.querySelector('.Close');
-    const imageContainer=document.querySelector('.imageContainer');
-    const menuitem=document.querySelector('.item');
-
-    const listBox=document.querySelector('.box');
-
-    menu.addEventListener("click",()=>{
+        menu.addEventListener("click",()=>{
         listBox.style.display="flex";
         listBox.style.transition="0.7s ease";
 
