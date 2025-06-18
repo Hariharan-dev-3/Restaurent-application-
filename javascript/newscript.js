@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const menu=document.querySelector('.hamburger');
     const closeBtn=document.querySelector('.Close');
     const imageContainer=document.querySelector('.imageContainer');
-
+    const menuitem=document.querySelector('.item');
 
     const listBox=document.querySelector('.box');
 
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         image.setAttribute('class','offerImage');
         imageContainer.appendChild(image);
     })
+
 
 
         // window.addEventListener('scroll',()=>{

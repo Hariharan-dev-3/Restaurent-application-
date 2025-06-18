@@ -151,10 +151,15 @@
     align-items: center;
 }
 .logo{
-    width: 30%;
+    width: 40%;
     height: 100%;
 
 }
 .texts{
     color:black;
+}
+
+.orderBtn{
+    width: 50%;
+    height: 40%;
 }
