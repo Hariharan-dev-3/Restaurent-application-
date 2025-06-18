@@ -29,12 +29,14 @@
 
             <div class="box">
                 <ul class="list">
-                    <li>Login</li>
-                    <li>Menu items</li>
-                    <li>Gallery</li>
-                    <li>Booking</li>
+                    <a class="sideLinks">Login</a>
+                    <a  href="#home" class="sideLinks">Home</a>
+                    <a href="#menu" class="sideLinks">Menu items</a>
+                    <a class="sideLinks">Gallery</a>
+                    <a class="sideLinks">Booking</a>
+                    <button class="close" title="close">X</button>
                 </ul>
-                <button class="close" title="close">X</button>
+                
             </div>
             <main class="contents">
                 <div class="imageContainer">
@@ -47,6 +49,13 @@
             </main>
         </section>
         <section id="menu">
+             <select name="Veg or Non-veg" id="">
+                <option value="" hidden>Choose veg or Non-veg</option>
+                <option value="">Veg</option>
+                <option value="">Non-Veg</option>
+                <option value="">All</option>
+
+             </select>
              <div class="items">
                     <div class="item">
                         <img class="logo" src="../Images/biriyani.png" alt="image">
