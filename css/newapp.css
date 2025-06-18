@@ -49,11 +49,13 @@
 
 .box{
     width: max-content;
-    background-color: aliceblue;
+    background-color: rgb(223, 240, 255);
     display: none;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
     position: fixed;
-    top: 7%;
+    top: 7.3%;
     left: 1%;
     display: none;
     z-index: 9999;
@@ -67,11 +69,18 @@
     line-height: 3em;
     
 }
+.list li:hover{
+    text-decoration: underline;
+}
+
+
+
 .close{
     height: 1em;
     border: none;
-    width: 2em;
-    padding: 0.7em;
+    width: 3em;
+    padding: 0.3em;
+    font-size: 1.5em;
     background-color: transparent;
 }
 
