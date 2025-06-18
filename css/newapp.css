@@ -5,34 +5,44 @@
 #home{
     background-color: rgb(52, 177, 162);
     width: 100vw;
-    height: 100vh;
+    min-height: 150vh;
 }
-#home .navbar{
-    width: 100vw;
-    height: 10vh;
-    background-color: white;
-    position: fixed;
-    display:flex;
-    flex-direction: row;
-   
-}
-.navbar.vertical{
-    display:flex ;
-    flex-direction: column;
-    width: 10vw;
-    height: 100vh;
-    background-color: blueviolet;
-}
-
-
-
-
-
-
-
-
-#menu{
+.navbar{
     width: 100%;
-    height: 100vh;
-    background-color: aquamarine;
+    height: 10%;
+    background-color:rgb(214, 255, 126) ;
+}
+.hamburger{
+    height: 5vh;
+    width: 3vw;
+    position: absolute;
+    top: 2%;
+    left: 1%;
+    border-radius: 10px;
+    z-index: 9999;
+    display: block;
+    border: none;
+    box-shadow: 0px 0px 7px black;
+    
+    
+}
+.box{
+    width: max-content;
+    background-color: aliceblue;
+    display: none;
+    display: flex;
+    
+
+}
+.list{
+    list-style: none;
+    cursor: pointer;
+    line-height: 3em;
+    
+}
+.close{
+    height: 1em;
+    border: none;
+    width: 1em;
+    padding: 0.7em;
 }
