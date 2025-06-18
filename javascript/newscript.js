@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded',()=>{
     const navbar=document.querySelector('.navbar');
     const menu=document.querySelector('.hamburger');
-    const closeBtn=document.querySelector('.Close')
+    const closeBtn=document.querySelector('.Close');
+    const imageContainer=document.querySelector('.imageContainer');
+
 
     const listBox=document.querySelector('.box');
 
@@ -14,6 +16,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     closeBtn.addEventListener("click",()=>{
         listBox.style.display="none";
         listBox.style.transition="0.7s ease";
+    })
+
+    const imagefiles=["malai kofta.jpg","butterchic.jpg","chana-masala.jpg"];
+
+
+    imagefiles.forEach(im=>{
+        const image=document.createElement('img');
+        image.src=`../Images/${im}`;
+        image.alt="image";
+        image.setAttribute('class','offerImage');
+        imageContainer.appendChild(image);
     })
 
 

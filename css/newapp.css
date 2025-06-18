@@ -3,34 +3,61 @@
     padding: 0;
 }
 #home{
-    background-color: rgb(52, 177, 162);
+    background-color: rgb(23, 46, 43);
     width: 100vw;
-    min-height: 150vh;
+    min-height: 100vh;
+    height: auto;
 }
-.navbar{
+.header{
+    background-color: rgb(124, 255, 207);
     width: 100%;
     height: 10%;
-    background-color:rgb(214, 255, 126) ;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
+
+
 .hamburger{
     height: 5vh;
     width: 3vw;
     position: absolute;
     top: 2%;
     left: 1%;
-    border-radius: 10px;
     z-index: 9999;
     display: block;
     border: none;
     box-shadow: 0px 0px 7px black;
-    
+    position: fixed;
+}
+
+.navbar{
+   justify-self: center;
+   gap: 5em;
+}
+.navbar a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     
 }
+    
+    
+
+
+
+
 .box{
     width: max-content;
     background-color: aliceblue;
     display: none;
     display: flex;
+    position: fixed;
+    top: 7%;
+    left: 1%;
+    display: none;
+    z-index: 9999;
+
     
 
 }
@@ -43,6 +70,91 @@
 .close{
     height: 1em;
     border: none;
-    width: 1em;
+    width: 2em;
     padding: 0.7em;
+    background-color: transparent;
+}
+
+.contents{
+    width: 100%;
+    height: 90%;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr;
+
+    
+}
+
+.imageContainer{
+    width: 95%;
+    height: 80%;
+    border: none;
+    display:flex;
+    margin-left: 1em;
+    overflow: hidden;
+    border-radius: 10px;
+
+}
+
+
+
+.offerImage{
+    width: 50vw;
+    height:80% ;
+    margin-left: 1rem;
+    align-self: center;
+    border-radius: 10px;
+    animation:moveImage 10s infinite alternate ;
+    
+
+}
+
+@keyframes moveImage{
+    0%{transform: translateX(0);}
+    100%{transform: translateX(-55vw);}
+}
+
+.pic{
+    align-content: center;
+    margin-right: 2em;
+    display: block;
+    
+}
+.delivery
+{
+    animation: none;
+    width: 30vw;
+    height: 60vh;
+    filter: saturate(1.2);
+}
+#menu{
+    width: 100%;
+    height: 100vh;
+    background-color: blanchedalmond;
+    justify-items: center;
+    align-content: center;
+}
+.items{
+    width: 85%;
+    height: 85%;
+    background-color: aqua;
+    justify-items: center;
+    align-content: center;
+}
+.item{
+    width: 90%;
+    height: 23%;
+    background-color: rgb(253, 178, 81);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+.logo{
+    width: 30%;
+    height: 100%;
+
+}
+.texts{
+    color:black;
 }
