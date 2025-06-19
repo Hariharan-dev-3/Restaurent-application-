@@ -7,6 +7,37 @@ const displayMenu=document.getElementById('items');
 const selectbutton=document.getElementById('selectButton');
 
 
+const imagefiles=["malai kofta.jpg","butterchic.jpg","chana-masala.jpg"];
+
+const menuItemsList=[
+        {
+            foodImage:"biriyani.png",
+            foodName:"Biriyani",
+            FoodRate:"200.00",
+            type:"non-veg"
+        },
+        {
+            foodImage:"panneeer.png",
+            foodName:"Panner",
+            FoodRate:"150.00",
+            type:"veg"
+        },
+        {
+            foodImage:"veg.png",
+            foodName:"Meals",
+            FoodRate:"180.00",
+            type:"veg"
+        },
+        {
+            foodImage:"chips.png",
+            foodName:"Fried",
+            FoodRate:"190.00",
+            type:"non-veg"
+        }
+    ];
+
+
+
 document.addEventListener('DOMContentLoaded',()=>{
         menu.addEventListener("mouseover",()=>{
         listBox.style.display="flex";
@@ -32,10 +63,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     
 
 
-    const imagefiles=["malai kofta.jpg","butterchic.jpg","chana-masala.jpg"];
 
 
-    imagefiles.forEach(im=>{
+function loadImage(images){
+     images.forEach(im=>{
         const image=document.createElement('img');
         image.src=`../Images/${im}`;
         image.alt="image";
@@ -43,32 +74,10 @@ document.addEventListener('DOMContentLoaded',()=>{
         imageContainer.appendChild(image);
     })
 
-    const menuItemsList=[
-        {
-            foodImage:"biriyani.png",
-            foodName:"Biriyani",
-            FoodRate:"200.00",
-            type:"non-veg"
-        },
-        {
-            foodImage:"panneeer.png",
-            foodName:"Panner",
-            FoodRate:"150.00",
-            type:"veg"
-        },
-        {
-            foodImage:"veg.png",
-            foodName:"Meals",
-            FoodRate:"180.00",
-            type:"veg"
-        },
-        {
-            foodImage:"chips.png",
-            foodName:"Fried",
-            FoodRate:"190.00",
-            type:"non-veg"
-        }
-    ]
+}
+loadImage(imagefiles);
+   
+
 
     function displayitems(menuitemscollection)
     {
