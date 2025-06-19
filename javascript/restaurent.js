@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       displayitems(menuItemsList);
     } else {
       const sorted = menuItemsList.filter(
-        (itemss) => itemss.type === selecteditem
+        (fItems) => fItems.type === selecteditem
       );
       displayitems(sorted);
     }
