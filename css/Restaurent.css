@@ -151,7 +151,7 @@
     justify-items: center;
     align-content: center;
 }
-.items{
+#items{
     width: 85%;
     height: 85%;
     background-color: aqua;
