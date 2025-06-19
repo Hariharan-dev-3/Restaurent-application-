@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    scrollbar-width: none;
 }
 #home{
     background-color: rgb(23, 46, 43);
@@ -47,6 +48,7 @@
     transition: 0.5 ease;
     text-decoration: underline;
 }
+
     
     
 
@@ -111,30 +113,27 @@
 }
 
 .imageContainer{
-    width: 95%;
-    height: 80%;
+    width: 90%;
+    height: 70%;
     border: none;
     display:flex;
-    margin-left: 1em;
+    justify-content: center;
+    margin-left:2em ;
     overflow: hidden;
     border-radius: 10px;
-
 }
 
 
 
 
 .offerImage{
-    width: 50vw;
-    height:80% ;
+    width: 28%;
+    height:50% ;
     margin-left: 1rem;
     align-self: center;
     border-radius: 10px;
-    animation:moveImage 10s infinite alternate ;
+    animation:moveImage 5s infinite alternate ;
     
-
-}
-.offerImage:hover{
 
 }
 
@@ -143,8 +142,12 @@
 }
 
 @keyframes moveImage{
-    0%{transform: translateX(0);}
-    100%{transform: translateX(-55vw);}
+    0%{transform: translateX(-2em);}
+    100%{transform: translateX(-1em);}
+}
+.today{
+    color: wheat;
+    position: absolute;
 }
 
 .pic{
@@ -177,6 +180,7 @@
     display: grid;
     box-shadow:0px 2px 10px rgb(255, 255, 255);
     border-radius: 10px;
+    
     
 }
 .item{
@@ -231,6 +235,10 @@
     font-size: 1.2em;
     font-weight: 800;
     text-align: center;
-    border-radius: 10px;
     
+    
+}
+.selectBtn option{
+    background-color: rgb(2, 10, 10);
+    color: rgb(255, 230, 0);
 }
