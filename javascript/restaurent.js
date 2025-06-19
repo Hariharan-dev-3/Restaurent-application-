@@ -7,18 +7,30 @@ const displayMenu=document.getElementById('items');
 const selectbutton=document.getElementById('selectButton');
 
 
-
 document.addEventListener('DOMContentLoaded',()=>{
-        menu.addEventListener("click",()=>{
+        menu.addEventListener("mouseover",()=>{
         listBox.style.display="flex";
         listBox.style.transition="0.7s ease";
 
     })
-
-    closeBtn.addEventListener("click",()=>{
+     menu.addEventListener("mouseout",()=>{
         listBox.style.display="none";
         listBox.style.transition="0.7s ease";
+
     })
+    listBox.addEventListener("mouseover",()=>{
+        listBox.style.display="flex";
+       
+
+    })
+     listBox.addEventListener("mouseout",()=>{
+        listBox.style.display="none";
+        
+
+    })
+
+    
+
 
     const imagefiles=["malai kofta.jpg","butterchic.jpg","chana-masala.jpg"];
 
@@ -92,11 +104,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
 
     
-
+displayitems(menuItemsList);
 
 selectbutton.addEventListener('change',()=>{
     const selecteditem=selectbutton.value;
-    if(selecteditem==='All'){
+    if(selecteditem==='All' || selecteditem===''){
         displayitems(menuItemsList);
     }
     else{
