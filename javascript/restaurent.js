@@ -58,8 +58,11 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     ]
 
-    
-    menuItemsList.forEach(items=>{
+    function displayitems(menuitemscollection)
+    {
+        displayMenu.innerHTML='';
+        
+        menuitemscollection.forEach(items=>{
         const itemdiv=document.createElement('div');
         itemdiv.setAttribute('class','item');
         const MenuImage=document.createElement('img');
@@ -86,9 +89,20 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
         })
+    }
+
+    
 
 
 selectbutton.addEventListener('change',()=>{
+    const selecteditem=selectbutton.value;
+    if(selecteditem==='All'){
+        displayitems(menuItemsList);
+    }
+    else{
+        const sorted=menuItemsList.filter(itemss=>itemss.type===selecteditem);
+        displayitems(sorted);
+    }
 
 })
 
