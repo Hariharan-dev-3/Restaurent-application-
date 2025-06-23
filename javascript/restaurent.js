@@ -180,18 +180,18 @@ bookingPics = [
   },
 ];
 
-let bookingContainer = "";
+//let bookingContainer = "";
 
 function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
-    bookingContainer += `
+    let bookingContainer = `
     <div class="bookingBack">
       <img src="../Images/${BookPic.image}" class="Bookimages">
       <p class="BookTableName">${BookPic.tableName}</p>
     </div>
     `;
+    bookingdiv.innerHTML += bookingContainer;
   });
 }
 
 bookingRender(bookingPics);
-bookingdiv.innerHTML = bookingContainer;
