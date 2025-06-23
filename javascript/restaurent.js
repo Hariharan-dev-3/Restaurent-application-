@@ -5,6 +5,9 @@ const menuitem = document.querySelector(".item");
 const listBox = document.querySelector(".box");
 const displayMenu = document.getElementById("items");
 const selectbutton = document.getElementById("selectButton");
+const gallerydiv = document.getElementById("galleryContainer");
+const bookingdiv = document.getElementById("bookContainer");
+const popupdiv = document.getElementById("popupScreen");
 
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
@@ -89,6 +92,27 @@ document.addEventListener("DOMContentLoaded", () => {
       itemdiv.appendChild(textdiv);
       itemdiv.appendChild(Btn);
       displayMenu.appendChild(itemdiv);
+
+      Btn.addEventListener("click", () => {
+        popupdiv.style.display = "block";
+        const popupHTML = `
+          
+            <div class="popup">
+              <img src="../Images/${items.foodImage}" class="popupImage" >
+              <p class="NameText">${items.foodName}</p>
+              <p class="priceText">Price: ${items.FoodRate} /-</p>
+              <button class="closePopup">Close</button>
+            </div>`;
+
+        popupdiv.innerHTML = popupHTML;
+
+        const closeBtns = document.querySelectorAll(".closePopup");
+        closeBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            popupdiv.style.display = "none";
+          });
+        });
+      });
     });
   }
 
@@ -106,3 +130,64 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+const galleryPics = [
+  "gallery1.jpg",
+  "gallery2.jpg",
+  "gallery3.jpg",
+  "gallery4.jpeg",
+];
+
+let imageRender = "";
+
+function galleryRender(pics) {
+  pics.forEach((picture) => {
+    imageRender += `<img src="../Images/${picture}" class="galleryPic">`;
+  });
+}
+
+galleryRender(galleryPics);
+gallerydiv.innerHTML = imageRender;
+
+bookingPics = [
+  {
+    image: "two seat.jpg",
+    tableName: "Double Seator",
+  },
+  {
+    image: "3 seat.jpg",
+    tableName: "Triple Seator",
+  },
+  {
+    image: "four seat.jpg",
+    tableName: "Four Seator",
+  },
+  {
+    image: "five seat.png",
+    tableName: "Five Seator",
+  },
+  {
+    image: "6 seat.jpg",
+    tableName: "Six Seator",
+  },
+  {
+    image: "8 seat.jpeg",
+    tableName: "Eight Seator",
+  },
+];
+
+let bookingContainer = "";
+
+function bookingRender(bookingarray) {
+  bookingarray.forEach((BookPic) => {
+    bookingContainer += `
+    <div class="bookingBack">
+      <img src="../Images/${BookPic.image}" class="Bookimages">
+      <p class="BookTableName">${BookPic.tableName}</p>
+    </div>
+    `;
+  });
+}
+
+bookingRender(bookingPics);
+bookingdiv.innerHTML = bookingContainer;
