@@ -101,7 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
               <img src="../Images/${items.foodImage}" class="popupImage" >
               <p class="NameText">${items.foodName}</p>
               <p class="priceText">Price: ${items.FoodRate} /-</p>
-              <button class="closePopup">Close</button>
+              <div class="Btns">
+                <button class="closePopup">Close</button>
+                <button class="buy">Buynow</button>
+              </div>
+              
             </div>`;
 
         popupdiv.innerHTML = popupHTML;
