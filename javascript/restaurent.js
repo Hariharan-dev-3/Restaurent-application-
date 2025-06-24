@@ -8,6 +8,7 @@ const selectbutton = document.getElementById("selectButton");
 const gallerydiv = document.getElementById("galleryContainer");
 const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
+const bookingPage = document.getElementById("bookingPage");
 
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
@@ -157,26 +158,32 @@ bookingPics = [
   {
     image: "two seat.jpg",
     tableName: "Double Seator",
+    count: 3,
   },
   {
     image: "3 seat.jpg",
     tableName: "Triple Seator",
+    count: 2,
   },
   {
     image: "four seat.jpg",
     tableName: "Four Seator",
+    count: 3,
   },
   {
     image: "five seat.png",
     tableName: "Five Seator",
+    count: 3,
   },
   {
     image: "6 seat.jpg",
     tableName: "Six Seator",
+    count: 2,
   },
   {
     image: "8 seat.jpeg",
     tableName: "Eight Seator",
+    count: 2,
   },
 ];
 
@@ -186,7 +193,7 @@ function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
     let bookingContainer = `
     <div class="bookingBack">
-      <img src="../Images/${BookPic.image}" class="Bookimages">
+      <img src="../Images/${BookPic.image}" class="Bookimages" data-count="${BookPic.count}">
       <p class="BookTableName">${BookPic.tableName}</p>
     </div>
     `;
@@ -195,3 +202,72 @@ function bookingRender(bookingarray) {
 }
 
 bookingRender(bookingPics);
+
+const bookImg = document.querySelectorAll(".Bookimages");
+bookImg.forEach((bmg) => {
+  bmg.addEventListener("click", () => {
+    // sendCount = bmg.getAttribute("data-count");
+    forBooking();
+  });
+});
+
+// const bookImg = document.querySelectorAll(".Bookimages");
+// bookImg.forEach((bmg) => {
+//   bmg.addEventListener("click", () => {
+//     // sendCount = bmg.getAttribute("data-count");
+//     forBooking();
+//   });
+// });
+
+const today = new Date().toISOString().split("T")[0];
+
+const bookingFormTemplate = `
+<div class="bookNow">
+      <p>Table-type : </p>
+      <label for="date">Select date:</label>
+      <input type="date" id="date" name="date" min="${today}">
+      <label for="stime">Staring time:</label>
+      <input type="time" id="time" name="stime" min="10:00" max="20:00">
+      <label for="etime">Ending time:</label>
+      <input type="time" id="time" name="etime" min="10:00" max="20:00">
+      <button class="bookBtn">Book Now</button>
+  </div>`;
+
+function forBooking() {
+  bookingPage.innerHTML = "";
+
+  // for (let i = 1; i <= tableId; i++) {
+  bookingPage.innerHTML = bookingFormTemplate;
+  // }
+
+  const bookBtns = document.querySelectorAll(".bookBtn");
+  bookBtns.forEach((b) => {
+    b.addEventListener("click", () => {
+      const parent = b.closest(".bookNow");
+      const startTime = parent.querySelector("input[name='stime']").value;
+      const endTime = parent.querySelector("input[name='etime']").value;
+      const bookDate = parent.querySelector("input[name='date']").value;
+      const startInput = parent.querySelector("input[name='stime']");
+      const endInput = parent.querySelector("input[name='etime']");
+      const dateInput = parent.querySelector("input[name='date']");
+
+      if (!startTime || !endTime || !bookDate) {
+        alert("Fill all the fields");
+
+        startInput.value = "";
+        endInput.value = "";
+        dateInput.value = "";
+        return;
+      } else if (startTime < "10:00" || endTime > "20:00") {
+        alert("Restaurant is open from 10:00 AM to 08:00 PM.");
+
+        startInput.value = "";
+        endInput.value = "";
+        dateInput.value = "";
+        return;
+      }
+
+      alert("Booking successful!");
+    });
+  });
+}
