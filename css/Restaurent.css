@@ -487,6 +487,7 @@
     border-radius: 10px;
     display: grid;
     align-items: center;
+    justify-items: center;
     grid-template-rows: repeat(4,1fr);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -495,15 +496,16 @@
 }
 
 .bookNow .head{
-    margin-right: 15em;
+    margin-right: 12em;
     font-size: 1.2em;
    
 }
 .bookNow .date{
     font-size: 1.2em;
+    display: flex;
 }
 .bookNow .date input{
-    width: 70%;
+    
     background-color: rgb(111, 236, 255);
     text-align: center;
     border-radius: 10px;
@@ -522,7 +524,6 @@
 }
 
 .buttons button{
-    width: 40%;
     border-radius: 10px;
 }
 .buttons{
@@ -548,6 +549,9 @@
     z-index: 9999;
     top: 0;
     left: 0;
+    transition: 0.2s ease-in-out;
+    border-radius: 10px;
+    display: none;
 
 }
 .successMsg{
@@ -555,5 +559,7 @@
     font-size: 1.4em;
     font-family: cursive;
     text-align:center;
+    transition: 0.2s ease-in-out;
     
 }
+

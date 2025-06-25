@@ -233,6 +233,7 @@ function bookingFormTemplate(tableType) {
         <label for="date">Select date : </label>
         <input type="date" name="date" min="${today}">
       </div>
+      <p>Choose time between 10.00AM to 08.00PM</p>
       <div class="time">
         <label for="stime">Starting time : </label>
         <input type="time" name="stime" min="10:00" max="20:00"><br>
@@ -272,21 +273,23 @@ function forBooking(tableType) {
         endInput.value = "";
         dateInput.value = "";
         return;
-      } else if (
-        (startTime > "10:00" && startTime < "20:00") ||
-        (endTime < "20:00" && endTime > "10:00")
-      ) {
+      } else if (startTime < "10:00" || endTime > "20:00") {
         alert("Restaurant is open from 10:00 AM to 08:00 PM.");
 
         startInput.value = "";
         endInput.value = "";
         dateInput.value = "";
         return;
+      } else {
+        //   successDiv.innerHTML = `
+        // <p class="successMsg">Successfully ${tableType}  table Booked ...!</p>
+        // `;
+        //   setTimeout(() => {
+        //     successDiv.style.display = "none";
+        //     successDiv.style.transition = "0.3s ease";
+        //   }, 2000);
+        alert("Booking successful!");
       }
-      successDiv.innerHTML = `
-      <p class="successMsg">Successfully table Booked ...!</p>
-      `;
-      // alert("Booking successful!");
     });
   });
 
