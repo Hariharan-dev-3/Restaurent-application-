@@ -486,7 +486,6 @@
     height: 60%;
     border-radius: 10px;
     display: grid;
-    justify-content: center;
     align-items: center;
     grid-template-rows: repeat(4,1fr);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -540,4 +539,21 @@
 .buttons .closeBooking{
     background-color: red;
     color: white;
+}
+#success{
+    width: 50%;
+    height: 6%;
+    background-color: rgb(3, 255, 129);
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+
+}
+.successMsg{
+    font-weight: 600;
+    font-size: 1.4em;
+    font-family: cursive;
+    text-align:center;
+    
 }

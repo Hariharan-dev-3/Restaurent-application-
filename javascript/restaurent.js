@@ -9,6 +9,7 @@ const gallerydiv = document.getElementById("galleryContainer");
 const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
+const successDiv = document.getElementById("success");
 
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
@@ -271,7 +272,10 @@ function forBooking(tableType) {
         endInput.value = "";
         dateInput.value = "";
         return;
-      } else if (startTime < "10:00" || endTime > "20:00") {
+      } else if (
+        (startTime > "10:00" && startTime < "20:00") ||
+        (endTime < "20:00" && endTime > "10:00")
+      ) {
         alert("Restaurant is open from 10:00 AM to 08:00 PM.");
 
         startInput.value = "";
@@ -279,8 +283,10 @@ function forBooking(tableType) {
         dateInput.value = "";
         return;
       }
-
-      alert("Booking successful!");
+      successDiv.innerHTML = `
+      <p class="successMsg">Successfully table Booked ...!</p>
+      `;
+      // alert("Booking successful!");
     });
   });
 
