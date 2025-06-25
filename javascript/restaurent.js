@@ -224,17 +224,24 @@ const today = new Date().toISOString().split("T")[0];
 function bookingFormTemplate(tableType) {
   return `
     <div class="bookNow">
-
-      <p>Name:Customer</p>
-      <p>Table-type: <strong>${tableType}</strong></p>
-      <label for="date">Select date:</label>
-      <input type="date" name="date" min="${today}">
-      <label for="stime">Starting time:</label>
-      <input type="time" name="stime" min="10:00" max="20:00">
-      <label for="etime">Ending time:</label>
-      <input type="time" name="etime" min="10:00" max="20:00">
-      <button class="bookBtn">Book Now</button>
-      <button class="closeBooking">X</button>
+      <div class="head">
+        <p>Name : <strong>Customer</strong></p>
+        <p>Table-type : <strong>${tableType}</strong></p>
+      </div>  
+      <div class="date">
+        <label for="date">Select date : </label>
+        <input type="date" name="date" min="${today}">
+      </div>
+      <div class="time">
+        <label for="stime">Starting time : </label>
+        <input type="time" name="stime" min="10:00" max="20:00"><br>
+        <label for="etime">Ending time      : </label>
+        <input type="time" name="etime" min="10:00" max="20:00">
+      </div>
+      <div class="buttons">
+        <button class="bookBtn">Book Now</button>
+        <button class="closeBooking">Close</button>
+      </div>  
     </div>`;
 }
 
