@@ -491,6 +491,10 @@
     grid-template-rows: repeat(4,1fr);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+.bookNow{
+    font-weight: 700;
+}
+
 .bookNow .head{
     margin-right: 15em;
     font-size: 1.2em;
