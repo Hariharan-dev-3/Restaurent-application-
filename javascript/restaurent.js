@@ -193,7 +193,7 @@ function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
     let bookingContainer = `
     <div class="bookingBack">
-      <img src="../Images/${BookPic.image}" class="Bookimages" data-count="${BookPic.count}">
+      <img src="../Images/${BookPic.image}" class="Bookimages" data-count="${BookPic.count}" data-table="${BookPic.tableName}">
       <p class="BookTableName">${BookPic.tableName}</p>
     </div>
     `;
@@ -207,7 +207,7 @@ const bookImg = document.querySelectorAll(".Bookimages");
 bookImg.forEach((bmg) => {
   bmg.addEventListener("click", () => {
     // sendCount = bmg.getAttribute("data-count");
-    forBooking();
+    forBooking(bmg.getAttribute("data-table"));
   });
 });
 
@@ -221,24 +221,30 @@ bookImg.forEach((bmg) => {
 
 const today = new Date().toISOString().split("T")[0];
 
-const bookingFormTemplate = `
-<div class="bookNow">
-      <p>Table-type : </p>
-      <label for="date">Select date:</label>
-      <input type="date" id="date" name="date" min="${today}">
-      <label for="stime">Staring time:</label>
-      <input type="time" id="time" name="stime" min="10:00" max="20:00">
-      <label for="etime">Ending time:</label>
-      <input type="time" id="time" name="etime" min="10:00" max="20:00">
-      <button class="bookBtn">Book Now</button>
-  </div>`;
+function bookingFormTemplate(tableType) {
+  return `
+    <div class="bookNow">
 
-function forBooking() {
+      <p>Name:Customer</p>
+      <p>Table-type: <strong>${tableType}</strong></p>
+      <label for="date">Select date:</label>
+      <input type="date" name="date" min="${today}">
+      <label for="stime">Starting time:</label>
+      <input type="time" name="stime" min="10:00" max="20:00">
+      <label for="etime">Ending time:</label>
+      <input type="time" name="etime" min="10:00" max="20:00">
+      <button class="bookBtn">Book Now</button>
+      <button class="closeBooking">X</button>
+    </div>`;
+}
+
+function forBooking(tableType) {
+  bookingPage.classList.remove("hide");
+  bookingPage.classList.add("show");
   bookingPage.innerHTML = "";
 
   // for (let i = 1; i <= tableId; i++) {
-  bookingPage.innerHTML = bookingFormTemplate;
-  // }
+  bookingPage.innerHTML = bookingFormTemplate(tableType);
 
   const bookBtns = document.querySelectorAll(".bookBtn");
   bookBtns.forEach((b) => {
@@ -268,6 +274,13 @@ function forBooking() {
       }
 
       alert("Booking successful!");
+    });
+  });
+
+  const closeBtns = document.querySelectorAll(".closeBooking");
+  closeBtns.forEach((cb) => {
+    cb.addEventListener("click", () => {
+      bookingPage.classList.add("hide");
     });
   });
 }
