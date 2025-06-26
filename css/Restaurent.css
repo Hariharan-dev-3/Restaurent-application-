@@ -322,25 +322,25 @@
 }
 
 #booking{
-    background-color: burlywood;
+    background-color: rgb(192, 151, 97);
     width: 100vw;
     height: 100vh;
     justify-items: center;
+    display: grid;
     align-content: center;
 }
 #bookContainer{
-    width: 90%;
-    height: 90%;
+    width: 80%;
+    height: 95%;
     display: grid;
     grid-template-columns: repeat(3,1fr);
     justify-items: center;
-    align-items: center;
    
 }
 
 .Bookimages{
-    width: 20vw;
-    height: 30vh;
+    width: 17vw;
+    height: 25vh;
     border-radius: 10px;
      cursor: pointer;
      box-shadow: 0px 0px 10px rgb(0, 0, 0);
@@ -354,7 +354,16 @@
     text-align: center;
     line-height: 3em;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
 
+}
+
+#booking h2{
+    color:rgb(0, 0, 0);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2.5em;
+    text-decoration: underline;
 }
 
 .popupOverlay {
@@ -481,14 +490,13 @@
     display:none;
 }
 .bookNow{
-    background-color: rgba(223, 255, 148, 0.992);
+    background:linear-gradient(rgb(255, 255, 255),rgb(224, 224, 224));
     width: 40%;
-    height: 60%;
+    height: 70%;
     border-radius: 10px;
     display: grid;
     align-items: center;
     justify-items: center;
-    grid-template-rows: repeat(4,1fr);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .bookNow{
@@ -503,10 +511,11 @@
 .bookNow .date{
     font-size: 1.2em;
     display: flex;
+    gap: 1vh;
 }
 .bookNow .date input{
     
-    background-color: rgb(111, 236, 255);
+    background-color: rgb(255, 255, 255);
     text-align: center;
     border-radius: 10px;
 }
@@ -525,13 +534,16 @@
 
 .buttons button{
     border-radius: 10px;
+    width: 30%;
 }
 .buttons{
     display: flex;
     gap: 1em;
     justify-content: center;
+    width: 100%;
 
 }
+
 
 .buttons .bookBtn{
     background-color: rgb(98, 255, 98);
@@ -540,6 +552,7 @@
 .buttons .closeBooking{
     background-color: red;
     color: white;
+    font-size: 1.1em;
 }
 #success{
     width: 50%;
@@ -563,3 +576,15 @@
     
 }
 
+#alertPlaceholder{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+#alertBox{
+    background-color: rgb(83, 255, 83);
+    left: 240%;
+    font-weight: 600;
+}

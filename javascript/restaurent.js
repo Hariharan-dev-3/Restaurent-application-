@@ -9,7 +9,7 @@ const gallerydiv = document.getElementById("galleryContainer");
 const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
-const successDiv = document.getElementById("success");
+//const alertPlaceholder = document.querySelector("#alertPlaceholder");
 
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
@@ -230,7 +230,7 @@ function bookingFormTemplate(tableType) {
         <p>Table-type : <strong>${tableType}</strong></p>
       </div>  
       <div class="date">
-        <label for="date">Select date : </label>
+        <label for="date">Select date   : </label>
         <input type="date" name="date" min="${today}">
       </div>
       <p>Choose time between 10.00AM to 08.00PM</p>
@@ -241,8 +241,8 @@ function bookingFormTemplate(tableType) {
         <input type="time" name="etime" min="10:00" max="20:00">
       </div>
       <div class="buttons">
-        <button class="bookBtn">Book Now</button>
         <button class="closeBooking">Close</button>
+        <button class="bookBtn">Book Now</button> 
       </div>  
     </div>`;
 }
@@ -266,30 +266,57 @@ function forBooking(tableType) {
       const endInput = parent.querySelector("input[name='etime']");
       const dateInput = parent.querySelector("input[name='date']");
 
+      const alertPlaceholder = document.querySelector("#alertPlaceholder");
+      alertPlaceholder.innerHTML = "";
+
+      // let alertType = "";
+      // let alertMessage = "";
+
       if (!startTime || !endTime || !bookDate) {
-        alert("Fill all the fields");
+        // alert("Fill all the fields");
+        showAlert("warning", "⚠️ Please fill in all the fields.");
 
         startInput.value = "";
         endInput.value = "";
         dateInput.value = "";
         return;
       } else if (startTime < "10:00" || endTime > "20:00") {
-        alert("Restaurant is open from 10:00 AM to 08:00 PM.");
+        // alert("Restaurant is open from 10:00 AM to 08:00 PM.");
+        showAlert(
+          "warning",
+          "🕒 Restaurant is open from 10:00 AM to 08:00 PM only."
+        );
 
         startInput.value = "";
         endInput.value = "";
         dateInput.value = "";
         return;
       } else {
-        //   successDiv.innerHTML = `
-        // <p class="successMsg">Successfully ${tableType}  table Booked ...!</p>
-        // `;
-        //   setTimeout(() => {
-        //     successDiv.style.display = "none";
-        //     successDiv.style.transition = "0.3s ease";
-        //   }, 2000);
-        alert("Booking successful!");
+        showAlert("success", `✅ Successfully booked a ${tableType} table!`);
       }
+
+      function showAlert(type, message) {
+        const alertPlaceholder = document.querySelector("#alertPlaceholder");
+        alertPlaceholder.innerHTML = "";
+
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+        alertDiv.setAttribute("role", "alert");
+        alertDiv.innerHTML = `
+              ${message}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+        alertPlaceholder.appendChild(alertDiv);
+      }
+      //   successDiv.innerHTML = `
+      // <p class="successMsg">Successfully ${tableType}  table Booked ...!</p>
+      // `;
+      //   setTimeout(() => {
+      //     successDiv.style.display = "none";
+      //     successDiv.style.transition = "0.3s ease";
+      //   }, 2000);
+      // alert("Booking successful!");
     });
   });
 
