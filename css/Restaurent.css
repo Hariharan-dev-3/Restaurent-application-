@@ -4,12 +4,15 @@
     scrollbar-width: none;
 }
 #home{
-    background-color: rgb(58, 205, 127);
+    background:url('../Images/homeBack2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 100vw;
     height: auto;
 }
 .header{    
-    background-color: rgb(1, 87, 58);
+    box-shadow: 0px 5px 10px rgb(248, 240, 13);
+    background-color:rgba(0, 0, 0, 0.8);
     width: 100%;
     height: 12%;
     display: grid;
@@ -29,7 +32,7 @@
     border: none;
     box-shadow: 0px 0px 7px black;
     position: fixed;
-   background-color: rgb(200, 235, 255);
+   background-color: rgb(255, 255, 255);
 }
 
 .navbar{
@@ -189,20 +192,22 @@
 #menu{
     width: 100%;
     height: 100vh;
-    background-color: rgb(45, 135, 123);
+    background:url('../Images/Menu3.jpg');
     justify-items: center;
     align-items: center;
     display:grid;
     grid-template-rows: 0.1fr 1.4fr;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #items{
-    width: 85%;
-    height: 85%;
-    background-color: rgb(17, 64, 58);
+    width: 60%;
+    height: 75%;
+    background-color:rgba(0,0,0,0.5);
     justify-items: center;
     overflow-y: scroll;
     display: grid;
-    box-shadow:0px 2px 20px rgb(255, 255, 255);
+    box-shadow:0px 2px 10px rgb(22, 247, 255);
     border-radius: 10px;
     
     
@@ -260,10 +265,10 @@
 }
 .selectBtn{
     width: 20%;
-    height: 60%;
-    margin-top: 2em;
+    height: 40%;
+    margin-top: 4em;
     color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 21);
+    background-color: rgb(21, 255, 216);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1.2em;
     font-weight: 800;
@@ -279,40 +284,41 @@
 #gallery{
     width: 100vw;
     height:100vh;
-    background-color:rgb(98, 154, 98);
-    justify-items: center;
-    align-content: center;
+    background:url('../Images/GalleryBack.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     
   
 }
 #galleryContainer{
-    width:fit-content;
-    height: 90%;
+    width:100%;
+    height: 100%;
     display: grid;
+    grid-template-columns: repeat(3,1fr);
     background-size: cover;
-    grid-template-columns: repeat(2,0.5fr);
+    overflow-y: scroll;
     justify-items: center;
-    align-content: center;
-    gap: 3vw;
-    animation: move 5s infinite alternate;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
 }
-#galleryContainer:hover{
+/* #galleryContainer:hover{
     animation-play-state: paused;
-}
+} */
 
-@keyframes move{
+/* @keyframes move{
     0%{transform: translateX(0%)}
     50%{transform: translateX(5%)}
     75%{transform: translateX(0%)}
     100%{transform: translateX(-5%)}
-}
+} */
 
 
 .galleryPic{
-    width:35vw;
-    height: 40vh;
+    width:80%;
+    height: 80%;
     border-radius: 10px;
     cursor: pointer;
+
     
 }
 .galleryPic:hover{
@@ -363,7 +369,7 @@
     color:rgb(0, 0, 0);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 2.5em;
-    text-decoration: underline;
+    font-weight: 600;
 }
 
 .popupOverlay {
@@ -490,7 +496,7 @@
     display:none;
 }
 .bookNow{
-    background:linear-gradient(rgb(255, 255, 255),rgb(224, 224, 224));
+    background:linear-gradient(rgb(255, 255, 255),rgb(251, 255, 132));
     width: 40%;
     height: 70%;
     border-radius: 10px;
@@ -504,25 +510,51 @@
 }
 
 .bookNow .head{
-    margin-right: 12em;
-    font-size: 1.2em;
+    text-align: center;
+    font-size: 1.3em;
+    width: 80%;
+    height: 70%;
+    box-shadow: 0px 0px 10px black;
+    align-content: center;
+    border-radius: 20px;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    
 }
+.bookNow .head strong{
+    color: rgb(255, 72, 11);
+}
+
 .bookNow .date{
     font-size: 1.2em;
     display: flex;
-    gap: 1vh;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.bookNow .note{
+    font-size: 1.5em;
+    font-family: fantasy;
+    font-weight: 300;
 }
 .bookNow .date input{
     
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(246, 255, 0);
     text-align: center;
+    width: 50%;
+    height:2.5em;
     border-radius: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 0.8em;
 }
 .bookNow .time{
     font-size: 1.15em;
     display: flex;
     gap: 1em;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
 
 
 }
@@ -530,11 +562,15 @@
     background-color: rgb(0, 255, 247);
     border-radius: 10px;
     text-align: center;
+    width: 20%;
+    font-size: 1em;
+    font-family: fantasy;
 }
 
 .buttons button{
     border-radius: 10px;
     width: 30%;
+    height: 2.5em;
 }
 .buttons{
     display: flex;
@@ -554,7 +590,7 @@
     color: white;
     font-size: 1.1em;
 }
-#success{
+/* #success{
     width: 50%;
     height: 6%;
     background-color: rgb(3, 255, 129);
@@ -574,7 +610,7 @@
     text-align:center;
     transition: 0.2s ease-in-out;
     
-}
+} */
 
 #alertPlaceholder{
     position: fixed;
@@ -584,7 +620,22 @@
 }
 
 #alertBox{
-    background-color: rgb(83, 255, 83);
-    left: 240%;
+    background-color: rgb(229, 255, 0);
+    margin-left:65vw;
+    color: rgb(0, 0, 0);
+    border: none;
     font-weight: 600;
+}
+
+#alertBox.hide{
+    display: none;
+    transition: 0.5s ease-out;
+}
+
+#authendication{
+    width: 100%;
+    height: 100%;
+    background:url('../Images/MenuBack.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }

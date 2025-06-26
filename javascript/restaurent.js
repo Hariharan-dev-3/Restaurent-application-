@@ -11,34 +11,22 @@ const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
 //const alertPlaceholder = document.querySelector("#alertPlaceholder");
 
+// Code for loading and storing home page offer images
+
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
-const menuItemsList = [
-  {
-    foodImage: "biriyani.png",
-    foodName: "Biriyani",
-    FoodRate: "200.00",
-    type: "non-veg",
-  },
-  {
-    foodImage: "panneeer.png",
-    foodName: "Panner",
-    FoodRate: "150.00",
-    type: "veg",
-  },
-  {
-    foodImage: "veg.png",
-    foodName: "Meals",
-    FoodRate: "180.00",
-    type: "veg",
-  },
-  {
-    foodImage: "chips.png",
-    foodName: "Fried",
-    FoodRate: "190.00",
-    type: "non-veg",
-  },
-];
+function loadImage(images) {
+  images.forEach((im) => {
+    const image = document.createElement("img");
+    image.src = `../Images/${im}`;
+    image.alt = "image";
+    image.setAttribute("class", "offerImage");
+    imageContainer.appendChild(image);
+  });
+}
+loadImage(imagefiles);
+
+// Code for Hamburger menu
 
 document.addEventListener("DOMContentLoaded", () => {
   menu.addEventListener("mouseover", () => {
@@ -56,16 +44,34 @@ document.addEventListener("DOMContentLoaded", () => {
     listBox.style.display = "none";
   });
 
-  function loadImage(images) {
-    images.forEach((im) => {
-      const image = document.createElement("img");
-      image.src = `../Images/${im}`;
-      image.alt = "image";
-      image.setAttribute("class", "offerImage");
-      imageContainer.appendChild(image);
-    });
-  }
-  loadImage(imagefiles);
+  // code displaying Menu items
+
+  const menuItemsList = [
+    {
+      foodImage: "biriyani.png",
+      foodName: "Biriyani",
+      FoodRate: "200.00",
+      type: "non-veg",
+    },
+    {
+      foodImage: "panneeer.png",
+      foodName: "Panner",
+      FoodRate: "150.00",
+      type: "veg",
+    },
+    {
+      foodImage: "veg.png",
+      foodName: "Meals",
+      FoodRate: "180.00",
+      type: "veg",
+    },
+    {
+      foodImage: "chips.png",
+      foodName: "Fried",
+      FoodRate: "190.00",
+      type: "non-veg",
+    },
+  ];
 
   function displayitems(menuitemscollection) {
     displayMenu.innerHTML = "";
@@ -94,6 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
       itemdiv.appendChild(textdiv);
       itemdiv.appendChild(Btn);
       displayMenu.appendChild(itemdiv);
+
+      // code for popup menu items
 
       Btn.addEventListener("click", () => {
         popupdiv.style.display = "block";
@@ -124,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   displayitems(menuItemsList);
 
+  // code for select button
+
   selectbutton.addEventListener("change", () => {
     const selecteditem = selectbutton.value;
     if (selecteditem === "All" || selecteditem === "") {
@@ -137,11 +147,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// code for gallery page
+
 const galleryPics = [
   "gallery1.jpg",
   "gallery2.jpg",
   "gallery3.jpg",
   "gallery4.jpeg",
+  "interior1.jpg",
+  "interior2.jpg",
+  "interior3.jpg",
+  "interior4.jpg",
 ];
 
 let imageRender = "";
@@ -154,6 +170,8 @@ function galleryRender(pics) {
 
 galleryRender(galleryPics);
 gallerydiv.innerHTML = imageRender;
+
+// code for booking page
 
 bookingPics = [
   {
@@ -190,6 +208,8 @@ bookingPics = [
 
 //let bookingContainer = "";
 
+// cod for displaying popup for booking page
+
 function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
     let bookingContainer = `
@@ -220,25 +240,27 @@ bookImg.forEach((bmg) => {
 //   });
 // });
 
+// code for display popup contents
+
 const today = new Date().toISOString().split("T")[0];
 
 function bookingFormTemplate(tableType) {
   return `
     <div class="bookNow">
       <div class="head">
-        <p>Name : <strong>Customer</strong></p>
+        <p>Customer-name: <strong>Customer</strong></p>
         <p>Table-type : <strong>${tableType}</strong></p>
       </div>  
       <div class="date">
-        <label for="date">Select date   : </label>
+        <label for="date">Select date</label>
         <input type="date" name="date" min="${today}">
       </div>
-      <p>Choose time between 10.00AM to 08.00PM</p>
+      <p class="note"><b>Choose time between 10.00AM to 08.00PM</b></p>
       <div class="time">
-        <label for="stime">Starting time : </label>
-        <input type="time" name="stime" min="10:00" max="20:00"><br>
-        <label for="etime">Ending time      : </label>
-        <input type="time" name="etime" min="10:00" max="20:00">
+        <label for="stime">Starting time</label>
+        <input type="time" name="stime" min="10:00" max="20:00" value="10:00"><br>
+        <label for="etime">Ending time</label>
+        <input type="time" name="etime" min="10:00" max="20:00" value="08:00">
       </div>
       <div class="buttons">
         <button class="closeBooking">Close</button>
@@ -274,7 +296,7 @@ function forBooking(tableType) {
 
       if (!startTime || !endTime || !bookDate) {
         // alert("Fill all the fields");
-        showAlert("warning", "⚠️ Please fill in all the fields.");
+        showAlert("warning", "Please fill in all the fields.");
 
         startInput.value = "";
         endInput.value = "";
@@ -284,15 +306,17 @@ function forBooking(tableType) {
         // alert("Restaurant is open from 10:00 AM to 08:00 PM.");
         showAlert(
           "warning",
-          "🕒 Restaurant is open from 10:00 AM to 08:00 PM only."
+          " Restaurant is open from 10:00 AM to 08:00 PM only."
         );
 
         startInput.value = "";
         endInput.value = "";
-        dateInput.value = "";
+        // dateInput.value = "";
         return;
       } else {
-        showAlert("success", `✅ Successfully booked a ${tableType} table!`);
+        showAlert("success", `Successfully booked a ${tableType} table!`);
+        bookingPage.classList.add("hide");
+        bookingPage.classList.remove("show");
       }
 
       function showAlert(type, message) {
@@ -302,13 +326,18 @@ function forBooking(tableType) {
         const alertDiv = document.createElement("div");
         alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
         alertDiv.setAttribute("role", "alert");
+        alertDiv.setAttribute("id", "alertBox");
         alertDiv.innerHTML = `
               ${message}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
 
         alertPlaceholder.appendChild(alertDiv);
+        setTimeout(() => {
+          alertDiv.classList.add("hide");
+        }, 3000);
       }
+
       //   successDiv.innerHTML = `
       // <p class="successMsg">Successfully ${tableType}  table Booked ...!</p>
       // `;
