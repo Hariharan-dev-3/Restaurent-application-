@@ -640,12 +640,13 @@
 #authendication{
     width: 100%;
     height: 100%;
-    background-color: aquamarine;
+    background-color:rgba(33, 43, 44, 0.7);
     position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
     display: none;
+    align-content: center;
 }
 #authendication.show{
     display: block;
@@ -663,5 +664,27 @@
 #Regauthendication.show{
     display: block;
 }
+#authendication .loginBack{
+    background-color: rgb(146, 207, 207);
+    width: 40%;
+    height: 80%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    border-radius: 10px;
+}
+
+.loginBack label{
+    font-size: 1.5em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 700;
+
+}
+.loginBack #loginMail{
+    width: 100%;
+    height: 60%;
+}
+
 
 
