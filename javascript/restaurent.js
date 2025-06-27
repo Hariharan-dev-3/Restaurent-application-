@@ -248,19 +248,21 @@ const today = new Date().toISOString().split("T")[0];
 function bookingFormTemplate(tableType) {
   return `
     <div class="bookNow">
+
+      <h3>Table Booking form 📌</h3>
       <div class="head">
-        <p>Customer-name: <strong>Customer</strong></p>
+        <p><strong>Customer</strong></p>
         <p>Table-type : <strong>${tableType}</strong></p>
       </div>  
       <div class="date">
-        <label for="date">Select date</label>
+        <label for="date">Select date 📆</label>
         <input type="date" name="date" min="${today}">
       </div>
-      <p class="note"><b>Choose time between 10.00AM to 08.00PM</b></p>
+      <p class="note"><b> ⏳ Choose time between 10.00AM to 08.00PM ⏳</b></p>
       <div class="time">
-        <label for="stime">Starting time</label>
+        <label for="stime">🕘 Starting time</label>
         <input type="time" name="stime" min="10:00" max="20:00" value="10:00"><br>
-        <label for="etime">Ending time</label>
+        <label for="etime">Ending time 🕗</label>
         <input type="time" name="etime" min="10:00" max="20:00" value="08:00">
       </div>
       <div class="buttons">
@@ -362,9 +364,9 @@ function loginRender() {
     
         <div class="loginBack">
             <label for="Email">Enter you mail-ID</label>
-            <input type="text" name="Email">
+            <input type="text" id="loginMail" name="Email">
             <label for="Password">Enter you Password</label>
-            <input type="text" name="Password">
+            <input type="text" id="loginPass" name="Password">
             <button class="loginBtn" id="loginBtn">Login</button>
             <p>Are you new User ? Click here to Register </p><a href="" id="toRegister">Register</a>
         </div>`;
@@ -400,26 +402,51 @@ function registerRender() {
   });
 
   $("#registerBtn").click(() => {
-    const uName = $("#username").val();
-    const uEmail = $("#usermail").val();
-    const uPass = $("#userpassword").val();
+    const userName = $("#username").val();
+    const userEmail = $("#usermail").val();
+    const userPass = $("#userpassword").val();
+
+    if (!userName || !userEmail || !userPass) {
+      alert("fill all fields");
+      return;
+    }
 
     const userData = {
-      userName: uName,
-      email: uEmail,
-      password: uPass,
+      userName: userName,
+      email: userEmail,
+      password: userPass,
     };
 
-    const allUsers = JSON.parse(sessionStorage.getItem("users")) || [];
+    const allUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-    const alreadyExist = allUsers.some((user) => user.email === uEmail);
+    const alreadyExist = allUsers.some((user) => user.email === userEmail);
 
     if (alreadyExist) {
       alert("already username registered");
+      $("#username").val("");
+      $("#usermail").val("");
+      $("#userpassword").val("");
+      return;
     } else {
       allUsers.push(userData);
-      sessionStorage.setItem("users", JSON.stringify(allUsers));
+      localStorage.setItem("users", JSON.stringify(allUsers));
       alert("data stored");
+      $("#username").val("");
+      $("#usermail").val("");
+      $("#userpassword").val("");
     }
   });
 }
+
+// login validation
+
+// $("#loginBtn").click(() => {
+//   const loginEmail = $("#loginMail").val();
+//   const loginPass = $("#loginPass").val();
+
+//   if (!loginEmail || !loginPass) {
+//     alert("fill all details");
+//     return;
+//   }
+//   const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
+// });
