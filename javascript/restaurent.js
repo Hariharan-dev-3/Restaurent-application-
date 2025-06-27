@@ -9,6 +9,7 @@ const gallerydiv = document.getElementById("galleryContainer");
 const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
+//const loginDiv = document.getElementById("authendication");
 //const alertPlaceholder = document.querySelector("#alertPlaceholder");
 
 // Code for loading and storing home page offer images
@@ -337,15 +338,6 @@ function forBooking(tableType) {
           alertDiv.classList.add("hide");
         }, 3000);
       }
-
-      //   successDiv.innerHTML = `
-      // <p class="successMsg">Successfully ${tableType}  table Booked ...!</p>
-      // `;
-      //   setTimeout(() => {
-      //     successDiv.style.display = "none";
-      //     successDiv.style.transition = "0.3s ease";
-      //   }, 2000);
-      // alert("Booking successful!");
     });
   });
 
@@ -354,5 +346,60 @@ function forBooking(tableType) {
     cb.addEventListener("click", () => {
       bookingPage.classList.add("hide");
     });
+  });
+}
+
+// Code for login and signup
+$("#loginTag").click((e) => {
+  e.preventDefault();
+  loginRender();
+});
+
+function loginRender() {
+  $("#Regauthendication").empty();
+  $("#Regauthendication").removeClass("show");
+  const loginForm = `
+    
+        <div class="loginBack">
+            <label for="Email">Enter you mail-ID</label>
+            <input type="text" name="Email">
+            <label for="Password">Enter you Password</label>
+            <input type="text" name="Password">
+            <button class="loginBtn" id="loginBtn">Login</button>
+            <p>Are you new User ? Click here to Register </p><a href="" id="toRegister">Register</a>
+        </div>
+  
+  `;
+
+  $("#authendication").append(loginForm);
+  $("#authendication").addClass("show");
+  $("#toRegister").click((e) => {
+    e.preventDefault();
+    registerRender();
+  });
+}
+
+function registerRender() {
+  $("#authendication").empty();
+  $("#authendication").removeClass("show");
+
+  const registerForm = `
+     <div class="regBack">
+            <label for="username">Enter you Name</label>
+            <input type="text" name="username">
+            <label for="Email">Enter you mail-ID</label>
+            <input type="text" name="Email">
+            <label for="Password">Enter you Password</label>
+            <input type="text" name="Password">
+            <button class="loginBtn">Regsiter</button>
+            <p>Are you exist User ? Click here to Login </p><a href="" id="toLogin">Login</a>
+        </div>
+  
+  `;
+  $("#Regauthendication").append(registerForm);
+  $("#Regauthendication").addClass("show");
+  $("#toLogin").click((e) => {
+    e.preventDefault();
+    loginRender();
   });
 }
