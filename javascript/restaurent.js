@@ -367,9 +367,7 @@ function loginRender() {
             <input type="text" name="Password">
             <button class="loginBtn" id="loginBtn">Login</button>
             <p>Are you new User ? Click here to Register </p><a href="" id="toRegister">Register</a>
-        </div>
-  
-  `;
+        </div>`;
 
   $("#authendication").append(loginForm);
   $("#authendication").addClass("show");
@@ -386,20 +384,42 @@ function registerRender() {
   const registerForm = `
      <div class="regBack">
             <label for="username">Enter you Name</label>
-            <input type="text" name="username">
+            <input type="text" id="username" name="username">
             <label for="Email">Enter you mail-ID</label>
-            <input type="text" name="Email">
+            <input type="text" id="usermail" name="Email">
             <label for="Password">Enter you Password</label>
-            <input type="text" name="Password">
-            <button class="loginBtn">Regsiter</button>
+            <input type="text" id="userpassword" name="Password">
+            <button id="registerBtn">Regsiter</button>
             <p>Are you exist User ? Click here to Login </p><a href="" id="toLogin">Login</a>
-        </div>
-  
-  `;
+        </div>`;
   $("#Regauthendication").append(registerForm);
   $("#Regauthendication").addClass("show");
   $("#toLogin").click((e) => {
     e.preventDefault();
     loginRender();
+  });
+
+  $("#registerBtn").click(() => {
+    const uName = $("#username").val();
+    const uEmail = $("#usermail").val();
+    const uPass = $("#userpassword").val();
+
+    const userData = {
+      userName: uName,
+      email: uEmail,
+      password: uPass,
+    };
+
+    const allUsers = JSON.parse(sessionStorage.getItem("users")) || [];
+
+    const alreadyExist = allUsers.some((user) => user.email === uEmail);
+
+    if (alreadyExist) {
+      alert("already username registered");
+    } else {
+      allUsers.push(userData);
+      sessionStorage.setItem("users", JSON.stringify(allUsers));
+      alert("data stored");
+    }
   });
 }
