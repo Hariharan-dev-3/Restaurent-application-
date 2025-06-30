@@ -78,8 +78,46 @@
             <div id="bookingPage" class="bookingPage"></div>
             <div id="alertPlaceholder"></div>
         </section>
-        <section id="authendication"></section>
-        <section id="Regauthendication"></section>
+        <section id="authendication">
+            <div class="loginBack">
+                    <div class="title">
+                        <h3>LOGIN FORM</h3>
+                        <button class="cornerClose" onClick="closeLogin()">X</button>
+                    </div>
+                    <div class="mailDiv">
+                        <label for="Email">Mail-ID</label>
+                        <input type="text" id="loginMail" name="Email">
+                    </div>
+                    <div class="passDiv">
+                        <label for="Password">Password</label>
+                        <input type="password" id="loginPass" name="Password">
+                    </div>
+                        <button class="loginBtn" id="loginBtn">Login</button>
+                        <p>new User ? Click below to Register </p><a href="#" id="toRegister">👉🏻 Register 👈🏻</a>
+                    </div>
+        </section>
+        <section id="Regauthendication">
+            <div class="regBack">
+                <div class="title">
+                    <h3>REGISTERATION FORM</h3>
+                    <button class="cornerClose" onClick="closeLogin()">X</button>
+                </div>
+                <div class="nameDiv">
+                    <label for="username">Name</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                <div class="mailDiv">
+                    <label for="Email">Mail-ID</label>
+                    <input type="text" id="usermail" name="Email">
+                </div>
+                <div class="passDiv">
+                    <label for="Password">Password</label>
+                    <input type="password" id="userpassword" name="Password">
+                </div>
+                    <button id="registerBtn">Regsiter</button>
+                    <p>Are you exist User ? Click here to Login </p><a href="" id="toLogin">Login</a>
+            </div>
+        </section>
 
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

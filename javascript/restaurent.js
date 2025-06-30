@@ -248,8 +248,10 @@ const today = new Date().toISOString().split("T")[0];
 function bookingFormTemplate(tableType) {
   return `
     <div class="bookNow">
-
-      <h3>Table Booking form 📌</h3>
+      <div class="title">
+        <h3>Table Booking form 📌</h3>
+        <button class="cornerClose">X</button>
+      </div>
       <div class="head">
         <p><strong>Customer</strong></p>
         <p>Table-type : <strong>${tableType}</strong></p>
@@ -262,7 +264,7 @@ function bookingFormTemplate(tableType) {
       <div class="time">
         <label for="stime">🕘 Starting time</label>
         <input type="time" name="stime" min="10:00" max="20:00" value="10:00"><br>
-        <label for="etime">Ending time 🕗</label>
+        <label for="etime">🕗 Ending time</label>
         <input type="time" name="etime" min="10:00" max="20:00" value="08:00">
       </div>
       <div class="buttons">
@@ -343,7 +345,7 @@ function forBooking(tableType) {
     });
   });
 
-  const closeBtns = document.querySelectorAll(".closeBooking");
+  const closeBtns = document.querySelectorAll(".closeBooking , .cornerClose");
   closeBtns.forEach((cb) => {
     cb.addEventListener("click", () => {
       bookingPage.classList.add("hide");
@@ -358,20 +360,7 @@ $("#loginTag").click((e) => {
 });
 
 function loginRender() {
-  $("#Regauthendication").empty();
   $("#Regauthendication").removeClass("show");
-  const loginForm = `
-    
-        <div class="loginBack">
-            <label for="Email">Enter you mail-ID</label>
-            <input type="text" id="loginMail" name="Email">
-            <label for="Password">Enter you Password</label>
-            <input type="text" id="loginPass" name="Password">
-            <button class="loginBtn" id="loginBtn">Login</button>
-            <p>Are you new User ? Click here to Register </p><a href="" id="toRegister">Register</a>
-        </div>`;
-
-  $("#authendication").append(loginForm);
   $("#authendication").addClass("show");
   $("#toRegister").click((e) => {
     e.preventDefault();
@@ -379,22 +368,13 @@ function loginRender() {
   });
 }
 
-function registerRender() {
-  $("#authendication").empty();
+function closeLogin() {
   $("#authendication").removeClass("show");
+  $("#Regauthendication").removeClass("show");
+}
 
-  const registerForm = `
-     <div class="regBack">
-            <label for="username">Enter you Name</label>
-            <input type="text" id="username" name="username">
-            <label for="Email">Enter you mail-ID</label>
-            <input type="text" id="usermail" name="Email">
-            <label for="Password">Enter you Password</label>
-            <input type="text" id="userpassword" name="Password">
-            <button id="registerBtn">Regsiter</button>
-            <p>Are you exist User ? Click here to Login </p><a href="" id="toLogin">Login</a>
-        </div>`;
-  $("#Regauthendication").append(registerForm);
+function registerRender() {
+  $("#authendication").removeClass("show");
   $("#Regauthendication").addClass("show");
   $("#toLogin").click((e) => {
     e.preventDefault();
@@ -434,19 +414,48 @@ function registerRender() {
       $("#username").val("");
       $("#usermail").val("");
       $("#userpassword").val("");
+      loginRender();
     }
   });
 }
 
-// login validation
+//login validation
+$(document).ready(function () {
+  $(document).on("click", "#loginBtn", () => {
+    const loginEmail = $("#loginMail").val();
+    const loginPass = $("#loginPass").val();
+    console.log(loginEmail);
+    console.log(loginPass);
 
-// $("#loginBtn").click(() => {
-//   const loginEmail = $("#loginMail").val();
-//   const loginPass = $("#loginPass").val();
+    const loginData = {
+      userEmail: loginEmail,
+      userPassword: loginPass,
+    };
 
-//   if (!loginEmail || !loginPass) {
-//     alert("fill all details");
-//     return;
-//   }
-//   const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
-// });
+    if (!loginEmail || !loginPass) {
+      alert("fill all details");
+      return;
+    }
+    const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
+    console.log(checkLogin);
+
+    const matchData = checkLogin.some(
+      (data) => data.email === loginEmail && data.password === loginPass
+    );
+
+    if (matchData) {
+      alert("logged in successfully");
+      sessionStorage.setItem("loggedIn", JSON.stringify(loginData));
+      console.log(matchData);
+      return;
+    } else {
+      alert("Invalid credentials");
+      // afterLogin();
+      return;
+    }
+  });
+
+  //   function afterLogin() {
+  //     $(body).empty();
+  //   }
+});

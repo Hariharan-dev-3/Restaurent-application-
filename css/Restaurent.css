@@ -591,6 +591,25 @@
     color: white;
     font-size: 1.1em;
 }
+
+.bookNow .title{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.bookNow .title h3{
+    grid-column: 2/4;
+    
+}
+
+.bookNow .title .cornerClose{
+    background-color: rgb(255, 0, 0);
+    width: 3vw;
+    height: 90%;
+    grid-column: 5/5;
+    color: white;
+   
+}
+
 .bookNow h3{
     color: rgb(1, 1, 1);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -654,7 +673,7 @@
 #Regauthendication{
     width: 100%;
     height: 100%;
-    background-color: rgb(206, 255, 127);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     left: 0;
@@ -665,26 +684,192 @@
     display: block;
 }
 #authendication .loginBack{
-    background-color: rgb(146, 207, 207);
+    background:linear-gradient(rgb(0, 71, 250),rgb(49, 241, 255));
     width: 40%;
     height: 80%;
     display: grid;
-    justify-content: center;
+    justify-self: center;
     align-items: center;
+    grid-template-rows: repeat(4,1fr);
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 1em;
+    
+    
+}
+.loginBack .mailDiv{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-items: center;
+    
+}
+.loginBack .passDiv{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-items: center;
+}
+.loginBack label{
+    font-size: 1.4em;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.loginBack input{
+    width: 70%;
+    height: 80%;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 2px 10px black;
+}
+.loginBack .loginBtn{
+    width: 50%;
+    height: 40%;
     justify-self: center;
     border-radius: 10px;
+    background-color: palegreen;
+    box-shadow: 0px 3px 10px black;
+    font-size: 1.2em;
+}
+.loginBack p{
+    text-align: center;
+    font-size: 1.3em;
+    color: black;
+}
+.loginBack a{
+    text-align: center;
+    font-size: 1.4em;
+    color: rgb(255, 9, 30);
+    margin-bottom: 1em;
+}
+#Regauthendication{
+    align-content: center;
 }
 
-.loginBack label{
-    font-size: 1.5em;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+.regBack{
+    background:linear-gradient(rgb(0, 71, 250),rgb(49, 241, 255));
+    width: 40%;
+    height: 90%;
+    display: grid;
+    justify-self: center;
+    align-items: center;
+    grid-template-rows: repeat(5,1fr);
+    color: white;
     font-weight: 700;
-
+    border-radius: 10px;
+    padding: 1em;
 }
-.loginBack #loginMail{
+.regBack .nameDiv{
     width: 100%;
-    height: 60%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-items: center;
+}
+.regBack .mailDiv{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-items: center;
+    
+}
+.regBack .passDiv{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    align-items: center;
+    justify-items: center;
+}
+.regBack label{
+    font-size: 1.4em;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.regBack input{
+    width: 70%;
+    height: 90%;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 2px 10px black;
+}
+.regBack #registerBtn{
+    width: 50%;
+    height: 70%;
+    justify-self: center;
+    border-radius: 10px;
+    background-color: palegreen;
+    box-shadow: 0px 3px 10px black;
+    font-size: 1.2em;
+}
+.regBack p{
+    text-align: center;
+    font-size: 1.3em;
+    color: black;
+}
+.regBack a{
+    text-align: center;
+    font-size: 1.4em;
+    
+    color: rgb(255, 9, 30);
+    margin-bottom: 1em;
+}
+.loginBack .title{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.loginBack .title h3{
+    grid-column: 2/4;
+    margin-left: 2em;
+    text-decoration: underline;
 }
 
+.loginBack .title .cornerClose{
+    background-color: rgb(255, 0, 0);
+    width: 3vw;
+    height: 90%;
+    grid-column: 5/5;
+    color: white;
+   
+}
 
+.loginBack h3{
+    color: rgb(255, 255, 255);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.regBack .title{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.regBack .title .cornerClose{
+    background-color: rgb(255, 0, 0);
+    width: 3vw;
+    height: 50%;
+    color: white;
+    position: relative;
+    left: 14em;
+    bottom: 2em;
+   
+}
+
+.regBack h3{
+    text-decoration: underline;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 
