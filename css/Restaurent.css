@@ -670,7 +670,7 @@
 #authendication.show{
     display: block;
 }
-#Regauthendication{
+#regAuthendication{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
@@ -680,7 +680,7 @@
     z-index: 9999;
     display: none; 
 }
-#Regauthendication.show{
+#regAuthendication.show{
     display: block;
 }
 #authendication .loginBack{
@@ -750,18 +750,18 @@
     color: rgb(255, 9, 30);
     margin-bottom: 1em;
 }
-#Regauthendication{
+#regAuthendication{
     align-content: center;
 }
 
 .regBack{
     background:linear-gradient(rgb(0, 71, 250),rgb(49, 241, 255));
-    width: 40%;
+    width: 35%;
     height: 90%;
     display: grid;
     justify-self: center;
     align-items: center;
-    grid-template-rows: repeat(5,1fr);
+    grid-template-rows: repeat(6,1fr);
     color: white;
     font-weight: 700;
     border-radius: 10px;
@@ -799,17 +799,25 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .regBack input{
-    width: 70%;
-    height: 90%;
+    width: 60%;
+    height: 100%;
     border-radius: 10px;
     text-align: center;
     font-size: 1.2em;
     border: none;
     box-shadow: 0px 2px 10px black;
 }
+
+.regBack .regBottom{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 1.5em;
+
+}
 .regBack #registerBtn{
     width: 50%;
-    height: 70%;
+    height: 30%;
     justify-self: center;
     border-radius: 10px;
     background-color: palegreen;
@@ -818,15 +826,14 @@
 }
 .regBack p{
     text-align: center;
-    font-size: 1.3em;
+    font-size: 1em;
     color: black;
+    line-height: 10vh;
 }
-.regBack a{
+.regBack .regBottom a{
     text-align: center;
     font-size: 1.4em;
-    
     color: rgb(255, 9, 30);
-    margin-bottom: 1em;
 }
 .loginBack .title{
     display: grid;
@@ -865,8 +872,8 @@
     height: 50%;
     color: white;
     position: relative;
-    left: 14em;
-    bottom: 2em;
+    left: 47%;
+    bottom: 1.5em;
    
 }
 

@@ -360,7 +360,7 @@ $("#loginTag").click((e) => {
 });
 
 function loginRender() {
-  $("#Regauthendication").removeClass("show");
+  $("#regAuthendication").removeClass("show");
   $("#authendication").addClass("show");
   $("#toRegister").click((e) => {
     e.preventDefault();
@@ -370,23 +370,29 @@ function loginRender() {
 
 function closeLogin() {
   $("#authendication").removeClass("show");
-  $("#Regauthendication").removeClass("show");
+  $("#regAuthendication").removeClass("show");
 }
 
 function registerRender() {
   $("#authendication").removeClass("show");
-  $("#Regauthendication").addClass("show");
+  $("#regAuthendication").addClass("show");
   $("#toLogin").click((e) => {
     e.preventDefault();
     loginRender();
   });
+}
 
-  $("#registerBtn").click(() => {
-    const userName = $("#username").val();
-    const userEmail = $("#usermail").val();
-    const userPass = $("#userpassword").val();
+//login validation
+$(document).ready(function () {
+  $(document).on("click", "#registerBtn", () => {
+    const userName = $("#username").val().trim();
+    const userEmail = $("#usermail").val().trim();
+    const userPass = $("#userpassword").val().trim();
+    const confirmPass = $("#confirmPassword").val().trim();
 
-    if (!userName || !userEmail || !userPass) {
+    console.log(userName, userEmail, userPass, confirmPass);
+
+    if (!userName || !userEmail || !userPass || !confirmPass) {
       alert("fill all fields");
       return;
     }
@@ -395,6 +401,7 @@ function registerRender() {
       userName: userName,
       email: userEmail,
       password: userPass,
+      confirmPassword: confirmPass,
     };
 
     const allUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -417,20 +424,12 @@ function registerRender() {
       loginRender();
     }
   });
-}
 
-//login validation
-$(document).ready(function () {
   $(document).on("click", "#loginBtn", () => {
-    const loginEmail = $("#loginMail").val();
-    const loginPass = $("#loginPass").val();
+    const loginEmail = $("#loginMail").val().trim();
+    const loginPass = $("#loginPass").val().trim();
     console.log(loginEmail);
     console.log(loginPass);
-
-    const loginData = {
-      userEmail: loginEmail,
-      userPassword: loginPass,
-    };
 
     if (!loginEmail || !loginPass) {
       alert("fill all details");
@@ -442,6 +441,10 @@ $(document).ready(function () {
     const matchData = checkLogin.some(
       (data) => data.email === loginEmail && data.password === loginPass
     );
+
+    const loginData = {
+      isLoggedIn: true,
+    };
 
     if (matchData) {
       alert("logged in successfully");
