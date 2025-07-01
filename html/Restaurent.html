@@ -14,12 +14,13 @@
             <div class="header">
                 <div class="title">
                     <button class="hamburger" title="menu">
-                    <svg width="50%" height="30" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="40" height="5" fill="black"/>
-                        <rect y="12" width="40" height="5" fill="black"/>
-                        <rect y="24" width="40" height="5" fill="black"/>
-                    </svg>
-                </button>
+                        <svg width="50%" height="30" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="5" fill="black"/>
+                            <rect y="12" width="40" height="5" fill="black"/>
+                            <rect y="24" width="40" height="5" fill="black"/>
+                        </svg>
+                    </button>
+                    <p id="loginUserName">Hello...!</p>
 
                 </div>
                 <nav class="navbar">
@@ -33,7 +34,7 @@
 
             <div class="box" id="boxx">
                 <ul class="list">
-                    <a class="sideLinks" id="loginTag">Login</a>
+                    <a class="sideLinks" id="loginTag" data-status="false">Login</a>
                     <a href="#home" class="sideLinks">Home</a>
                     <a href="#menu" class="sideLinks">Menu items</a>
                     <a href="#gallery"    class="sideLinks">Gallery</a>
@@ -85,7 +86,7 @@
                         <button class="cornerClose" onClick="closeLogin()">X</button>
                     </div>
                     <div class="mailDiv">
-                        <label for="Email">Mail-ID</label>
+                        <label for="Email">Email</label>
                         <input type="text" id="loginMail" name="Email">
                     </div>
                     <div class="passDiv">
@@ -93,13 +94,13 @@
                         <input type="password" id="loginPass" name="Password">
                     </div>
                         <button class="loginBtn" id="loginBtn">Login</button>
-                        <p>new User ? Click below to Register 👇🏻</p><a href="#" id="toRegister">Register</a>
+                        <p>New User ? Click below to Register 👇🏻</p><a href="#" id="toRegister">Register</a>
                     </div>
         </section>
         <section id="regAuthendication">
             <div class="regBack">
                 <div class="title">
-                    <h3>REGISTERATION FORM</h3>
+                    <h3>REGISTRATION FORM</h3>
                     <button class="cornerClose" onClick="closeLogin()">X</button>
                 </div>
                 <div class="nameDiv">
@@ -107,7 +108,7 @@
                     <input type="text" id="username" name="username">
                 </div>
                 <div class="mailDiv">
-                    <label for="Email">Mail-ID</label>
+                    <label for="Email">Email</label>
                     <input type="text" id="usermail" name="Email">
                 </div>
                 <div class="passDiv">
@@ -119,8 +120,8 @@
                     <input type="password" id="confirmPassword" name="Password">
                 </div>
                 <div class="regBottom">
-                    <button id="registerBtn">Regsiter</button>
-                    <p>Are you exist User ? Click below to Login 👇🏻|</p><a href="" id="toLogin">Login</a>
+                    <button id="registerBtn">Register</button>
+                    <p>Already Registered ? Click below to Login 👇🏻</p><a href="" id="toLogin">Login</a>
                 </div>
                     
             </div>

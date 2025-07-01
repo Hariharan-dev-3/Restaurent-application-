@@ -9,8 +9,6 @@ const gallerydiv = document.getElementById("galleryContainer");
 const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
-//const loginDiv = document.getElementById("authendication");
-//const alertPlaceholder = document.querySelector("#alertPlaceholder");
 
 // Code for loading and storing home page offer images
 
@@ -296,11 +294,7 @@ function forBooking(tableType) {
       const alertPlaceholder = document.querySelector("#alertPlaceholder");
       alertPlaceholder.innerHTML = "";
 
-      // let alertType = "";
-      // let alertMessage = "";
-
       if (!startTime || !endTime || !bookDate) {
-        // alert("Fill all the fields");
         showAlert("warning", "Please fill in all the fields.");
 
         startInput.value = "";
@@ -308,7 +302,6 @@ function forBooking(tableType) {
         dateInput.value = "";
         return;
       } else if (startTime < "10:00" || endTime > "20:00") {
-        // alert("Restaurant is open from 10:00 AM to 08:00 PM.");
         showAlert(
           "warning",
           " Restaurant is open from 10:00 AM to 08:00 PM only."
@@ -316,7 +309,6 @@ function forBooking(tableType) {
 
         startInput.value = "";
         endInput.value = "";
-        // dateInput.value = "";
         return;
       } else {
         showAlert("success", `Successfully booked a ${tableType} table!`);
@@ -348,12 +340,11 @@ function showAlert(type, message) {
             `;
 
   alertPlaceholder.appendChild(alertDiv);
-  // setTimeout(() => {
-  //   alertDiv.classList.add("hide");
-  // }, 3000);
+  setTimeout(() => {
+    alertDiv.classList.add("hide");
+  }, 3000);
 }
 
-// Code for login and signup
 $("#loginTag").click((e) => {
   e.preventDefault();
   loginRender();
@@ -385,6 +376,10 @@ function registerRender() {
 //login validation
 $(document).ready(function () {
   $(document).on("click", "#registerBtn", () => {
+    registerFormValidation();
+  });
+
+  function registerFormValidation() {
     const userName = $("#username").val().trim();
     const userEmail = $("#usermail").val().trim();
     const userPass = $("#userpassword").val().trim();
@@ -413,7 +408,7 @@ $(document).ready(function () {
     const alreadyExist = allUsers.some((user) => user.email === userEmail);
 
     if (alreadyExist) {
-      showAlert("warning", "already username registered");
+      showAlert("warning", " ❗ already username registered");
       $("#username").val("");
       $("#usermail").val("");
       $("#userpassword").val("");
@@ -427,9 +422,12 @@ $(document).ready(function () {
       $("#userpassword").val("");
       loginRender();
     }
-  });
+  }
 
   $(document).on("click", "#loginBtn", () => {
+    loginFormValidation();
+  });
+  function loginFormValidation() {
     const loginEmail = $("#loginMail").val().trim();
     const loginPass = $("#loginPass").val().trim();
     console.log(loginEmail);
@@ -457,42 +455,44 @@ $(document).ready(function () {
     };
 
     if (matchData) {
-      alert("logged in successfully");
+      showAlert("success", "logged in successfully");
       sessionStorage.setItem("loggedIn", JSON.stringify(loginData));
       console.log(matchData);
+      afterLogin(loginData.userName);
       $("#loginMail").val("");
       $("#loginPass").val("");
       return;
     } else {
-      alert("Invalid credentials");
-      // afterLogin();
+      showAlert("warning", "❗ Invalid credentials");
       return;
     }
-  });
+  }
 
   function regValidator(name, email, password, confirm) {
-    const isValidName = /^[^\d\s][a-zA-Z0-9]{14}$/.test(name);
+    const isValidName = /^[^\d\s][a-zA-Z0-9]{3,14}$/.test(name);
     const isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/.test(
       email
     );
     const isValidPass = password === confirm && password.length >= 8;
 
     if (!isValidName) {
-      showAlert("warning", "invalid name format");
+      showAlert("warning", "❗ invalid name format");
       $("#username").val("");
       return false;
     } else if (!isValidEmail) {
-      showAlert("warning", "invalid email format");
+      showAlert("warning", "❗ invalid email format");
       $("#usermail").val("");
       return false;
     } else if (!isValidPass) {
-      showAlert("warning", "password mismatch error");
+      showAlert("warning", "❗ password mismatch error");
       $("#userpassword").val("");
+      $("#confirmPassword").val("");
       return false;
     } else {
       $("#username").val("");
       $("#usermail").val("");
       $("#userpassword").val("");
+      $("#confirmPassword").val("");
       return true;
     }
   }
@@ -508,17 +508,46 @@ $(document).ready(function () {
       $("#loginMail").val("");
       return false;
     } else if (!isValidPass) {
-      showAlert("warning", "password mismatch error");
+      showAlert("warning", "❗ password mismatch error");
       $("#loginPass").val("");
       return false;
     } else {
+      showAlert("success", " ✅ Successfully logged in");
       $("#loginEmail").val("");
       $("#loginPass").val("");
+
       return true;
     }
   }
-
-  //   function afterLogin() {
-  //     $(body).empty();
-  //   }
 });
+
+function afterLogin(userName) {
+  const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+  const isActive = loggedInUsers.some((user) => user.isLoggedIn === true);
+
+  if (isActive) {
+    const name = userName;
+    $("#loginTag").text("Logout");
+    $("#loginTag").attr("data-status", "true");
+    $("#loginUserName").css("display", "block");
+    $("#loginUserName").text(`hello ${name}`);
+
+    $("#loginTag")
+      .off("click")
+      .on("click", (e) => {
+        e.preventDefault();
+
+        loggedInUsers.forEach((user) => {
+          if (user.userName === userName) {
+            user.isLoggedIn = false;
+          }
+        });
+
+        sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
+        $("#loginTag").text("Login").attr("data-status", "false");
+        $("#loginUserName").css("display", "none").text("");
+      });
+  } else {
+    showAlert("warning", "not Registered");
+  }
+}
