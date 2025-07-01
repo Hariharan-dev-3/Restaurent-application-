@@ -323,25 +323,6 @@ function forBooking(tableType) {
         bookingPage.classList.add("hide");
         bookingPage.classList.remove("show");
       }
-
-      function showAlert(type, message) {
-        const alertPlaceholder = document.querySelector("#alertPlaceholder");
-        alertPlaceholder.innerHTML = "";
-
-        const alertDiv = document.createElement("div");
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
-        alertDiv.setAttribute("role", "alert");
-        alertDiv.setAttribute("id", "alertBox");
-        alertDiv.innerHTML = `
-              ${message}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            `;
-
-        alertPlaceholder.appendChild(alertDiv);
-        setTimeout(() => {
-          alertDiv.classList.add("hide");
-        }, 3000);
-      }
     });
   });
 
@@ -351,6 +332,25 @@ function forBooking(tableType) {
       bookingPage.classList.add("hide");
     });
   });
+}
+
+function showAlert(type, message) {
+  const alertPlaceholder = document.querySelector("#alertPlaceholder");
+  alertPlaceholder.innerHTML = "";
+
+  const alertDiv = document.createElement("div");
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+  alertDiv.setAttribute("role", "alert");
+  alertDiv.setAttribute("id", "alertBox");
+  alertDiv.innerHTML = `
+              ${message}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+  alertPlaceholder.appendChild(alertDiv);
+  // setTimeout(() => {
+  //   alertDiv.classList.add("hide");
+  // }, 3000);
 }
 
 // Code for login and signup
@@ -392,8 +392,12 @@ $(document).ready(function () {
 
     console.log(userName, userEmail, userPass, confirmPass);
 
-    if (!userName || !userEmail || !userPass || !confirmPass) {
-      alert("fill all fields");
+    if (userName || userEmail || userPass || confirmPass) {
+      if (!regValidator(userName, userEmail, userPass, confirmPass)) {
+        return;
+      }
+    } else {
+      showAlert("warning", " ❗ fill all the fields");
       return;
     }
 
@@ -409,7 +413,7 @@ $(document).ready(function () {
     const alreadyExist = allUsers.some((user) => user.email === userEmail);
 
     if (alreadyExist) {
-      alert("already username registered");
+      showAlert("warning", "already username registered");
       $("#username").val("");
       $("#usermail").val("");
       $("#userpassword").val("");
@@ -417,7 +421,7 @@ $(document).ready(function () {
     } else {
       allUsers.push(userData);
       localStorage.setItem("users", JSON.stringify(allUsers));
-      alert("data stored");
+      showAlert("success", "data stored");
       $("#username").val("");
       $("#usermail").val("");
       $("#userpassword").val("");
@@ -431,25 +435,33 @@ $(document).ready(function () {
     console.log(loginEmail);
     console.log(loginPass);
 
-    if (!loginEmail || !loginPass) {
-      alert("fill all details");
+    if (loginEmail || loginPass) {
+      if (!loginValidator(loginEmail, loginPass)) {
+        return;
+      }
+    } else {
+      showAlert("warning", "fill all the details");
       return;
     }
+
     const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
     console.log(checkLogin);
 
-    const matchData = checkLogin.some(
+    const matchData = checkLogin.find(
       (data) => data.email === loginEmail && data.password === loginPass
     );
 
     const loginData = {
       isLoggedIn: true,
+      userName: matchData.userName,
     };
 
     if (matchData) {
       alert("logged in successfully");
       sessionStorage.setItem("loggedIn", JSON.stringify(loginData));
       console.log(matchData);
+      $("#loginMail").val("");
+      $("#loginPass").val("");
       return;
     } else {
       alert("Invalid credentials");
@@ -457,6 +469,54 @@ $(document).ready(function () {
       return;
     }
   });
+
+  function regValidator(name, email, password, confirm) {
+    const isValidName = /^[^\d\s][a-zA-Z0-9]{14}$/.test(name);
+    const isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/.test(
+      email
+    );
+    const isValidPass = password === confirm && password.length >= 8;
+
+    if (!isValidName) {
+      showAlert("warning", "invalid name format");
+      $("#username").val("");
+      return false;
+    } else if (!isValidEmail) {
+      showAlert("warning", "invalid email format");
+      $("#usermail").val("");
+      return false;
+    } else if (!isValidPass) {
+      showAlert("warning", "password mismatch error");
+      $("#userpassword").val("");
+      return false;
+    } else {
+      $("#username").val("");
+      $("#usermail").val("");
+      $("#userpassword").val("");
+      return true;
+    }
+  }
+
+  function loginValidator(email, password) {
+    const isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/.test(
+      email
+    );
+    const isValidPass = password.length >= 8;
+
+    if (!isValidEmail) {
+      showAlert("warning", "❗ invalid email format or Password");
+      $("#loginMail").val("");
+      return false;
+    } else if (!isValidPass) {
+      showAlert("warning", "password mismatch error");
+      $("#loginPass").val("");
+      return false;
+    } else {
+      $("#loginEmail").val("");
+      $("#loginPass").val("");
+      return true;
+    }
+  }
 
   //   function afterLogin() {
   //     $(body).empty();
