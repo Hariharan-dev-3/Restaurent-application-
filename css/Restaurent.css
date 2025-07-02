@@ -540,14 +540,15 @@
 }
 .bookNow .date input{
     
-    background-color: rgb(255, 84, 84);
+    background-color: rgb(255, 255, 74);
     text-align: center;
     width: 60%;
-    color: white;
+    color: rgb(0, 0, 0);
     height:2.5em;
     border-radius: 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 0.8em;
+    font-weight: 700;
 }
 .bookNow .time{
     font-size: 1.15em;

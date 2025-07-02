@@ -205,10 +205,6 @@ bookingPics = [
   },
 ];
 
-//let bookingContainer = "";
-
-// cod for displaying popup for booking page
-
 function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
     let bookingContainer = `
@@ -226,24 +222,21 @@ bookingRender(bookingPics);
 const bookImg = document.querySelectorAll(".Bookimages");
 bookImg.forEach((bmg) => {
   bmg.addEventListener("click", () => {
-    // sendCount = bmg.getAttribute("data-count");
-    forBooking(bmg.getAttribute("data-table"));
+    const tableType = bmg.getAttribute("data-table");
+    const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+    const activeUser = loggedInUsers.find((user) => user.isLoggedIn === true);
+
+    if (activeUser) {
+      forBooking(tableType, activeUser.userName);
+    } else {
+      showAlert("warning", "Please log in to book a table.");
+    }
   });
 });
 
-// const bookImg = document.querySelectorAll(".Bookimages");
-// bookImg.forEach((bmg) => {
-//   bmg.addEventListener("click", () => {
-//     // sendCount = bmg.getAttribute("data-count");
-//     forBooking();
-//   });
-// });
-
-// code for display popup contents
-
 const today = new Date().toISOString().split("T")[0];
 
-function bookingFormTemplate(tableType) {
+function bookingFormTemplate(tableType, userName) {
   return `
     <div class="bookNow">
       <div class="title">
@@ -251,12 +244,12 @@ function bookingFormTemplate(tableType) {
         <button class="cornerClose">X</button>
       </div>
       <div class="head">
-        <p><strong>Customer</strong></p>
+        <p><strong>👋 Hello ${userName}</strong></p>
         <p>Table-type : <strong>${tableType}</strong></p>
       </div>  
       <div class="date">
         <label for="date">Select date 📆</label>
-        <input type="date" name="date" min="${today}">
+        <input type="date" name="date" min="${today}" value="${today}">
       </div>
       <p class="note"><b> ⏳ Choose time between 10.00AM to 08.00PM ⏳</b></p>
       <div class="time">
@@ -272,14 +265,12 @@ function bookingFormTemplate(tableType) {
     </div>`;
 }
 
-function forBooking(tableType) {
+function forBooking(tableType, userName) {
   bookingPage.classList.remove("hide");
   bookingPage.classList.add("show");
   bookingPage.innerHTML = "";
 
-  // for (let i = 1; i <= tableId; i++) {
-  bookingPage.innerHTML = bookingFormTemplate(tableType);
-
+  bookingPage.innerHTML = bookingFormTemplate(tableType, userName);
   const bookBtns = document.querySelectorAll(".bookBtn");
   bookBtns.forEach((b) => {
     b.addEventListener("click", () => {
@@ -428,6 +419,7 @@ $(document).ready(function () {
     loginFormValidation();
   });
   function loginFormValidation() {
+    $("#authendication").addClass("show");
     const loginEmail = $("#loginMail").val().trim();
     const loginPass = $("#loginPass").val().trim();
     console.log(loginEmail);
@@ -449,6 +441,7 @@ $(document).ready(function () {
       (data) => data.email === loginEmail && data.password === loginPass
     );
 
+    const sessionUsers = [];
     const loginData = {
       isLoggedIn: true,
       userName: matchData.userName,
@@ -456,7 +449,8 @@ $(document).ready(function () {
 
     if (matchData) {
       showAlert("success", "logged in successfully");
-      sessionStorage.setItem("loggedIn", JSON.stringify(loginData));
+      sessionUsers.push(loginData);
+      sessionStorage.setItem("loggedIn", JSON.stringify(sessionUsers));
       console.log(matchData);
       afterLogin(loginData.userName);
       $("#loginMail").val("");
@@ -523,7 +517,7 @@ $(document).ready(function () {
 
 function afterLogin(userName) {
   const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
-  const isActive = loggedInUsers.some((user) => user.isLoggedIn === true);
+  const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
 
   if (isActive) {
     const name = userName;
@@ -531,11 +525,13 @@ function afterLogin(userName) {
     $("#loginTag").attr("data-status", "true");
     $("#loginUserName").css("display", "block");
     $("#loginUserName").text(`hello ${name}`);
+    $("#authendication").removeClass("show");
 
     $("#loginTag")
       .off("click")
       .on("click", (e) => {
         e.preventDefault();
+        $("#authendication").addClass("show");
 
         loggedInUsers.forEach((user) => {
           if (user.userName === userName) {
