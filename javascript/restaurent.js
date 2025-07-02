@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <p class="priceText">Price: ${items.FoodRate} /-</p>
               <div class="Btns">
                 <button class="closePopup">Close</button>
-                <button class="buy">Buynow</button>
+                <button class="buy" id="buyNow">Buynow</button>
               </div>
               
             </div>`;
@@ -126,12 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       });
+
+      $("#buyNow").click(() => {
+        buyNowForm();
+      });
     });
   }
 
   displayitems(menuItemsList);
-
-  // code for select button
 
   selectbutton.addEventListener("change", () => {
     const selecteditem = selectbutton.value;
@@ -145,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-// code for gallery page
 
 const galleryPics = [
   "gallery1.jpg",
@@ -169,8 +169,6 @@ function galleryRender(pics) {
 
 galleryRender(galleryPics);
 gallerydiv.innerHTML = imageRender;
-
-// code for booking page
 
 bookingPics = [
   {
@@ -448,7 +446,6 @@ $(document).ready(function () {
     };
 
     if (matchData) {
-      showAlert("success", "logged in successfully");
       sessionUsers.push(loginData);
       sessionStorage.setItem("loggedIn", JSON.stringify(sessionUsers));
       console.log(matchData);
@@ -506,7 +503,6 @@ $(document).ready(function () {
       $("#loginPass").val("");
       return false;
     } else {
-      showAlert("success", " ✅ Successfully logged in");
       $("#loginEmail").val("");
       $("#loginPass").val("");
 
@@ -518,20 +514,25 @@ $(document).ready(function () {
 function afterLogin(userName) {
   const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
   const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
-
+  const name = userName;
   if (isActive) {
-    const name = userName;
-    $("#loginTag").text("Logout");
-    $("#loginTag").attr("data-status", "true");
-    $("#loginUserName").css("display", "block");
-    $("#loginUserName").text(`hello ${name}`);
+    $("#loader").addClass("show");
     $("#authendication").removeClass("show");
+    setTimeout(() => {
+      $("#loader").removeClass("show");
+      $("#loginTag").text("Logout");
+      $("#loginTag").attr("data-status", "true");
+      $("#loginUserName").css("display", "block");
+      $("#loginUserName").text(`👨‍🍳 Welcome ${name}`);
+      $("#authendication").removeClass("show");
+      showAlert("success", " ✅ logged in successfully ✅");
+    }, 3000);
 
     $("#loginTag")
       .off("click")
       .on("click", (e) => {
         e.preventDefault();
-        $("#authendication").addClass("show");
+        $("#loader").addClass("show");
 
         loggedInUsers.forEach((user) => {
           if (user.userName === userName) {
@@ -539,9 +540,13 @@ function afterLogin(userName) {
           }
         });
 
-        sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
-        $("#loginTag").text("Login").attr("data-status", "false");
-        $("#loginUserName").css("display", "none").text("");
+        setTimeout(() => {
+          sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
+          $("#loginTag").text("Login").attr("data-status", "false");
+          $("#loginUserName").css("display", "none").text("");
+          $("#loader").removeClass("show");
+          showAlert("success", " ✅ Logged out successfully ✅");
+        }, 3000);
       });
   } else {
     showAlert("warning", "not Registered");
