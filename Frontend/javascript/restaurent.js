@@ -10,9 +10,9 @@ const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
 
-// Code for loading and storing home page offer images
-
 const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
+
+// home page image rendering function
 
 function loadImage(images) {
   images.forEach((im) => {
@@ -24,8 +24,6 @@ function loadImage(images) {
   });
 }
 loadImage(imagefiles);
-
-// Code for Hamburger menu
 
 document.addEventListener("DOMContentLoaded", () => {
   menu.addEventListener("mouseover", () => {
@@ -42,8 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   listBox.addEventListener("mouseout", () => {
     listBox.style.display = "none";
   });
-
-  // code displaying Menu items
 
   const menuItemsList = [
     {
@@ -72,6 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
+  // menu page rendering function
+
   function displayitems(menuitemscollection) {
     displayMenu.innerHTML = "";
 
@@ -99,8 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
       itemdiv.appendChild(textdiv);
       itemdiv.appendChild(Btn);
       displayMenu.appendChild(itemdiv);
-
-      // code for popup menu items
 
       Btn.addEventListener("click", () => {
         popupdiv.style.display = "block";
@@ -161,9 +157,12 @@ const galleryPics = [
 
 let imageRender = "";
 
+// gallery page image rendering function
+
 function galleryRender(pics) {
   pics.forEach((picture) => {
-    imageRender += `<img src="../Images/${picture}" class="galleryPic">`;
+    imageRender += `<img src="../Images/${picture}" class="galleryPic" id="galleryPics">`;
+    $("#galleryPics").click(() => {});
   });
 }
 
