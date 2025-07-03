@@ -1,13 +1,19 @@
-const backendData = require("./dataModels/backendData");
-const frontendData = require("./dataModels/frontendData");
 const http = require("http");
+const controllers = require("./controllers");
 const protocol = "http://";
 let host = "localhost";
 let baseUrl = "";
 const server = http.createServer((req, res) => {
   //host = req.headers.host;
-  res.writeHead(200, { "Content-Type": backendData.contentType.TEXTPLAIN });
-  res.end(JSON.stringify(frontendData.navBar));
+  if (req.url === "api/v1/navbar") {
+    controllers.renderNavs(res);
+  } else if (req.url === "api/v1/menuitems") {
+    controllers.renderMenuitems(res);
+  } else if (req.url.startswith("/Images/")) {
+    controllers.loadImage(req, res);
+  } else {
+    controllers.renderError(res);
+  }
 });
 const port = 5000;
 server.listen(port, () => {

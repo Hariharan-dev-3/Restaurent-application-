@@ -26,6 +26,18 @@ function loadImage(images) {
 loadImage(imagefiles);
 
 document.addEventListener("DOMContentLoaded", () => {
+  fetch("http://localhost:5000")
+    .then((res) => res.json())
+    .then((data) => {
+      data.forEach((item) => {
+        const link = document.getElementById(item.id);
+        if (link) {
+          link.textContent = item.name;
+        }
+      });
+    })
+    .catch((err) => console.error("Navbar fetch failed:", err));
+
   menu.addEventListener("mouseover", () => {
     listBox.style.display = "flex";
     listBox.style.transition = "0.7s ease";
@@ -508,46 +520,46 @@ $(document).ready(function () {
       return true;
     }
   }
-});
 
-function afterLogin(userName) {
-  const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
-  const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
-  const name = userName;
-  if (isActive) {
-    $("#loader").addClass("show");
-    $("#authendication").removeClass("show");
-    setTimeout(() => {
-      $("#loader").removeClass("show");
-      $("#loginTag").text("Logout");
-      $("#loginTag").attr("data-status", "true");
-      $("#loginUserName").css("display", "block");
-      $("#loginUserName").text(`👨‍🍳 Welcome ${name}`);
+  function afterLogin(userName) {
+    const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+    const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
+    const name = userName;
+    if (isActive) {
+      $("#loader").addClass("show");
       $("#authendication").removeClass("show");
-      showAlert("success", " ✅ logged in successfully ✅");
-    }, 3000);
+      setTimeout(() => {
+        $("#loader").removeClass("show");
+        $("#loginTag").text("Logout");
+        $("#loginTag").attr("data-status", "true");
+        $("#loginUserName").css("display", "block");
+        $("#loginUserName").text(`👨‍🍳 Welcome ${name}`);
+        $("#authendication").removeClass("show");
+        showAlert("success", " ✅ logged in successfully ✅");
+      }, 3000);
 
-    $("#loginTag")
-      .off("click")
-      .on("click", (e) => {
-        e.preventDefault();
-        $("#loader").addClass("show");
+      $("#loginTag")
+        .off("click")
+        .on("click", (e) => {
+          e.preventDefault();
+          $("#loader").addClass("show");
 
-        loggedInUsers.forEach((user) => {
-          if (user.userName === userName) {
-            user.isLoggedIn = false;
-          }
+          loggedInUsers.forEach((user) => {
+            if (user.userName === userName) {
+              user.isLoggedIn = false;
+            }
+          });
+
+          setTimeout(() => {
+            sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
+            $("#loginTag").text("Login").attr("data-status", "false");
+            $("#loginUserName").css("display", "none").text("");
+            $("#loader").removeClass("show");
+            showAlert("success", " ✅ Logged out successfully ✅");
+          }, 3000);
         });
-
-        setTimeout(() => {
-          sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
-          $("#loginTag").text("Login").attr("data-status", "false");
-          $("#loginUserName").css("display", "none").text("");
-          $("#loader").removeClass("show");
-          showAlert("success", " ✅ Logged out successfully ✅");
-        }, 3000);
-      });
-  } else {
-    showAlert("warning", "not Registered");
+    } else {
+      showAlert("warning", "not Registered");
+    }
   }
-}
+});
