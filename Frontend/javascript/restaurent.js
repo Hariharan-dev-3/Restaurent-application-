@@ -26,7 +26,7 @@ function loadImage(images) {
 loadImage(imagefiles);
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://localhost:5000")
+  fetch("http://localhost:5000/api/v1/navbar")
     .then((res) => res.json())
     .then((data) => {
       data.forEach((item) => {
