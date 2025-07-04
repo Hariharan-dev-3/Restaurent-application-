@@ -27,8 +27,10 @@ function renderMenuitems(res) {
 }
 
 function loadImage(req, res) {
-  const imagePath = path.join(__dirname, "..", "frontend", req.url);
+  const imagePath = path.join(__dirname, "..", "Frontend", req.url);
+  console.log("Trying to load image from:", imagePath);
   const ext = path.extname(imagePath).slice(1);
+
   const mime =
     {
       jpg: "image/jpeg",
@@ -39,6 +41,7 @@ function loadImage(req, res) {
 
   fs.readFile(imagePath, (err, data) => {
     if (err) {
+      console.error("Image load error:", err.message);
       res.writeHead(404);
       res.end("Image not found");
       return;

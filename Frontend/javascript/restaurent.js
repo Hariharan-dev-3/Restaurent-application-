@@ -38,6 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Navbar fetch failed:", err));
 
+  fetch("http://localhost:5000/api/v1/menuitems")
+    .then((response) => response.json())
+    .then((data) => {
+      renderMenuItems(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching menu items:", error);
+    });
+
   menu.addEventListener("mouseover", () => {
     listBox.style.display = "flex";
     listBox.style.transition = "0.7s ease";
@@ -53,52 +63,88 @@ document.addEventListener("DOMContentLoaded", () => {
     listBox.style.display = "none";
   });
 
-  const menuItemsList = [
-    {
-      foodImage: "biriyani.png",
-      foodName: "Biriyani",
-      FoodRate: "200.00",
-      type: "non-veg",
-    },
-    {
-      foodImage: "panneeer.png",
-      foodName: "Panner",
-      FoodRate: "150.00",
-      type: "veg",
-    },
-    {
-      foodImage: "veg.png",
-      foodName: "Meals",
-      FoodRate: "180.00",
-      type: "veg",
-    },
-    {
-      foodImage: "chips.png",
-      foodName: "Fried",
-      FoodRate: "190.00",
-      type: "non-veg",
-    },
-  ];
+  // const menuItemsList = [
+  //   {
+  //     foodImage: "biriyani.png",
+  //     foodName: "Biriyani",
+  //     FoodRate: "200.00",
+  //     type: "non-veg",
+  //   },
+  //   {
+  //     foodImage: "panneeer.png",
+  //     foodName: "Panner",
+  //     FoodRate: "150.00",
+  //     type: "veg",
+  //   },
+  //   {
+  //     foodImage: "veg.png",
+  //     foodName: "Meals",
+  //     FoodRate: "180.00",
+  //     type: "veg",
+  //   },
+  //   {
+  //     foodImage: "chips.png",
+  //     foodName: "Fried",
+  //     FoodRate: "190.00",
+  //     type: "non-veg",
+  //   },
+  // ];
 
   // menu page rendering function
 
-  function displayitems(menuitemscollection) {
+  // function displayitems(menuitemscollection) {
+  //   displayMenu.innerHTML = "";
+
+  //   menuitemscollection.forEach((items) => {
+  //     const itemdiv = document.createElement("div");
+  //     itemdiv.setAttribute("class", "item");
+  //     const MenuImage = document.createElement("img");
+  //     MenuImage.setAttribute("class", "logo");
+  //     MenuImage.src = `../Images/${items.foodImage}`;
+  //     const textdiv = document.createElement("div");
+  //     textdiv.setAttribute("class", "texts");
+  //     const Fname = document.createElement("p");
+  //     Fname.setAttribute("class", "foodName");
+  //     Fname.textContent = items.foodName;
+  //     const Frate = document.createElement("p");
+  //     Frate.setAttribute("class", "foodRate");
+  //     Frate.textContent = items.FoodRate;
+  //     const Btn = document.createElement("button");
+  //     Btn.setAttribute("class", "orderBtn");
+  //     Btn.textContent = "Order Now";
+
+  //     textdiv.appendChild(Fname);
+  //     textdiv.appendChild(Frate);
+  //     itemdiv.appendChild(MenuImage);
+  //     itemdiv.appendChild(textdiv);
+  //     itemdiv.appendChild(Btn);
+  //     displayMenu.appendChild(itemdiv);
+
+  function renderMenuItems(menuItems) {
     displayMenu.innerHTML = "";
 
-    menuitemscollection.forEach((items) => {
+    menuItems.forEach((items) => {
       const itemdiv = document.createElement("div");
       itemdiv.setAttribute("class", "item");
+
       const MenuImage = document.createElement("img");
       MenuImage.setAttribute("class", "logo");
-      MenuImage.src = `../Images/${items.foodImage}`;
+      MenuImage.src = `http://localhost:5000${items.foodImage}`;
+      // MenuImage.src = items.foodImage.startsWith("/Images/")
+      //   ? items.foodImage
+      //   : `../Images/${items.foodImage}`;
+
       const textdiv = document.createElement("div");
       textdiv.setAttribute("class", "texts");
+
       const Fname = document.createElement("p");
       Fname.setAttribute("class", "foodName");
       Fname.textContent = items.foodName;
+
       const Frate = document.createElement("p");
       Frate.setAttribute("class", "foodRate");
-      Frate.textContent = items.FoodRate;
+      Frate.textContent = `₹${items.FoodRate}`;
+
       const Btn = document.createElement("button");
       Btn.setAttribute("class", "orderBtn");
       Btn.textContent = "Order Now";
@@ -141,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  displayitems(menuItemsList);
+  // displayitems(menuItemsList);
 
   selectbutton.addEventListener("change", () => {
     const selecteditem = selectbutton.value;

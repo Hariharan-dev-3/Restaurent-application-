@@ -9,8 +9,8 @@ const server = http.createServer((req, res) => {
     controllers.renderNavs(res);
   } else if (req.url === "/api/v1/menuitems") {
     controllers.renderMenuitems(res);
-    // } else if (req.url.startswith("/Images/")) {
-    //   controllers.loadImage(req, res);
+  } else if (req.url.startsWith("/Images/")) {
+    controllers.loadImage(req, res);
   } else {
     controllers.renderError(res);
   }
