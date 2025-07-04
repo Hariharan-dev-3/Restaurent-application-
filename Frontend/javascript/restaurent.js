@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const popupHTML = `
           
             <div class="popup">
-              <img src="../Images/${items.foodImage}" class="popupImage" >
+              <img src="http://localhost:5000${items.foodImage}" class="popupImage" >
               <p class="NameText">${items.foodName}</p>
               <p class="priceText">Price: ${items.FoodRate} /-</p>
               <div class="Btns">
