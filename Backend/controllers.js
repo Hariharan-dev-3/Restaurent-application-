@@ -3,16 +3,16 @@ const frontendData = require("./dataModels/frontendData");
 const fs = require("fs");
 const path = require("path");
 
-function renderNavs(res) {
-  try {
-    res.writeHead(200, {
-      "Content-Type": backendData.contentType.APPJSON,
-      "Access-Control-Allow-Origin": "*",
-    });
-    res.end(JSON.stringify(frontendData.navBar));
-  } catch (error) {
-    console.log(error);
-  }
+function renderNavs() {
+  return new Promise((resolve, reject) => {
+    try {
+      setTimeout(() => {
+        resolve(frontendData.navBar);
+      }, 5000);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 function renderMenuitems(res) {
   try {
