@@ -47,9 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Navbar fetch failed:", err));
 
+  let menuItemsData = [];
   fetch("http://localhost:8000/api/v1/menuitems")
     .then((response) => response.json())
     .then((data) => {
+      menuItemsData = data;
       renderMenuItems(data);
       console.log(data);
     })
@@ -201,12 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
   selectbutton.addEventListener("change", () => {
     const selecteditem = selectbutton.value;
     if (selecteditem === "All" || selecteditem === "") {
-      displayitems(menuItemsList);
+      renderMenuItems(menuItemsData);
     } else {
-      const sorted = menuItemsList.filter(
+      const sorted = menuItemsData.filter(
         (fItems) => fItems.type === selecteditem
       );
-      displayitems(sorted);
+      renderMenuItems(sorted);
     }
   });
 });

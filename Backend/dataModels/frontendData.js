@@ -47,7 +47,7 @@ const menuItemsList = [
 const imagefiles = [
   "/Images/malai kofta.jpg",
   "/Images/butterchic.jpg",
-  "/Images/chana-masala.jpg",
+  "/Images/daal.avif",
 ];
 
 const galleryPics = [
