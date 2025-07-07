@@ -453,7 +453,7 @@ $(document).ready(function () {
     registerFormValidationNode();
   });
 
-  function registerFormValidation() {
+  function registerFormValidationNode() {
     const userName = $("#username").val().trim();
     const userEmail = $("#usermail").val().trim();
     const userPass = $("#userpassword").val().trim();
@@ -461,12 +461,12 @@ $(document).ready(function () {
 
     console.log(userName, userEmail, userPass, confirmPass);
 
-    if (userName || userEmail || userPass || confirmPass) {
+    if (userName && userEmail && userPass && confirmPass) {
       if (!regValidator(userName, userEmail, userPass, confirmPass)) {
         return;
       }
     } else {
-      showAlert("warning", " ❗ fill all the fields");
+      showAlert("warning", "❗ Fill all the fields");
       return;
     }
 
@@ -474,29 +474,79 @@ $(document).ready(function () {
       userName: userName,
       email: userEmail,
       password: userPass,
-      confirmPassword: confirmPass,
     };
 
-    const allUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-    const alreadyExist = allUsers.some((user) => user.email === userEmail);
-
-    if (alreadyExist) {
-      showAlert("warning", " ❗ already username registered");
-      $("#username").val("");
-      $("#usermail").val("");
-      $("#userpassword").val("");
-      return;
-    } else {
-      allUsers.push(userData);
-      localStorage.setItem("users", JSON.stringify(allUsers));
-      showAlert("success", "data stored");
-      $("#username").val("");
-      $("#usermail").val("");
-      $("#userpassword").val("");
-      loginRender();
-    }
+    // Send POST request to backend
+    fetch("http://localhost:8000/api/v1/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          showAlert("success", "✅ Registration successful!");
+          $("#username").val("");
+          $("#usermail").val("");
+          $("#userpassword").val("");
+          $("#confirmPassword").val("");
+          loginRender();
+        } else {
+          showAlert("warning", `❗ ${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        showAlert("error", "❌ Something went wrong. Try again later.");
+      });
   }
+
+  // function registerFormValidation() {
+  //   const userName = $("#username").val().trim();
+  //   const userEmail = $("#usermail").val().trim();
+  //   const userPass = $("#userpassword").val().trim();
+  //   const confirmPass = $("#confirmPassword").val().trim();
+
+  //   console.log(userName, userEmail, userPass, confirmPass);
+
+  //   if (userName || userEmail || userPass || confirmPass) {
+  //     if (!regValidator(userName, userEmail, userPass, confirmPass)) {
+  //       return;
+  //     }
+  //   } else {
+  //     showAlert("warning", " ❗ fill all the fields");
+  //     return;
+  //   }
+
+  //   const userData = {
+  //     userName: userName,
+  //     email: userEmail,
+  //     password: userPass,
+  //     confirmPassword: confirmPass,
+  //   };
+
+  //   const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+
+  //   const alreadyExist = allUsers.some((user) => user.email === userEmail);
+
+  //   if (alreadyExist) {
+  //     showAlert("warning", " ❗ already username registered");
+  //     $("#username").val("");
+  //     $("#usermail").val("");
+  //     $("#userpassword").val("");
+  //     return;
+  //   } else {
+  //     allUsers.push(userData);
+  //     localStorage.setItem("users", JSON.stringify(allUsers));
+  //     showAlert("success", "data stored");
+  //     $("#username").val("");
+  //     $("#usermail").val("");
+  //     $("#userpassword").val("");
+  //     loginRender();
+  //   }
+  // }
 
   $(document).on("click", "#loginBtn", () => {
     loginFormValidation();
@@ -635,55 +685,5 @@ $(document).ready(function () {
     } else {
       showAlert("warning", "not Registered");
     }
-  }
-
-  function registerFormValidationNode() {
-    const userName = $("#username").val().trim();
-    const userEmail = $("#usermail").val().trim();
-    const userPass = $("#userpassword").val().trim();
-    const confirmPass = $("#confirmPassword").val().trim();
-
-    console.log(userName, userEmail, userPass, confirmPass);
-
-    if (userName && userEmail && userPass && confirmPass) {
-      if (!regValidator(userName, userEmail, userPass, confirmPass)) {
-        return;
-      }
-    } else {
-      showAlert("warning", "❗ Fill all the fields");
-      return;
-    }
-
-    const userData = {
-      userName: userName,
-      email: userEmail,
-      password: userPass,
-    };
-
-    // Send POST request to backend
-    fetch("http://localhost:8000/api/v1/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          showAlert("success", "✅ Registration successful!");
-          $("#username").val("");
-          $("#usermail").val("");
-          $("#userpassword").val("");
-          $("#confirmPassword").val("");
-          loginRender();
-        } else {
-          showAlert("warning", `❗ ${data.message}`);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showAlert("error", "❌ Something went wrong. Try again later.");
-      });
   }
 });
