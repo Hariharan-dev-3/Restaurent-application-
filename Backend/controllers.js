@@ -8,7 +8,7 @@ function renderNavs() {
     try {
       setTimeout(() => {
         resolve(frontendData.navBar);
-      }, 2000);
+      });
     } catch (error) {
       reject(error);
     }
@@ -30,7 +30,7 @@ function renderOffers() {
     try {
       setTimeout(() => {
         resolve(frontendData.imagefiles);
-      }, 3000);
+      });
     } catch (error) {
       reject(error);
     }
@@ -41,7 +41,18 @@ function renderGallery() {
     try {
       setTimeout(() => {
         resolve(frontendData.galleryPics);
-      }, 2000);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+function renderBooking() {
+  return new Promise((resolve, reject) => {
+    try {
+      setTimeout(() => {
+        resolve(frontendData.bookingPics);
+      });
     } catch (error) {
       reject(error);
     }
@@ -90,6 +101,7 @@ module.exports = {
   renderMenuitems,
   renderOffers,
   renderGallery,
+  renderBooking,
   // renderError,
   // loadImage,
 };

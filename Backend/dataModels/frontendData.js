@@ -61,9 +61,43 @@ const galleryPics = [
   "/Images/interior4.jpg",
 ];
 
+const bookingPics = [
+  {
+    image: "/Images/two seat.jpg",
+    tableName: "Double Seator",
+    count: 3,
+  },
+  {
+    image: "/Images/3 seat.jpg",
+    tableName: "Triple Seator",
+    count: 2,
+  },
+  {
+    image: "/Images/four seat.jpg",
+    tableName: "Four Seator",
+    count: 3,
+  },
+  {
+    image: "/Images/five seat.png",
+    tableName: "Five Seator",
+    count: 3,
+  },
+  {
+    image: "/Images/6 seat.jpg",
+    tableName: "Six Seator",
+    count: 2,
+  },
+  {
+    image: "/Images/8 seat.jpeg",
+    tableName: "Eight Seator",
+    count: 2,
+  },
+];
+
 module.exports = {
   navBar,
   menuItemsList,
   imagefiles,
   galleryPics,
+  bookingPics,
 };

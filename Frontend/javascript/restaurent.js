@@ -243,67 +243,76 @@ function galleryRender(pics) {
 
 // galleryRender(galleryPics);
 
-bookingPics = [
-  {
-    image: "two seat.jpg",
-    tableName: "Double Seator",
-    count: 3,
-  },
-  {
-    image: "3 seat.jpg",
-    tableName: "Triple Seator",
-    count: 2,
-  },
-  {
-    image: "four seat.jpg",
-    tableName: "Four Seator",
-    count: 3,
-  },
-  {
-    image: "five seat.png",
-    tableName: "Five Seator",
-    count: 3,
-  },
-  {
-    image: "6 seat.jpg",
-    tableName: "Six Seator",
-    count: 2,
-  },
-  {
-    image: "8 seat.jpeg",
-    tableName: "Eight Seator",
-    count: 2,
-  },
-];
+// bookingPics = [
+//   {
+//     image: "two seat.jpg",
+//     tableName: "Double Seator",
+//     count: 3,
+//   },
+//   {
+//     image: "3 seat.jpg",
+//     tableName: "Triple Seator",
+//     count: 2,
+//   },
+//   {
+//     image: "four seat.jpg",
+//     tableName: "Four Seator",
+//     count: 3,
+//   },
+//   {
+//     image: "five seat.png",
+//     tableName: "Five Seator",
+//     count: 3,
+//   },
+//   {
+//     image: "6 seat.jpg",
+//     tableName: "Six Seator",
+//     count: 2,
+//   },
+//   {
+//     image: "8 seat.jpeg",
+//     tableName: "Eight Seator",
+//     count: 2,
+//   },
+// ];
+
+fetch("http://localhost:8000/api/v1/booking")
+  .then((res) => res.json())
+  .then((data) => {
+    bookingRender(data);
+    console.log(data);
+  })
+  .catch((err) => console.error("gallery image fetch failed:", err));
 
 function bookingRender(bookingarray) {
   bookingarray.forEach((BookPic) => {
     let bookingContainer = `
     <div class="bookingBack">
-      <img src="../Images/${BookPic.image}" class="Bookimages" data-count="${BookPic.count}" data-table="${BookPic.tableName}">
+      <img src="../${BookPic.image}" class="Bookimages" data-count="${BookPic.count}" data-table="${BookPic.tableName}">
       <p class="BookTableName">${BookPic.tableName}</p>
     </div>
     `;
     bookingdiv.innerHTML += bookingContainer;
   });
+
+  const bookImg = document.querySelectorAll(".Bookimages");
+  bookImg.forEach((bmg) => {
+    bmg.addEventListener("click", () => {
+      const tableType = bmg.getAttribute("data-table");
+      const loggedInUsers =
+        JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+      const activeUser = loggedInUsers.find((user) => user.isLoggedIn === true);
+
+      if (activeUser) {
+        forBooking(tableType, activeUser.userName);
+      } else {
+        showAlert("warning", "Please log in to book a table.");
+      }
+    });
+  });
 }
 
-bookingRender(bookingPics);
-
-const bookImg = document.querySelectorAll(".Bookimages");
-bookImg.forEach((bmg) => {
-  bmg.addEventListener("click", () => {
-    const tableType = bmg.getAttribute("data-table");
-    const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
-    const activeUser = loggedInUsers.find((user) => user.isLoggedIn === true);
-
-    if (activeUser) {
-      forBooking(tableType, activeUser.userName);
-    } else {
-      showAlert("warning", "Please log in to book a table.");
-    }
-  });
-});
+// bookingRender(bookingPics);
 
 const today = new Date().toISOString().split("T")[0];
 

@@ -22,5 +22,10 @@ router.get("/gallery", async (req, res) => {
   console.log(galleryData);
   res.json(galleryData);
 });
+router.get("/booking", async (req, res) => {
+  const bookingData = await controllers.renderBooking();
+  console.log(bookingData);
+  res.json(bookingData);
+});
 
 module.exports = router;
