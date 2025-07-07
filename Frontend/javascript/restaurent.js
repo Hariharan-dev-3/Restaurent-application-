@@ -449,7 +449,8 @@ function registerRender() {
 //login validation
 $(document).ready(function () {
   $(document).on("click", "#registerBtn", () => {
-    registerFormValidation();
+    // registerFormValidation();
+    registerFormValidationNode();
   });
 
   function registerFormValidation() {
@@ -634,5 +635,55 @@ $(document).ready(function () {
     } else {
       showAlert("warning", "not Registered");
     }
+  }
+
+  function registerFormValidationNode() {
+    const userName = $("#username").val().trim();
+    const userEmail = $("#usermail").val().trim();
+    const userPass = $("#userpassword").val().trim();
+    const confirmPass = $("#confirmPassword").val().trim();
+
+    console.log(userName, userEmail, userPass, confirmPass);
+
+    if (userName && userEmail && userPass && confirmPass) {
+      if (!regValidator(userName, userEmail, userPass, confirmPass)) {
+        return;
+      }
+    } else {
+      showAlert("warning", "❗ Fill all the fields");
+      return;
+    }
+
+    const userData = {
+      userName: userName,
+      email: userEmail,
+      password: userPass,
+    };
+
+    // Send POST request to backend
+    fetch("http://localhost:8000/api/v1/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          showAlert("success", "✅ Registration successful!");
+          $("#username").val("");
+          $("#usermail").val("");
+          $("#userpassword").val("");
+          $("#confirmPassword").val("");
+          loginRender();
+        } else {
+          showAlert("warning", `❗ ${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        showAlert("error", "❌ Something went wrong. Try again later.");
+      });
   }
 });

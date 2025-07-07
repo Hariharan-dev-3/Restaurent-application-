@@ -1,0 +1,18 @@
+[
+  {
+    "userId": 1751885679040,
+    "userName": "Admin",
+    "userEmail": "admin@gmail.com",
+    "userPassword": "password",
+    "userRole": "Admin",
+    "userProfileImg": "/static/profile/admin.jpg"
+  },
+  {
+    "userId": 1751892987458,
+    "userName": "naruto",
+    "userEmail": "naruto@gmail.com",
+    "userPassword": "12345678",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
+  }
+]

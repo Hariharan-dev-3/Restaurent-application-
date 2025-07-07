@@ -15,10 +15,7 @@ app.use(express.json());
 // });
 app.use(cors());
 app.use("/api/v1", router);
-app.use(
-  "/Images",
-  express.static(path.join(__dirname, "..", "Frontend", "Images"))
-);
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.listen(8000, () => {
   console.log(`server is running on http://localhost:8000`);

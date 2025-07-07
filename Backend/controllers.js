@@ -6,9 +6,7 @@ const path = require("path");
 function renderNavs() {
   return new Promise((resolve, reject) => {
     try {
-      setTimeout(() => {
-        resolve(frontendData.navBar);
-      });
+      resolve(frontendData.navBar);
     } catch (error) {
       reject(error);
     }
@@ -17,9 +15,7 @@ function renderNavs() {
 function renderMenuitems() {
   return new Promise((resolve, reject) => {
     try {
-      setTimeout(() => {
-        resolve(frontendData.menuItemsList);
-      });
+      resolve(frontendData.menuItemsList);
     } catch (error) {
       reject(error);
     }
@@ -28,9 +24,7 @@ function renderMenuitems() {
 function renderOffers() {
   return new Promise((resolve, reject) => {
     try {
-      setTimeout(() => {
-        resolve(frontendData.imagefiles);
-      });
+      resolve(frontendData.imagefiles);
     } catch (error) {
       reject(error);
     }
@@ -39,9 +33,7 @@ function renderOffers() {
 function renderGallery() {
   return new Promise((resolve, reject) => {
     try {
-      setTimeout(() => {
-        resolve(frontendData.galleryPics);
-      });
+      resolve(frontendData.galleryPics);
     } catch (error) {
       reject(error);
     }
@@ -50,9 +42,7 @@ function renderGallery() {
 function renderBooking() {
   return new Promise((resolve, reject) => {
     try {
-      setTimeout(() => {
-        resolve(frontendData.bookingPics);
-      });
+      resolve(frontendData.bookingPics);
     } catch (error) {
       reject(error);
     }
