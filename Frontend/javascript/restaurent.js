@@ -10,23 +10,32 @@ const bookingdiv = document.getElementById("bookContainer");
 const popupdiv = document.getElementById("popupScreen");
 const bookingPage = document.getElementById("bookingPage");
 
-const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
+// const imagefiles = ["malai kofta.jpg", "butterchic.jpg", "chana-masala.jpg"];
 
 // home page image rendering function
+
+fetch("http://localhost:8000/api/v1/offers")
+  .then((res) => res.json()) // Parse the response body
+  .then((data) => {
+    loadImage(data); // Now data should be an array
+    console.log(data);
+  })
+  .catch((err) => {
+    console.log(err, "offer images cant fetched");
+  });
 
 function loadImage(images) {
   images.forEach((im) => {
     const image = document.createElement("img");
-    image.src = `../Images/${im}`;
+    image.src = `../${im}`;
     image.alt = "image";
     image.setAttribute("class", "offerImage");
     imageContainer.appendChild(image);
   });
 }
-loadImage(imagefiles);
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://localhost:5000/api/v1/navbar")
+  fetch("http://localhost:8000/api/v1/navbar")
     .then((res) => res.json())
     .then((data) => {
       data.forEach((item) => {
@@ -38,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => console.error("Navbar fetch failed:", err));
 
-  fetch("http://localhost:5000/api/v1/menuitems")
+  fetch("http://localhost:8000/api/v1/menuitems")
     .then((response) => response.json())
     .then((data) => {
       renderMenuItems(data);
@@ -129,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const MenuImage = document.createElement("img");
       MenuImage.setAttribute("class", "logo");
-      MenuImage.src = `http://localhost:5000${items.foodImage}`;
+      MenuImage.src = `../${items.foodImage}`;
       // MenuImage.src = items.foodImage.startsWith("/Images/")
       //   ? items.foodImage
       //   : `../Images/${items.foodImage}`;
@@ -161,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const popupHTML = `
           
             <div class="popup">
-              <img src="http://localhost:5000${items.foodImage}" class="popupImage" >
+              <img src="../${items.foodImage}" class="popupImage" >
               <p class="NameText">${items.foodName}</p>
               <p class="priceText">Price: ${items.FoodRate} /-</p>
               <div class="Btns">
@@ -202,30 +211,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const galleryPics = [
-  "gallery1.jpg",
-  "gallery2.jpg",
-  "gallery3.jpg",
-  "gallery4.jpeg",
-  "interior1.jpg",
-  "interior2.jpg",
-  "interior3.jpg",
-  "interior4.jpg",
-];
+// const galleryPics = [
+//   "gallery1.jpg",
+//   "gallery2.jpg",
+//   "gallery3.jpg",
+//   "gallery4.jpeg",
+//   "interior1.jpg",
+//   "interior2.jpg",
+//   "interior3.jpg",
+//   "interior4.jpg",
+// ];
 
-let imageRender = "";
+fetch("http://localhost:8000/api/v1/gallery")
+  .then((res) => res.json())
+  .then((data) => {
+    galleryRender(data);
+    console.log(data);
+  })
+  .catch((err) => console.error("gallery image fetch failed:", err));
 
 // gallery page image rendering function
 
 function galleryRender(pics) {
+  let imageRender = "";
   pics.forEach((picture) => {
-    imageRender += `<img src="../Images/${picture}" class="galleryPic" id="galleryPics">`;
-    $("#galleryPics").click(() => {});
+    imageRender += `<img src="../${picture}" class="galleryPic" id="galleryPics">`;
+    // $("#galleryPics").click(() => {});
   });
+  gallerydiv.innerHTML = imageRender;
 }
 
-galleryRender(galleryPics);
-gallerydiv.innerHTML = imageRender;
+// galleryRender(galleryPics);
 
 bookingPics = [
   {

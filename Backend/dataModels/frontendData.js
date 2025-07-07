@@ -44,7 +44,26 @@ const menuItemsList = [
   },
 ];
 
+const imagefiles = [
+  "/Images/malai kofta.jpg",
+  "/Images/butterchic.jpg",
+  "/Images/chana-masala.jpg",
+];
+
+const galleryPics = [
+  "/Images/gallery1.jpg",
+  "/Images/gallery2.jpg",
+  "/Images/gallery3.jpg",
+  "/Images/gallery4.jpeg",
+  "/Images/interior1.jpg",
+  "/Images/interior2.jpg",
+  "/Images/interior3.jpg",
+  "/Images/interior4.jpg",
+];
+
 module.exports = {
   navBar,
   menuItemsList,
+  imagefiles,
+  galleryPics,
 };
