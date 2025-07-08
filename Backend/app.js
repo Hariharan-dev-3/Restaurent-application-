@@ -14,7 +14,15 @@ app.use(express.json());
 //   });
 // });
 app.use(cors());
+app.set("view engine", "jade");
+app.set("views", path.join(__dirname, "views"));
 app.use("/api/v1", router);
+app.use("/jadeUrl", (req, res) => {
+  res.render("home.jade", {
+    title: "jade",
+    name: "hari",
+  });
+});
 app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.listen(8000, () => {
