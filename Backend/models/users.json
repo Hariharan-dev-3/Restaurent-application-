@@ -14,5 +14,13 @@
     "userPassword": "12345678",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1751951674459,
+    "userName": "jiraaya",
+    "userEmail": "jiraaya@gmail.com",
+    "userPassword": "23456789",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
   }
 ]

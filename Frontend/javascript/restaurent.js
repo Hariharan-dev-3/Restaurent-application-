@@ -499,7 +499,7 @@ $(document).ready(function () {
       })
       .catch((error) => {
         console.error("Error:", error);
-        showAlert("error", "❌ Something went wrong. Try again later.");
+        showAlert("error", "❌ server can't reachable. Try again");
       });
   }
 
@@ -549,50 +549,104 @@ $(document).ready(function () {
   // }
 
   $(document).on("click", "#loginBtn", () => {
-    loginFormValidation();
+    loginFormValidationNode();
   });
-  function loginFormValidation() {
+
+  function loginFormValidationNode() {
     $("#authendication").addClass("show");
+
     const loginEmail = $("#loginMail").val().trim();
     const loginPass = $("#loginPass").val().trim();
-    console.log(loginEmail);
-    console.log(loginPass);
 
-    if (loginEmail || loginPass) {
-      if (!loginValidator(loginEmail, loginPass)) {
-        return;
-      }
-    } else {
-      showAlert("warning", "fill all the details");
+    if (!loginEmail || !loginPass) {
+      showAlert("warning", "⚠️ Please fill in all the details.");
       return;
     }
 
-    const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
-    console.log(checkLogin);
+    if (!loginValidator(loginEmail, loginPass)) {
+      return;
+    }
 
-    const matchData = checkLogin.find(
-      (data) => data.email === loginEmail && data.password === loginPass
-    );
-
-    const sessionUsers = [];
-    const loginData = {
-      isLoggedIn: true,
-      userName: matchData.userName,
+    const logindataForserver = {
+      userEmail: loginEmail,
+      userPassword: loginPass,
     };
 
-    if (matchData) {
-      sessionUsers.push(loginData);
-      sessionStorage.setItem("loggedIn", JSON.stringify(sessionUsers));
-      console.log(matchData);
-      afterLogin(loginData.userName);
-      $("#loginMail").val("");
-      $("#loginPass").val("");
-      return;
-    } else {
-      showAlert("warning", "❗ Invalid credentials");
-      return;
-    }
+    fetch("http://localhost:8000/api/v1/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logindataForserver),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        console.log("Login response:", data);
+        console.log("HTTP status:", response.status);
+
+        if (response.ok && data.success && data.userName) {
+          showAlert("success", "✅ Logged in successfully!");
+          afterLoginNode(data.userName);
+          $("#loginMail").val("");
+          $("#loginPass").val("");
+        } else {
+          if (response.status === 401) {
+            showAlert("warning", "❗ Password mismatch. Please try again.");
+          } else if (response.status === 404) {
+            showAlert("warning", "❗ User not found. Please register first.");
+          } else {
+            showAlert("warning", `❗ ${data.message || "Login failed."}`);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("❌ Network error:", error);
+        showAlert("error", "❌ Server unreachable. Please try again later.");
+      });
   }
+
+  // function loginFormValidation() {
+  //   $("#authendication").addClass("show");
+  //   const loginEmail = $("#loginMail").val().trim();
+  //   const loginPass = $("#loginPass").val().trim();
+  //   console.log(loginEmail);
+  //   console.log(loginPass);
+
+  //   if (loginEmail || loginPass) {
+  //     if (!loginValidator(loginEmail, loginPass)) {
+  //       return;
+  //     }
+  //   } else {
+  //     showAlert("warning", "fill all the details");
+  //     return;
+  //   }
+
+  //   const checkLogin = JSON.parse(localStorage.getItem("users")) || [];
+  //   console.log(checkLogin);
+
+  //   const matchData = checkLogin.find(
+  //     (data) => data.email === loginEmail && data.password === loginPass
+  //   );
+
+  //   const sessionUsers = [];
+  //   const loginData = {
+  //     isLoggedIn: true,
+  //     userName: matchData.userName,
+  //   };
+
+  //   if (matchData) {
+  //     sessionUsers.push(loginData);
+  //     sessionStorage.setItem("loggedIn", JSON.stringify(sessionUsers));
+  //     console.log(matchData);
+  //     afterLogin(loginData.userName);
+  //     $("#loginMail").val("");
+  //     $("#loginPass").val("");
+  //     return;
+  //   } else {
+  //     showAlert("warning", "❗ Invalid credentials");
+  //     return;
+  //   }
+  // }
 
   function regValidator(name, email, password, confirm) {
     const isValidName = /^[^\d\s][a-zA-Z0-9]{3,14}$/.test(name);
@@ -645,45 +699,102 @@ $(document).ready(function () {
     }
   }
 
-  function afterLogin(userName) {
+  function afterLoginNode(userName) {
     const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
-    const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
-    const name = userName;
-    if (isActive) {
-      $("#loader").addClass("show");
-      $("#authendication").removeClass("show");
-      setTimeout(() => {
-        $("#loader").removeClass("show");
-        $("#loginTag").text("Logout");
-        $("#loginTag").attr("data-status", "true");
-        $("#loginUserName").css("display", "block");
-        $("#loginUserName").text(`👨‍🍳 Welcome ${name}`);
-        $("#authendication").removeClass("show");
-        showAlert("success", " ✅ logged in successfully ✅");
-      }, 3000);
 
-      $("#loginTag")
-        .off("click")
-        .on("click", (e) => {
-          e.preventDefault();
-          $("#loader").addClass("show");
+    // Add or update the logged-in user
+    const updatedUsers = loggedInUsers.map((user) => {
+      if (user.userName === userName) {
+        return { ...user, isLoggedIn: true };
+      }
+      return user;
+    });
 
-          loggedInUsers.forEach((user) => {
-            if (user.userName === userName) {
-              user.isLoggedIn = false;
-            }
-          });
-
-          setTimeout(() => {
-            sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
-            $("#loginTag").text("Login").attr("data-status", "false");
-            $("#loginUserName").css("display", "none").text("");
-            $("#loader").removeClass("show");
-            showAlert("success", " ✅ Logged out successfully ✅");
-          }, 3000);
-        });
-    } else {
-      showAlert("warning", "not Registered");
+    // If user not in list, add them
+    if (!updatedUsers.some((user) => user.userName === userName)) {
+      updatedUsers.push({ userName, isLoggedIn: true });
     }
+
+    sessionStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
+
+    // Now proceed with login UI updates
+    $("#loader").addClass("show");
+    $("#authendication").removeClass("show");
+    setTimeout(() => {
+      $("#loader").removeClass("show");
+      $("#loginTag").text("Logout");
+      $("#loginTag").attr("data-status", "true");
+      $("#loginUserName").css("display", "block");
+      $("#loginUserName").text(`👨‍🍳 Welcome ${userName}`);
+      showAlert("success", " ✅ logged in successfully ✅");
+    }, 3000);
+
+    // Logout logic
+    $("#loginTag")
+      .off("click")
+      .on("click", (e) => {
+        e.preventDefault();
+        $("#loader").addClass("show");
+
+        const updatedLogoutUsers = updatedUsers.map((user) => {
+          if (user.userName === userName) {
+            return { ...user, isLoggedIn: false };
+          }
+          return user;
+        });
+
+        setTimeout(() => {
+          sessionStorage.setItem(
+            "loggedIn",
+            JSON.stringify(updatedLogoutUsers)
+          );
+          $("#loginTag").text("Login").attr("data-status", "false");
+          $("#loginUserName").css("display", "none").text("");
+          $("#loader").removeClass("show");
+          showAlert("success", " ✅ Logged out successfully ✅");
+        }, 3000);
+      });
   }
+
+  // function afterLogin(userName) {
+  //   const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+  //   const isActive = loggedInUsers.find((user) => user.isLoggedIn === true);
+  //   const name = userName;
+  //   if (isActive) {
+  //     $("#loader").addClass("show");
+  //     $("#authendication").removeClass("show");
+  //     setTimeout(() => {
+  //       $("#loader").removeClass("show");
+  //       $("#loginTag").text("Logout");
+  //       $("#loginTag").attr("data-status", "true");
+  //       $("#loginUserName").css("display", "block");
+  //       $("#loginUserName").text(`👨‍🍳 Welcome ${name}`);
+  //       $("#authendication").removeClass("show");
+  //       showAlert("success", " ✅ logged in successfully ✅");
+  //     }, 3000);
+
+  //     $("#loginTag")
+  //       .off("click")
+  //       .on("click", (e) => {
+  //         e.preventDefault();
+  //         $("#loader").addClass("show");
+
+  //         loggedInUsers.forEach((user) => {
+  //           if (user.userName === userName) {
+  //             user.isLoggedIn = false;
+  //           }
+  //         });
+
+  //         setTimeout(() => {
+  //           sessionStorage.setItem("loggedIn", JSON.stringify(loggedInUsers));
+  //           $("#loginTag").text("Login").attr("data-status", "false");
+  //           $("#loginUserName").css("display", "none").text("");
+  //           $("#loader").removeClass("show");
+  //           showAlert("success", " ✅ Logged out successfully ✅");
+  //         }, 3000);
+  //       });
+  //   } else {
+  //     showAlert("warning", "not Registered");
+  //   }
+  // }
 });
