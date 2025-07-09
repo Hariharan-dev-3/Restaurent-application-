@@ -89,6 +89,19 @@ router.get("/jadeUrl", async (req, res) => {
   }
 });
 
+router.post("/deleteUser", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const result = await controllers.deleteUserByEmail(email);
+    res.status(result.status).json(result);
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message || "Failed to delete user",
+    });
+  }
+});
+
 // router.post("/register", async (req, res) => {
 //   const jsonPath = path.join(__dirname, "models", "users.json");
 

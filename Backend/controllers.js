@@ -161,6 +161,33 @@ function renderUserdata() {
     }
   });
 }
+
+function deleteUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    const jsonDeletePath = path.join(__dirname, ".", "models", "users.json");
+
+    if (!fs.existsSync(jsonDeletePath)) {
+      fs.writeFileSync(jsonDeletePath, JSON.stringify([]));
+    }
+
+    const users = JSON.parse(fs.readFileSync(jsonDeletePath, "utf-8"));
+    const filteredUsers = users.filter(
+      (user) => user.userEmail.toLowerCase() !== email.toLowerCase()
+    );
+
+    if (users.length === filteredUsers.length) {
+      return reject({ status: 404, message: "User not found" });
+    }
+
+    fs.writeFileSync(jsonDeletePath, JSON.stringify(filteredUsers, null, 2));
+    resolve({
+      status: 200,
+      success: true,
+      message: "User deleted successfully",
+    });
+  });
+}
+
 // function loadImage(req, res) {
 //   const imagePath = path.join(__dirname, "..", "Frontend", req.url);
 //   console.log("Trying to load image from:", imagePath);
@@ -207,6 +234,7 @@ module.exports = {
   registerUser,
   loginUser,
   renderUserdata,
+  deleteUserByEmail,
   // renderError,
   // loadImage,
 };
