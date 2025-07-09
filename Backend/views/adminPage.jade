@@ -16,7 +16,7 @@ html
             tr
               td= user.userName
               td= user.userEmail
-              td= user.userPassword
+              td= user.userPassword.slice(0,5)+'...'
               td 
                button(onclick='deleteUser("' + user.userEmail + '")') Delete
 

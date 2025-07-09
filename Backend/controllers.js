@@ -51,7 +51,7 @@ function renderBooking() {
 }
 function registerUser(req) {
   return new Promise(async (resolve, reject) => {
-    const jsonPath = path.join(__dirname, "..", "models", "users.json");
+    const jsonPath = path.join(__dirname, ".", "models", "users.json");
 
     if (!fs.existsSync(jsonPath)) {
       fs.writeFileSync(jsonPath, JSON.stringify([]));
@@ -94,9 +94,9 @@ function registerUser(req) {
 }
 
 function loginUser(req) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const { userEmail, userPassword } = req.body;
-    const jsonPath = path.join(__dirname, "..", "models", "users.json");
+    const jsonPath = path.join(__dirname, ".", "models", "users.json");
 
     if (!fs.existsSync(jsonPath)) {
       fs.writeFileSync(jsonPath, JSON.stringify([]));
@@ -116,7 +116,8 @@ function loginUser(req) {
       });
     }
 
-    if (existUser.userPassword !== userPassword) {
+    const isMatch = await bcrypt.compare(userPassword, existUser.userPassword);
+    if (!isMatch) {
       return reject({
         status: 401,
         message: "Password mismatch",
@@ -130,7 +131,6 @@ function loginUser(req) {
     });
   });
 }
-
 function renderUserdata() {
   return new Promise((resolve, reject) => {
     try {
@@ -180,6 +180,9 @@ function deleteUserByEmail(email) {
     }
 
     fs.writeFileSync(jsonDeletePath, JSON.stringify(filteredUsers, null, 2));
+
+    const users2 = JSON.parse(fs.readFileSync(jsonDeletePath, "utf-8"));
+    console.log(users2 || "empty");
     resolve({
       status: 200,
       success: true,

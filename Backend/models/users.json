@@ -8,10 +8,10 @@
     "userProfileImg": "/static/profile/admin.jpg"
   },
   {
-    "userId": 1751951674459,
+    "userId": 1752050417386,
     "userName": "jiraaya",
     "userEmail": "jiraaya@gmail.com",
-    "userPassword": "23456789",
+    "userPassword": "$2b$10$nJwqHJxV6Yzfnvi2rvJ7b.FxJMXoZEi/4FA57du5sbDNCoUVSaDQ.",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
   }

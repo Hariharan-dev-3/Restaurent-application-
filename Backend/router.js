@@ -51,7 +51,7 @@ router.get("/booking", async (req, res) => {
 });
 router.post("/register", async (req, res) => {
   try {
-    const result = await registerUser(req);
+    const result = await controllers.registerUser(req);
     res.status(result.status).json({
       success: true,
       ...result,
@@ -66,7 +66,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const result = await loginUser(req);
+    const result = await controllers.loginUser(req);
     res.status(result.status).json({
       success: true,
       ...result,
