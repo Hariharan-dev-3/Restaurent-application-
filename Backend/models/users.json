@@ -14,5 +14,21 @@
     "userPassword": "$2b$10$nJwqHJxV6Yzfnvi2rvJ7b.FxJMXoZEi/4FA57du5sbDNCoUVSaDQ.",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1752054388402,
+    "userName": "naruto",
+    "userEmail": "naruto@gmail.com",
+    "userPassword": "$2b$10$RXHpu/Fik1UwfVP2gkhb4eshTBuhUjoa/AXhGefTA.8SJrruYK396",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1752054408740,
+    "userName": "sasuke",
+    "userEmail": "sasuke@gmail.com",
+    "userPassword": "$2b$10$pmRI5BLE0.CJrDMRIedfv../Cjpp/Aa40B9uz/dEhhPcbe/xekxaq",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
   }
 ]

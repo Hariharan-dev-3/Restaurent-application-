@@ -1,0 +1,48 @@
+.tableContainer {
+  width: 90vw;
+  margin: 5vh auto;
+  padding: 2rem;
+  background-color: #fdfdfd;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.8);
+  overflow-x: auto;
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.tableContainer th,
+.tableContainer td {
+  padding: 1em;
+  border: 0.1em solid #ccc;
+  text-align: center;
+}
+
+.tableContainer th {
+  background-color: #0077cc;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.tableContainer td {
+  background-color: #f9f9f9;
+  font-weight: 700;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.tableContainer button {
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+.tableContainer button:hover {
+  background-color: #d62828;
+}
