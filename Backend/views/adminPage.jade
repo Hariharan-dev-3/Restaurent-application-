@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Admin Page
+  body
+    section.tableContainer
+      table
+        thead
+          tr
+            th UserName
+            th Email
+            th Password
+        tbody
+          each user in users
+            tr
+              td= user.userName
+              td= user.userEmail
+              td= user.userPassword
