@@ -1,0 +1,11 @@
+index.jade
+
+/renderHome
+/getAllUser
+/getUser/:userId
+
+
+/postRegister
+/postLogin
+
+/putUser/:userId

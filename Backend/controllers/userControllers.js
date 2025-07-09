@@ -1,55 +1,61 @@
-// const backendData = require("./dataModels/backendData");
-const frontendData = require("./dataModels/frontendData");
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 
-function renderNavs() {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(frontendData.navBar);
-    } catch (error) {
-      reject(error);
-    }
-  });
+async function registerUser(req, res) {
+  try {
+    const result = await registerUserRender(req);
+    res.status(result.status).json({
+      success: true,
+      ...result,
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      ...error,
+    });
+  }
 }
-function renderMenuitems() {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(frontendData.menuItemsList);
-    } catch (error) {
-      reject(error);
-    }
-  });
+
+async function loginUser(req, res) {
+  try {
+    const result = await loginUserRender(req);
+    res.status(result.status).json({
+      success: true,
+      ...result,
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      ...error,
+    });
+  }
 }
-function renderOffers() {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(frontendData.imagefiles);
-    } catch (error) {
-      reject(error);
-    }
-  });
+
+async function renderUserdata(req, res) {
+  try {
+    const users = await renderUserdataProvider();
+    console.log(users);
+    res.render("adminPage.jade", { users });
+  } catch (error) {
+    res.status(error.status || 500).send(error.message || "Unknown error");
+  }
 }
-function renderGallery() {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(frontendData.galleryPics);
-    } catch (error) {
-      reject(error);
-    }
-  });
+
+async function deleteUserByEmail(req, res) {
+  try {
+    const { email } = req.body;
+    const result = await deleteUserByEmailRender(email);
+    res.status(result.status).json(result);
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message || "Failed to delete user",
+    });
+  }
 }
-function renderBooking() {
-  return new Promise((resolve, reject) => {
-    try {
-      resolve(frontendData.bookingPics);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-function registerUser(req) {
+
+function registerUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const jsonPath = path.join(__dirname, ".", "models", "users.json");
 
@@ -93,7 +99,7 @@ function registerUser(req) {
   });
 }
 
-function loginUser(req) {
+function loginUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const { userEmail, userPassword } = req.body;
     const jsonPath = path.join(__dirname, ".", "models", "users.json");
@@ -131,7 +137,8 @@ function loginUser(req) {
     });
   });
 }
-function renderUserdata() {
+
+function renderUserdataProvider() {
   return new Promise((resolve, reject) => {
     try {
       const jsonDatapath = path.join(__dirname, ".", "models", "users.json");
@@ -162,7 +169,7 @@ function renderUserdata() {
   });
 }
 
-function deleteUserByEmail(email) {
+function deleteUserByEmailRender(email) {
   return new Promise((resolve, reject) => {
     const jsonDeletePath = path.join(__dirname, ".", "models", "users.json");
 
@@ -229,15 +236,11 @@ function deleteUserByEmail(email) {
 // }
 
 module.exports = {
-  renderNavs,
-  renderMenuitems,
-  renderOffers,
-  renderGallery,
-  renderBooking,
   registerUser,
   loginUser,
   renderUserdata,
   deleteUserByEmail,
+
   // renderError,
   // loadImage,
 };
