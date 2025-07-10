@@ -1,13 +1,5 @@
 [
   {
-    "userId": 1752124999286,
-    "userName": "jiraaya",
-    "userEmail": "jiraaya@gmail.com",
-    "userPassword": "$2b$10$RFWpKDRyciGIvweVhbVgye1tInGH7HwhGBuWXvI18W0O4Rbh7CVd6",
-    "userRole": "user",
-    "userProfileImg": "/static/profile/user.png"
-  },
-  {
     "userId": 1752138761867,
     "userName": "Admin",
     "userEmail": "admin@gmail.com",
@@ -17,9 +9,17 @@
   },
   {
     "userId": 1752144487381,
-    "userName": "kabuto",
+    "userName": "urochi",
     "userEmail": "kabuto@gmail.com",
     "userPassword": "$2b$10$eOELpxx4dJ82r7hVy57G7eIAQrkkx.nPKLq5GdagvTfNWen791q7a",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1752149266634,
+    "userName": "sasuke",
+    "userEmail": "sasuke@gmail.com",
+    "userPassword": "$2b$10$kNvYpTPOgp3M37BC7sPGDOUq9rHpopekZM8RcO/eXtLuPBpIP5a5O",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
   }

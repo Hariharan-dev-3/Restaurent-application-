@@ -32,6 +32,45 @@ async function loginUser(req, res) {
   }
 }
 
+
+async function updateUser(req, res) {
+  try {
+    const { id, name } = req.params;
+    const result = await updateUserRender(id, name);
+    res.json({
+      success: true,
+      status: 201,
+      message: "Successfully modified user data",
+    });
+  } catch (error) {
+    res.status(error.status || 400).json({
+      success: false,
+      message: error.message || "Data could not be modified",
+    });
+  }
+}
+function updateUserRender(id, name) {
+  return new Promise((resolve, reject) => {
+    const jsonPath = path.join(__dirname, "..", "models", "users.json");
+
+    if (!fs.existsSync(jsonPath)) {
+      fs.writeFileSync(jsonPath, JSON.stringify([]));
+    }
+
+    const tempArray = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+    const exist = tempArray.find((temp) => temp.userId === Number(id));
+
+    if (!exist) {
+      return reject({ status: 404, message: "User not found" });
+    }
+
+    exist.userName = name;
+    fs.writeFileSync(jsonPath, JSON.stringify(tempArray, null, 2));
+
+    resolve({ status: 201, message: "Data updated successfully" });
+  });
+}
+
 async function renderUserdata(req, res) {
   try {
     const users = await renderUserdataProvider();
@@ -237,6 +276,7 @@ module.exports = {
   loginUser,
   renderUserdata,
   deleteUserByEmail,
+  updateUser,
 
   // renderError,
   // loadImage,
