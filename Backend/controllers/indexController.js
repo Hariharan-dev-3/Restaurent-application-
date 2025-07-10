@@ -16,7 +16,7 @@ async function renderNavs(req, res) {
 async function renderMenuitems(req, res) {
   try {
     const menuData = await renderMenuitemsService();
-    // console.log(menuData);
+    console.log(menuData);
     res.status(200).json(menuData);
   } catch (error) {
     res.status(404).json(error);
@@ -52,11 +52,18 @@ async function renderBooking(req, res) {
   }
 }
 
-// async function renderHomePage(req, res) {
-//   try {
-//     res.render();
-//   } catch (error) {}
-// }
+function renderHomePage(req, res) {
+  return new Promise((resolve, reject) => {
+    res.render("home.jade", {}, (err, renderPage) => {
+      if (err) {
+        res.status(500).send("Rendering failed");
+        return reject(err);
+      }
+      res.send(renderPage);
+      resolve();
+    });
+  });
+}
 
 function renderNavService() {
   return new Promise((resolve, reject) => {
@@ -72,6 +79,16 @@ function renderOffersService() {
   return new Promise((resolve, reject) => {
     try {
       resolve(frontendData.imagefiles);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+function renderMenuitemsService() {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve(frontendData.menuItemsList);
     } catch (error) {
       reject(error);
     }
@@ -104,6 +121,7 @@ module.exports = {
   renderOffers,
   renderGallery,
   renderBooking,
+  renderHomePage,
   // renderError,
   // loadImage,
 };

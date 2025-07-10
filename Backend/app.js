@@ -5,15 +5,6 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 app.use(express.json());
-// app.use("/", (req, res, next) => {
-//   next();
-// });
-// app.post("/submit", (req, res) => {
-//   console.log(req.body);
-//   res.json({
-//     messege: "post req success",
-//   });
-// });
 app.use(cors());
 app.set("view engine", "jade");
 app.set("views", path.join(__dirname, "views"));

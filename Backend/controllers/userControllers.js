@@ -57,7 +57,7 @@ async function deleteUserByEmail(req, res) {
 
 function registerUserRender(req) {
   return new Promise(async (resolve, reject) => {
-    const jsonPath = path.join(__dirname, ".", "models", "users.json");
+    const jsonPath = path.join(__dirname, "..", "models", "users.json");
 
     if (!fs.existsSync(jsonPath)) {
       fs.writeFileSync(jsonPath, JSON.stringify([]));
@@ -102,7 +102,7 @@ function registerUserRender(req) {
 function loginUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const { userEmail, userPassword } = req.body;
-    const jsonPath = path.join(__dirname, ".", "models", "users.json");
+    const jsonPath = path.join(__dirname, "..", "models", "users.json");
 
     if (!fs.existsSync(jsonPath)) {
       fs.writeFileSync(jsonPath, JSON.stringify([]));
@@ -141,7 +141,7 @@ function loginUserRender(req) {
 function renderUserdataProvider() {
   return new Promise((resolve, reject) => {
     try {
-      const jsonDatapath = path.join(__dirname, ".", "models", "users.json");
+      const jsonDatapath = path.join(__dirname, "..", "models", "users.json");
       console.log("📁 Reading from:", jsonDatapath);
 
       if (!fs.existsSync(jsonDatapath)) {
@@ -171,7 +171,7 @@ function renderUserdataProvider() {
 
 function deleteUserByEmailRender(email) {
   return new Promise((resolve, reject) => {
-    const jsonDeletePath = path.join(__dirname, ".", "models", "users.json");
+    const jsonDeletePath = path.join(__dirname, "..", "models", "users.json");
 
     if (!fs.existsSync(jsonDeletePath)) {
       fs.writeFileSync(jsonDeletePath, JSON.stringify([]));
