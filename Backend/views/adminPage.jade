@@ -19,17 +19,17 @@ html
               td= user.userEmail
               td= user.userPassword.slice(0,5)+'...'
               td 
-               button(onclick='deleteUser("' + user.userEmail + '")') Delete
+               button(onclick='deleteUser("' + user.userId + '")') Delete
 
   script.
-      function deleteUser(email) {
+      function deleteUser(id) {
         if (confirm("Are you sure you want to delete this user?")) {
           fetch('/api/v1/user/deleteUser', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ id })
           })
           .then(res => res.json())
           .then(data => {

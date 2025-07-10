@@ -1,25 +1,25 @@
 [
   {
-    "userId": 1751885679040,
-    "userName": "Admin",
-    "userEmail": "admin@gmail.com",
-    "userPassword": "password",
-    "userRole": "Admin",
-    "userProfileImg": "/static/profile/admin.jpg"
-  },
-  {
-    "userId": 1752054388402,
-    "userName": "naruto",
-    "userEmail": "naruto@gmail.com",
-    "userPassword": "$2b$10$RXHpu/Fik1UwfVP2gkhb4eshTBuhUjoa/AXhGefTA.8SJrruYK396",
+    "userId": 1752124999286,
+    "userName": "jiraaya",
+    "userEmail": "jiraaya@gmail.com",
+    "userPassword": "$2b$10$RFWpKDRyciGIvweVhbVgye1tInGH7HwhGBuWXvI18W0O4Rbh7CVd6",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
   },
   {
-    "userId": 1752054408740,
-    "userName": "sasuke",
-    "userEmail": "sasuke@gmail.com",
-    "userPassword": "$2b$10$pmRI5BLE0.CJrDMRIedfv../Cjpp/Aa40B9uz/dEhhPcbe/xekxaq",
+    "userId": 1752138761867,
+    "userName": "Admin",
+    "userEmail": "admin@gmail.com",
+    "userPassword": "$2b$10$EqDXuVhjzoiE7xXeJ26do.gDfTkzoFE0f.2N2yT.YIAwGB.SBmo3m",
+    "userRole": "Admin",
+    "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1752144487381,
+    "userName": "kabuto",
+    "userEmail": "kabuto@gmail.com",
+    "userPassword": "$2b$10$eOELpxx4dJ82r7hVy57G7eIAQrkkx.nPKLq5GdagvTfNWen791q7a",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
   }

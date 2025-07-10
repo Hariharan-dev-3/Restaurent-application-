@@ -55,7 +55,7 @@ html
             div.loginBack
                 div.title
                     h3 Login Form 
-                    button.cornerClass(onClick="closeLogin()") X 
+                    button.cornerClose(onClick="closeLogin()") X
                 div.mailDiv
                     label(for="Email") Email
                     input(type="text" id="loginMail" name="Email")
@@ -69,8 +69,8 @@ html
             div.regBack
                 div.title
                     h3 Registration Form
-                    button(class="cornerClose" onClick="closeLogin()")
-                div.class="nameDiv"
+                    button(class="cornerClose" onClick="closeLogin()") X
+                div.nameDiv
                     label(for="username") Name
                     input(type="text" id="username" name="username")
                 div(class="mailDiv")

@@ -36,16 +36,17 @@ async function renderUserdata(req, res) {
   try {
     const users = await renderUserdataProvider();
     console.log(users);
-    res.render("adminPage.jade", { users });
+    // res.render("adminPage.jade", { users });
+    res.json({ users });
   } catch (error) {
     res.status(error.status || 500).send(error.message || "Unknown error");
   }
 }
 
 async function deleteUserByEmail(req, res) {
+  const id = req.params.id;
   try {
-    const { email } = req.body;
-    const result = await deleteUserByEmailRender(email);
+    const result = await deleteUserByEmailRender(id);
     res.status(result.status).json(result);
   } catch (error) {
     res.status(error.status || 500).json({
@@ -169,7 +170,7 @@ function renderUserdataProvider() {
   });
 }
 
-function deleteUserByEmailRender(email) {
+function deleteUserByEmailRender(id) {
   return new Promise((resolve, reject) => {
     const jsonDeletePath = path.join(__dirname, "..", "models", "users.json");
 
@@ -178,18 +179,14 @@ function deleteUserByEmailRender(email) {
     }
 
     const users = JSON.parse(fs.readFileSync(jsonDeletePath, "utf-8"));
-    const filteredUsers = users.filter(
-      (user) => user.userEmail.toLowerCase() !== email.toLowerCase()
-    );
+    const filteredUsers = users.filter((user) => user.userId !== Number(id));
+    console.log(users.length);
 
     if (users.length === filteredUsers.length) {
       return reject({ status: 404, message: "User not found" });
     }
 
     fs.writeFileSync(jsonDeletePath, JSON.stringify(filteredUsers, null, 2));
-
-    const users2 = JSON.parse(fs.readFileSync(jsonDeletePath, "utf-8"));
-    console.log(users2 || "empty");
     resolve({
       status: 200,
       success: true,

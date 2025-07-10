@@ -1,7 +1,4 @@
 const frontendData = require("../dataModels/frontendData");
-const fs = require("fs");
-const path = require("path");
-const bcrypt = require("bcrypt");
 
 async function renderNavs(req, res) {
   try {
