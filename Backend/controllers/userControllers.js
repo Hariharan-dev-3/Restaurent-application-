@@ -82,6 +82,46 @@ async function renderUserdata(req, res) {
   }
 }
 
+
+async function renderSpecificUserdata(req, res) {
+  try {
+    const { id } = req.params;
+    const result = await renderSpecificUserdataFromJson(id);
+    res.status(result.status).json(result);
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message || "Unable to retrieve user data",
+    });
+  }
+}
+
+function renderSpecificUserdataFromJson(id) {
+  return new Promise((resolve, reject) => {
+    const jsonPath = path.join(__dirname, "..", "models", "users.json");
+
+    if (!fs.existsSync(jsonPath)) {
+      fs.writeFileSync(jsonPath, JSON.stringify([]));
+    }
+
+    const users = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+    const matchedUser = users.find((user) => user.userId === Number(id));
+
+    if (!matchedUser) {
+      return reject({
+        status: 404,
+        message: "User not found",
+      });
+    }
+
+    resolve({
+      status: 200,
+      success: true,
+      user: matchedUser,
+    });
+  });
+}
+
 async function deleteUserByEmail(req, res) {
   const id = req.params.id;
   try {
@@ -277,6 +317,7 @@ module.exports = {
   renderUserdata,
   deleteUserByEmail,
   updateUser,
+  renderSpecificUserdata,
 
   // renderError,
   // loadImage,
