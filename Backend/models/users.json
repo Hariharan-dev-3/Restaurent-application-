@@ -8,16 +8,8 @@
     "userProfileImg": "/static/profile/user.png"
   },
   {
-    "userId": 1752144487381,
-    "userName": "urochi",
-    "userEmail": "kabuto@gmail.com",
-    "userPassword": "$2b$10$eOELpxx4dJ82r7hVy57G7eIAQrkkx.nPKLq5GdagvTfNWen791q7a",
-    "userRole": "user",
-    "userProfileImg": "/static/profile/user.png"
-  },
-  {
     "userId": 1752149266634,
-    "userName": "sasuke",
+    "userName": "saasukey",
     "userEmail": "sasuke@gmail.com",
     "userPassword": "$2b$10$kNvYpTPOgp3M37BC7sPGDOUq9rHpopekZM8RcO/eXtLuPBpIP5a5O",
     "userRole": "user",
