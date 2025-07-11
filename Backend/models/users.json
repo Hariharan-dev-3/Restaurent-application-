@@ -8,10 +8,10 @@
     "userProfileImg": "/static/profile/user.png"
   },
   {
-    "userId": 1752149266634,
-    "userName": "saasukey",
-    "userEmail": "sasuke@gmail.com",
-    "userPassword": "$2b$10$kNvYpTPOgp3M37BC7sPGDOUq9rHpopekZM8RcO/eXtLuPBpIP5a5O",
+    "userId": 1752231131556,
+    "userName": "naruto",
+    "userEmail": "naruto@gmail.com",
+    "userPassword": "$2b$10$VNEWrS6/Fw03a/jExvW92.cJgXS3SSGQQr33qkCe9BnpIFTOOKMpC",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
   }
