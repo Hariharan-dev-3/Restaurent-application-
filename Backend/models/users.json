@@ -14,5 +14,13 @@
     "userPassword": "$2b$10$VNEWrS6/Fw03a/jExvW92.cJgXS3SSGQQr33qkCe9BnpIFTOOKMpC",
     "userRole": "user",
     "userProfileImg": "/static/profile/user.png"
+  },
+  {
+    "userId": 1752485340647,
+    "userName": "jiraaya",
+    "userEmail": "jiraaya@gmail.com",
+    "userPassword": "$2b$10$eoJ.3W1ODaMhbIgyUBmJO.gx1uFJPyj.PIUl6V2ZeXt5ve4.riFDa",
+    "userRole": "user",
+    "userProfileImg": "/static/profile/user.png"
   }
 ]

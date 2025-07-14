@@ -4,7 +4,7 @@ const app = express();
 const loginValidator = app.use("/", (req, res, next) => {
   const { userEmail, userPassword } = req.body;
   if (!userEmail || !userPassword) {
-    return reject({
+    return res.json({
       status: 400,
       message: "Input values missing",
     });

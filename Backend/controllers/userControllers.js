@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const userModel = require("../models/user");
+const secretKey = process.env.JWT_SECRET || "yourSuperSecretKey";
 
 async function registerUser(req, res) {
   try {
@@ -32,15 +35,15 @@ async function loginUser(req, res) {
   }
 }
 
-
 async function updateUser(req, res) {
   try {
-    const { id, name } = req.params;
-    const result = await updateUserRender(id, name);
+    const { id, name, role } = req.params;
+    const result = await updateUserRender(id, name, role);
     res.json({
       success: true,
       status: 201,
       message: "Successfully modified user data",
+      result,
     });
   } catch (error) {
     res.status(error.status || 400).json({
@@ -49,7 +52,7 @@ async function updateUser(req, res) {
     });
   }
 }
-function updateUserRender(id, name) {
+function updateUserRender(id, name, role) {
   return new Promise((resolve, reject) => {
     const jsonPath = path.join(__dirname, "..", "models", "users.json");
 
@@ -65,6 +68,7 @@ function updateUserRender(id, name) {
     }
 
     exist.userName = name;
+    exist.userRole = role;
     fs.writeFileSync(jsonPath, JSON.stringify(tempArray, null, 2));
 
     resolve({ status: 201, message: "Data updated successfully" });
@@ -73,15 +77,15 @@ function updateUserRender(id, name) {
 
 async function renderUserdata(req, res) {
   try {
-    const users = await renderUserdataProvider();
+    // const users = await renderUserdataProvider();
+    const users = await userModel.find();
     console.log(users);
-    res.render("adminPage.jade", { users });
-    // res.json({ users });
+    // res.render("adminPage.jade", { users });
+    res.json({ users });
   } catch (error) {
     res.status(error.status || 500).send(error.message || "Unknown error");
   }
 }
-
 
 async function renderSpecificUserdata(req, res) {
   try {
@@ -210,10 +214,20 @@ function loginUserRender(req) {
       });
     }
 
+    const token = jwt.sign(
+      {
+        userEmail: existUser.userEmail,
+        userName: existUser.userName,
+      },
+      secretKey,
+      { expiresIn: "1h" }
+    );
+
     resolve({
       status: 200,
       message: "Successfully logged in",
       userName: existUser.userName,
+      token,
     });
   });
 }

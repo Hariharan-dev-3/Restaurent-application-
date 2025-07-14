@@ -499,7 +499,7 @@ $(document).ready(function () {
       })
       .catch((error) => {
         console.error("Error:", error);
-        showAlert("error", "❌ server can't reachable. Try again");
+        showAlert("error", "❌ server can't reachable. Try again");``
       });
   }
 

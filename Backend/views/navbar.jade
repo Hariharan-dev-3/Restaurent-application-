@@ -1,0 +1,10 @@
+div.navbar
+    a(href="http://localhost:8000/api/v1/index/homePage") Home
+    p#logout Logout 
+
+block script 
+    document.getElemntByid("logout").onclick="adminLogin()";
+    function adminLogin()
+    {
+        fetch("http://localhost:8000/api/v1/user/login")
+    }
