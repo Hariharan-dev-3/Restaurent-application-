@@ -7,43 +7,113 @@ const secretKey = process.env.JWT_SECRET || "yourSuperSecretKey";
 
 async function registerUser(req, res) {
   try {
-    const result = await registerUserRender(req);
-    res.status(result.status).json({
-      success: true,
-      ...result,
+    const { userName, email, password } = req.body;
+    const existingUser = await userModel.findOne({ userEmail: email });
+    if (existingUser) {
+      return res.status(409).send("User already exists");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUserData = new userModel({
+      userId: Date.now(),
+      userName,
+      userEmail: email,
+      userPassword: hashedPassword,
+      userRole: "user",
+      userProfileImg: "/static/profile/user.png",
     });
+    await newUserData.save();
+    res.status(201).send("User saved successfully!");
   } catch (error) {
-    res.status(error.status || 500).json({
-      success: false,
-      ...error,
-    });
+    console.error(error);
+    res.status(500).send("Error saving user");
   }
+  // const result = await userModel.res.status(result.status).json({
+  //   success: true,
+  //   ...result,
+  // });
+  // } catch (error) {
+  //   res.status(error.status || 500).json({
+  //     success: false,
+  //     ...error,
+  //   });
+  // }
 }
 
 async function loginUser(req, res) {
+  const { userEmail, userPassword } = req.body;
+
   try {
-    const result = await loginUserRender(req);
-    res.status(result.status).json({
-      success: true,
-      ...result,
-    });
-  } catch (error) {
-    res.status(error.status || 500).json({
-      success: false,
-      ...error,
-    });
+    // 🧠 Find user by email
+    const user = await userModel.findOne({ userEmail });
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    // 🔍 Compare entered password with hashed password
+    const isPasswordMatch = await bcrypt.compare(
+      userPassword,
+      user.userPassword
+    );
+
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    // 🎉 Success
+    res.status(200).json({ message: "Login successful" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err });
   }
-}
+} // try {
+//   // const result = await loginUserRender(req);
+//   const { userEmail, userPassword } = req.body;
+
+//   res.status(result.status).json({
+//     success: true,
+//     ...result,
+//   });
+// } catch (error) {
+//   res.status(error.status || 500).json({
+//     success: false,
+//     ...error,
+//   });
+// }
 
 async function updateUser(req, res) {
   try {
     const { id, name, role } = req.params;
-    const result = await updateUserRender(id, name, role);
-    res.json({
+
+    const updatedUser = await userModel.findOneAndUpdate(
+      { userId: Number(id) }, // convert to Number if needed
+      {
+        userName: name,
+        userRole: role,
+      },
+      {
+        new: true, // return updated document
+      }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(201).json({
       success: true,
       status: 201,
       message: "Successfully modified user data",
-      result,
+      result: {
+        userId: updatedUser.userId,
+        userName: updatedUser.userName,
+        userEmail: updatedUser.userEmail,
+        userRole: updatedUser.userRole,
+        userProfileImg: updatedUser.userProfileImg,
+      },
     });
   } catch (error) {
     res.status(error.status || 400).json({
@@ -52,6 +122,22 @@ async function updateUser(req, res) {
     });
   }
 }
+// try {
+//   const { id, name, role } = req.params;
+//   const result = await updateUserRender(id, name, role);
+//   res.json({
+//     success: true,
+//     status: 201,
+//     message: "Successfully modified user data",
+//     result,
+//   });
+// } catch (error) {
+//   res.status(error.status || 400).json({
+//     success: false,
+//     message: error.message || "Data could not be modified",
+//   });
+// }
+
 function updateUserRender(id, name, role) {
   return new Promise((resolve, reject) => {
     const jsonPath = path.join(__dirname, "..", "models", "users.json");
@@ -90,14 +176,44 @@ async function renderUserdata(req, res) {
 async function renderSpecificUserdata(req, res) {
   try {
     const { id } = req.params;
-    const result = await renderSpecificUserdataFromJson(id);
-    res.status(result.status).json(result);
+
+    const user = await userModel.findOne({ userId: Number(id) });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "User data retrieved successfully",
+      result: {
+        userId: user.userId,
+        userName: user.userName,
+        userEmail: user.userEmail,
+        userRole: user.userRole,
+        userProfileImg: user.userProfileImg,
+      },
+    });
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
       message: error.message || "Unable to retrieve user data",
     });
   }
+  // try {
+  //   const { id } = req.params;
+  //   const result = await renderSpecificUserdataFromJson(id);
+  //   res.status(result.status).json(result);
+  // } catch (error) {
+  //   res.status(error.status || 500).json({
+  //     success: false,
+  //     message: error.message || "Unable to retrieve user data",
+  //   });
+  // }
 }
 
 function renderSpecificUserdataFromJson(id) {
@@ -128,15 +244,47 @@ function renderSpecificUserdataFromJson(id) {
 
 async function deleteUserByEmail(req, res) {
   const id = req.params.id;
+
   try {
-    const result = await deleteUserByEmailRender(id);
-    res.status(result.status).json(result);
+    const deletedUser = await userModel.findOneAndDelete({
+      userId: Number(id),
+    });
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "User deleted successfully",
+      result: {
+        userId: deletedUser.userId,
+        userName: deletedUser.userName,
+        userEmail: deletedUser.userEmail,
+        userRole: deletedUser.userRole,
+        userProfileImg: deletedUser.userProfileImg,
+      },
+    });
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
       message: error.message || "Failed to delete user",
     });
   }
+  // const id = req.params.id;
+  // try {
+  //   const result = await deleteUserByEmailRender(id);
+  //   res.status(result.status).json(result);
+  // } catch (error) {
+  //   res.status(error.status || 500).json({
+  //     success: false,
+  //     message: error.message || "Failed to delete user",
+  //   });
+  // }
 }
 
 function registerUserRender(req) {
