@@ -3,15 +3,15 @@ const app = express();
 
 
 
-const loginValidator = app.use("/", (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.json({
-      status: 400,
+const regValidator = (req, res, next) => {
+  const { userName, email, password } = req.body;
+  if (!userName || !email || !password) {
+    return res.status(400).json({
+      success: false,
       message: "Input values missing",
     });
   }
-  return next();
-});
+  next();
+};
 
-module.exports = loginValidator;
+module.exports = regValidator;

@@ -1,15 +1,14 @@
 const express = require("express");
 const app = express();
 
-const loginValidator = app.use("/", (req, res, next) => {
+const loginValidator = (req, res, next) => {
   const { userEmail, userPassword } = req.body;
   if (!userEmail || !userPassword) {
-    return res.json({
-      status: 400,
+    return res.status(400).json({
+      success: false,
       message: "Input values missing",
     });
   }
-  return next();
-});
-
+  next();
+};
 module.exports = loginValidator;

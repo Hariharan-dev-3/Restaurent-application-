@@ -10,7 +10,10 @@ async function registerUser(req, res) {
     const { userName, email, password } = req.body;
     const existingUser = await userModel.findOne({ userEmail: email });
     if (existingUser) {
-      return res.status(409).send("User already exists");
+      return res.status(409).json({
+        success: false,
+        message: " user already existed",
+      });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUserData = new userModel({
@@ -22,10 +25,16 @@ async function registerUser(req, res) {
       userProfileImg: "/static/profile/user.png",
     });
     await newUserData.save();
-    res.status(201).send("User saved successfully!");
+    res.status(201).json({
+      success: true,
+      message: "user data registered successfully",
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error saving user");
+    res.status(500).json({
+      success: false,
+      message: " error while save database",
+    });
   }
   // const result = await userModel.res.status(result.status).json({
   //   success: true,
@@ -43,28 +52,52 @@ async function loginUser(req, res) {
   const { userEmail, userPassword } = req.body;
 
   try {
-    // 🧠 Find user by email
     const user = await userModel.findOne({ userEmail });
 
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      return res
+        .status(401)
+        .json({ success: false, message: "User not found" });
     }
 
-    // 🔍 Compare entered password with hashed password
     const isPasswordMatch = await bcrypt.compare(
       userPassword,
       user.userPassword
     );
 
     if (!isPasswordMatch) {
-      return res.status(401).json({ message: "Incorrect password" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect password" });
     }
 
-    // 🎉 Success
-    res.status(200).json({ message: "Login successful" });
+    // 🛡️ Generate JWT token
+    const token = jwt.sign(
+      {
+        userId: user.userId,
+        userRole: user.userRole,
+      },
+      secretKey,
+      { expiresIn: "2h" } // Token valid for 2 hours
+    );
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Login successful",
+      result: {
+        token,
+        userId: user.userId,
+        userName: user.userName,
+        userEmail: user.userEmail,
+        userRole: user.userRole,
+      },
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error", error: err });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: err });
   }
 } // try {
 //   // const result = await loginUserRender(req);
@@ -84,15 +117,28 @@ async function loginUser(req, res) {
 async function updateUser(req, res) {
   try {
     const { id, name, role } = req.params;
+    const requestingUser = req.user; // comes from JWT middleware
+
+    // 🛡️ Authorization check: must be admin or the user themselves
+    if (
+      Number(id) !== requestingUser.userId &&
+      requestingUser.userRole !== "admin"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Access denied. You can only update your own data or have admin privileges.",
+      });
+    }
 
     const updatedUser = await userModel.findOneAndUpdate(
-      { userId: Number(id) }, // convert to Number if needed
+      { userId: Number(id) },
       {
         userName: name,
         userRole: role,
       },
       {
-        new: true, // return updated document
+        new: true,
       }
     );
 
@@ -163,19 +209,47 @@ function updateUserRender(id, name, role) {
 
 async function renderUserdata(req, res) {
   try {
-    // const users = await renderUserdataProvider();
+    const requestingUser = req.user; // comes from decoded JWT in middleware
+
+    // Optional: Restrict to admin only
+    if (requestingUser.userRole !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Admins only.",
+      });
+    }
+
     const users = await userModel.find();
-    console.log(users);
-    // res.render("adminPage.jade", { users });
-    res.json({ users });
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Users retrieved successfully",
+      result: users,
+    });
   } catch (error) {
-    res.status(error.status || 500).send(error.message || "Unknown error");
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message || "Unknown error",
+    });
   }
 }
-
 async function renderSpecificUserdata(req, res) {
   try {
     const { id } = req.params;
+    const requestingUser = req.user; // added via JWT middleware
+
+    // ✅ Permission check: must be self or admin
+    if (
+      Number(id) !== requestingUser.userId &&
+      requestingUser.userRole !== "admin"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Access denied. You can only view your own data or be an admin.",
+      });
+    }
 
     const user = await userModel.findOne({ userId: Number(id) });
 
@@ -204,17 +278,17 @@ async function renderSpecificUserdata(req, res) {
       message: error.message || "Unable to retrieve user data",
     });
   }
-  // try {
-  //   const { id } = req.params;
-  //   const result = await renderSpecificUserdataFromJson(id);
-  //   res.status(result.status).json(result);
-  // } catch (error) {
-  //   res.status(error.status || 500).json({
-  //     success: false,
-  //     message: error.message || "Unable to retrieve user data",
-  //   });
-  // }
 }
+// try {
+//   const { id } = req.params;
+//   const result = await renderSpecificUserdataFromJson(id);
+//   res.status(result.status).json(result);
+// } catch (error) {
+//   res.status(error.status || 500).json({
+//     success: false,
+//     message: error.message || "Unable to retrieve user data",
+//   });
+// }
 
 function renderSpecificUserdataFromJson(id) {
   return new Promise((resolve, reject) => {
@@ -244,8 +318,17 @@ function renderSpecificUserdataFromJson(id) {
 
 async function deleteUserByEmail(req, res) {
   const id = req.params.id;
+  const requestingUser = req.user; // populated by JWT middleware
 
   try {
+    // ✅ Authorization check
+    if (requestingUser.userRole !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Admin privileges required to delete users",
+      });
+    }
+
     const deletedUser = await userModel.findOneAndDelete({
       userId: Number(id),
     });

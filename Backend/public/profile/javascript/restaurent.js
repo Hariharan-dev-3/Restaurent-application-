@@ -558,14 +558,17 @@ $(document).ready(function () {
     const loginEmail = $("#loginMail").val().trim();
     const loginPass = $("#loginPass").val().trim();
 
+    // Frontend input validation (replacing loginValidator misuse)
     if (!loginEmail || !loginPass) {
       showAlert("warning", "⚠️ Please fill in all the details.");
       return;
     }
 
-    if (!loginValidator(loginEmail, loginPass)) {
-      return;
-    }
+    // // Optional frontend format check
+    // if (!loginInputValidator(loginEmail, loginPass)) {
+    //   showAlert("warning", "⚠️ Invalid email or password format.");
+    //   return;
+    // }
 
     const logindataForserver = {
       userEmail: loginEmail,
@@ -584,12 +587,17 @@ $(document).ready(function () {
         console.log("Login response:", data);
         console.log("HTTP status:", response.status);
 
-        if (response.ok && data.success && data.userName) {
+        // Handle success response
+        if (response.ok && data.success && data.result?.userName) {
           showAlert("success", "✅ Logged in successfully!");
-          afterLoginNode(data.userName);
+          afterLoginNode(data.result.userName);
           $("#loginMail").val("");
           $("#loginPass").val("");
+
+          // Store token if needed
+          localStorage.setItem("authToken", data.result.token);
         } else {
+          // Handle different error cases
           if (response.status === 401) {
             showAlert("warning", "❗ Password mismatch. Please try again.");
           } else if (response.status === 404) {
