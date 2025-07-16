@@ -316,6 +316,8 @@ function bookingRender(bookingarray) {
 
 // bookingRender(bookingPics);
 
+// 
+
 const today = new Date().toISOString().split("T")[0];
 
 function bookingFormTemplate(tableType, userName) {
@@ -338,7 +340,7 @@ function bookingFormTemplate(tableType, userName) {
         <label for="stime">🕘 Starting time</label>
         <input type="time" name="stime" min="10:00" max="20:00" value="10:00"><br>
         <label for="etime">🕗 Ending time</label>
-        <input type="time" name="etime" min="10:00" max="20:00" value="08:00">
+        <input type="time" name="etime" min="10:00" max="20:00" value="20:00">
       </div>
       <div class="buttons">
         <button class="closeBooking">Close</button>
@@ -348,12 +350,18 @@ function bookingFormTemplate(tableType, userName) {
 }
 
 function forBooking(tableType, userName) {
+  const bookingPage = document.getElementById("bookingPage"); // Add this line
   bookingPage.classList.remove("hide");
   bookingPage.classList.add("show");
-  bookingPage.innerHTML = "";
-
   bookingPage.innerHTML = bookingFormTemplate(tableType, userName);
-  const bookBtns = document.querySelectorAll(".bookBtn");
+
+  initBookingFormEvents(tableType);
+}
+
+function initBookingFormEvents(tableType) {
+  const bookingPage = document.getElementById("bookingPage");
+  const bookBtns = bookingPage.querySelectorAll(".bookBtn");
+
   bookBtns.forEach((b) => {
     b.addEventListener("click", () => {
       const parent = b.closest(".bookNow");
@@ -364,40 +372,40 @@ function forBooking(tableType, userName) {
       const endInput = parent.querySelector("input[name='etime']");
       const dateInput = parent.querySelector("input[name='date']");
 
-      const alertPlaceholder = document.querySelector("#alertPlaceholder");
+      const alertPlaceholder = document.getElementById("alertPlaceholder");
       alertPlaceholder.innerHTML = "";
 
       if (!startTime || !endTime || !bookDate) {
         showAlert("warning", "Please fill in all the fields.");
-
         startInput.value = "";
         endInput.value = "";
         dateInput.value = "";
         return;
-      } else if (startTime < "10:00" || endTime > "20:00") {
-        showAlert(
-          "warning",
-          " Restaurant is open from 10:00 AM to 08:00 PM only."
-        );
+      }
 
+      if (startTime < "10:00" || endTime > "20:00") {
+        showAlert("warning", "Restaurant is open from 10:00 AM to 08:00 PM only.");
         startInput.value = "";
         endInput.value = "";
         return;
-      } else {
-        showAlert("success", `Successfully booked a ${tableType} table!`);
-        bookingPage.classList.add("hide");
-        bookingPage.classList.remove("show");
       }
+
+      showAlert("success", `Successfully booked a ${tableType} table!`);
+      bookingPage.classList.add("hide");
+      bookingPage.classList.remove("show");
     });
   });
 
-  const closeBtns = document.querySelectorAll(".closeBooking , .cornerClose");
+  const closeBtns = bookingPage.querySelectorAll(".closeBooking, .cornerClose");
+
   closeBtns.forEach((cb) => {
     cb.addEventListener("click", () => {
       bookingPage.classList.add("hide");
+      bookingPage.classList.remove("show");
     });
   });
 }
+
 
 function showAlert(type, message) {
   const alertPlaceholder = document.querySelector("#alertPlaceholder");
@@ -558,17 +566,10 @@ $(document).ready(function () {
     const loginEmail = $("#loginMail").val().trim();
     const loginPass = $("#loginPass").val().trim();
 
-    // Frontend input validation (replacing loginValidator misuse)
     if (!loginEmail || !loginPass) {
       showAlert("warning", "⚠️ Please fill in all the details.");
       return;
     }
-
-    // // Optional frontend format check
-    // if (!loginInputValidator(loginEmail, loginPass)) {
-    //   showAlert("warning", "⚠️ Invalid email or password format.");
-    //   return;
-    // }
 
     const logindataForserver = {
       userEmail: loginEmail,
@@ -587,17 +588,18 @@ $(document).ready(function () {
         console.log("Login response:", data);
         console.log("HTTP status:", response.status);
 
-        // Handle success response
         if (response.ok && data.success && data.result?.userName) {
           showAlert("success", "✅ Logged in successfully!");
           afterLoginNode(data.result.userName);
           $("#loginMail").val("");
           $("#loginPass").val("");
 
-          // Store token if needed
-          localStorage.setItem("authToken", data.result.token);
+          sessionStorage.setItem("authToken", data.result.token);
+
+          // 🔁 Update button and hide login panel
+          $("#loginToggle").text("Logout");
+          $("#authendication").removeClass("show");
         } else {
-          // Handle different error cases
           if (response.status === 401) {
             showAlert("warning", "❗ Password mismatch. Please try again.");
           } else if (response.status === 404) {
@@ -612,6 +614,9 @@ $(document).ready(function () {
         showAlert("error", "❌ Server unreachable. Please try again later.");
       });
   }
+
+  
+  
 
   // function loginFormValidation() {
   //   $("#authendication").addClass("show");
