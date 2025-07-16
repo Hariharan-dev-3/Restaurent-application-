@@ -649,6 +649,7 @@ $(document).ready(function () {
 
     if (isLoggedIn) {
       // ✅ Logout flow
+      $("#authendication").removeClass("show");
       $("#loader").addClass("show");
       localStorage.setItem("logoutFlag", "true");
       sessionStorage.clear();
@@ -658,7 +659,7 @@ $(document).ready(function () {
       }, 500);
     } else {
       // ✅ Show login form
-      $("#authendication").addClass("show");
+
       $("#loginMail").val("");
       $("#loginPass").val("");
     }
@@ -837,7 +838,6 @@ $(document).ready(function () {
 
     sessionStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
 
-    // UI updates
     $("#loader").addClass("show");
     $("#authendication").removeClass("show");
 
