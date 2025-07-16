@@ -99,10 +99,13 @@ html
         const userName = document.getElementById("userNameInput").value;
         const userRole = document.getElementById("userRoleInput").value;
 
+        const token = sessionStorage.getItem("authToken");
+
         fetch(`/api/v1/user/updateUser/${id}/${userName}/${userRole}`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`  // 🛡️ Pass token in header
           }
         })
         .then(res => res.json())
@@ -113,6 +116,6 @@ html
         })
         .catch(err => {
           console.error("Submission failed:", err);
-          alert("Something went wrong.");
+          alert("🚫 Unauthorized or something went wrong.");
         });
       }
