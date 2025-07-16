@@ -600,11 +600,9 @@ $(document).ready(function () {
           showAlert("success", "✅ Logged in successfully!");
           afterLoginNode(data.result.userName);
 
-          // Clear input fields
           $("#loginMail").val("");
           $("#loginPass").val("");
 
-          // ✅ Store login state
           sessionStorage.setItem("authToken", data.result.token);
           sessionStorage.setItem(
             "loggedIn",
@@ -621,7 +619,6 @@ $(document).ready(function () {
           $("#loginToggle").text("Logout");
           $("#authendication").removeClass("show");
 
-          // ⛳️ Redirect to admin page if role is admin
           if (data.result.userRole === "admin") {
             window.location.href =
               "http://localhost:8000/api/v1/index/adminPage";
@@ -641,24 +638,16 @@ $(document).ready(function () {
         showAlert("error", "❌ Server unreachable. Please try again later.");
       });
   }
-
-  //
-  // 📌 Login Button
-  //
   $(document).on("click", "#loginBtn", () => {
     loginFormValidationNode();
   });
 
-  //
-  // 🔓 Login/Logout Toggle Button
-  //
   $(document).on("click", "#loginTag", (e) => {
     e.preventDefault();
 
     const isLoggedIn = $("#loginTag").attr("data-status") === "true";
 
     if (isLoggedIn) {
-      // ✅ Logout flow
       $("#authendication").removeClass("show");
       $("#loader").addClass("show");
       localStorage.setItem("logoutFlag", "true");
@@ -668,16 +657,11 @@ $(document).ready(function () {
         window.location.reload();
       }, 500);
     } else {
-      // ✅ Show login form
-
       $("#loginMail").val("");
       $("#loginPass").val("");
     }
   });
 
-  //
-  // 🚀 One-Time Logout Message on Page Load
-  //
   if (localStorage.getItem("logoutFlag")) {
     showAlert("success", "👋 You’ve successfully logged out.");
     localStorage.removeItem("logoutFlag");
@@ -902,4 +886,7 @@ $(document).ready(function () {
   //     showAlert("warning", "not Registered");
   //   }
   // }
+
+  
+
 });
