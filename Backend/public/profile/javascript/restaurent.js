@@ -556,10 +556,19 @@ $(document).ready(function () {
   //   }
   // }
 
+  //
+
+  // 🧩 Login Button Handler
   $(document).on("click", "#loginBtn", () => {
     loginFormValidationNode();
   });
 
+  //
+  // 🔍 Validate Login Credentials
+  //
+  //
+  // 🔍 Validate Login Credentials
+  //
   function loginFormValidationNode() {
     $("#authendication").addClass("show");
 
@@ -586,17 +595,25 @@ $(document).ready(function () {
       .then(async (response) => {
         const data = await response.json();
         console.log("Login response:", data);
-        console.log("HTTP status:", response.status);
 
         if (response.ok && data.success && data.result?.userName) {
           showAlert("success", "✅ Logged in successfully!");
           afterLoginNode(data.result.userName);
+
+          // Clear input fields
           $("#loginMail").val("");
           $("#loginPass").val("");
 
+          // ✅ Store login state
           sessionStorage.setItem("authToken", data.result.token);
+          sessionStorage.setItem(
+            "loggedIn",
+            JSON.stringify([
+              { userName: data.result.userName, isLoggedIn: true },
+            ])
+          );
 
-          // 🔁 Update button and hide login panel
+          // Update UI
           $("#loginToggle").text("Logout");
           $("#authendication").removeClass("show");
         } else {
@@ -615,9 +632,45 @@ $(document).ready(function () {
       });
   }
 
-  
-  
+  //
+  // 📌 Login Button
+  //
+  $(document).on("click", "#loginBtn", () => {
+    loginFormValidationNode();
+  });
 
+  //
+  // 🔓 Login/Logout Toggle Button
+  //
+  $(document).on("click", "#loginTag", (e) => {
+    e.preventDefault();
+
+    const isLoggedIn = $("#loginTag").attr("data-status") === "true";
+
+    if (isLoggedIn) {
+      // ✅ Logout flow
+      $("#loader").addClass("show");
+      localStorage.setItem("logoutFlag", "true");
+      sessionStorage.clear();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } else {
+      // ✅ Show login form
+      $("#authendication").addClass("show");
+      $("#loginMail").val("");
+      $("#loginPass").val("");
+    }
+  });
+
+  //
+  // 🚀 One-Time Logout Message on Page Load
+  //
+  if (localStorage.getItem("logoutFlag")) {
+    showAlert("success", "👋 You’ve successfully logged out.");
+    localStorage.removeItem("logoutFlag");
+  }
   // function loginFormValidation() {
   //   $("#authendication").addClass("show");
   //   const loginEmail = $("#loginMail").val().trim();
@@ -712,10 +765,65 @@ $(document).ready(function () {
     }
   }
 
+  // function afterLoginNode(userName) {
+  //   const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+
+  //   // Add or update the logged-in user
+  //   const updatedUsers = loggedInUsers.map((user) => {
+  //     if (user.userName === userName) {
+  //       return { ...user, isLoggedIn: true };
+  //     }
+  //     return user;
+  //   });
+
+  //   // If user not in list, add them
+  //   if (!updatedUsers.some((user) => user.userName === userName)) {
+  //     updatedUsers.push({ userName, isLoggedIn: true });
+  //   }
+
+  //   sessionStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
+
+  //   // Now proceed with login UI updates
+  //   $("#loader").addClass("show");
+  //   $("#authendication").removeClass("show");
+  //   setTimeout(() => {
+  //     $("#loader").removeClass("show");
+  //     $("#loginTag").text("Logout");
+  //     $("#loginTag").attr("data-status", "true");
+  //     $("#loginUserName").css("display", "block");
+  //     $("#loginUserName").text(`👨‍🍳 Welcome ${userName}`);
+  //     showAlert("success", " ✅ logged in successfully ✅");
+  //   }, 3000);
+
+  //   // Logout logic
+  //   $("#loginTag")
+  //     .off("click")
+  //     .on("click", (e) => {
+  //       e.preventDefault();
+  //       $("#loader").addClass("show");
+
+  //       const updatedLogoutUsers = updatedUsers.map((user) => {
+  //         if (user.userName === userName) {
+  //           return { ...user, isLoggedIn: false };
+  //         }
+  //         return user;
+  //       });
+
+  //       setTimeout(() => {
+  //         sessionStorage.setItem(
+  //           "loggedIn",
+  //           JSON.stringify(updatedLogoutUsers)
+  //         );
+  //         $("#loginTag").text("Login").attr("data-status", "false");
+  //         $("#loginUserName").css("display", "none").text("");
+  //         $("#loader").removeClass("show");
+  //         showAlert("success", " ✅ Logged out successfully ✅");
+  //       }, 3000);
+  //     });
+  // }
   function afterLoginNode(userName) {
     const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
 
-    // Add or update the logged-in user
     const updatedUsers = loggedInUsers.map((user) => {
       if (user.userName === userName) {
         return { ...user, isLoggedIn: true };
@@ -723,50 +831,24 @@ $(document).ready(function () {
       return user;
     });
 
-    // If user not in list, add them
     if (!updatedUsers.some((user) => user.userName === userName)) {
       updatedUsers.push({ userName, isLoggedIn: true });
     }
 
     sessionStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
 
-    // Now proceed with login UI updates
+    // UI updates
     $("#loader").addClass("show");
     $("#authendication").removeClass("show");
+
     setTimeout(() => {
       $("#loader").removeClass("show");
-      $("#loginTag").text("Logout");
-      $("#loginTag").attr("data-status", "true");
-      $("#loginUserName").css("display", "block");
-      $("#loginUserName").text(`👨‍🍳 Welcome ${userName}`);
-      showAlert("success", " ✅ logged in successfully ✅");
+      $("#loginTag").text("Logout").attr("data-status", "true");
+      $("#loginUserName")
+        .css("display", "block")
+        .text(`👨‍🍳 Welcome ${userName}`);
+      showAlert("success", " ✅ Logged in successfully ✅");
     }, 3000);
-
-    // Logout logic
-    $("#loginTag")
-      .off("click")
-      .on("click", (e) => {
-        e.preventDefault();
-        $("#loader").addClass("show");
-
-        const updatedLogoutUsers = updatedUsers.map((user) => {
-          if (user.userName === userName) {
-            return { ...user, isLoggedIn: false };
-          }
-          return user;
-        });
-
-        setTimeout(() => {
-          sessionStorage.setItem(
-            "loggedIn",
-            JSON.stringify(updatedLogoutUsers)
-          );
-          $("#loginTag").text("Login").attr("data-status", "false");
-          $("#loginUserName").css("display", "none").text("");
-          $("#loader").removeClass("show");
-          showAlert("success", " ✅ Logged out successfully ✅");
-        }, 3000);
-      });
   }
 
   // function afterLogin(userName) {
