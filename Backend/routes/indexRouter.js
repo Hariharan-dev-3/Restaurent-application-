@@ -8,5 +8,6 @@ router.get("/offers", controllers.renderOffers);
 router.get("/gallery", controllers.renderGallery);
 router.get("/booking", controllers.renderBooking);
 router.get("/homePage", controllers.renderHomePage);
+router.get("/adminPage", controllers.renderAdminPage);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const frontendData = require("../dataModels/frontendData");
+const userModel = require("../models/user");
 
 async function renderNavs(req, res) {
   try {
@@ -52,6 +53,20 @@ async function renderBooking(req, res) {
 function renderHomePage(req, res) {
   return new Promise((resolve, reject) => {
     res.render("home.jade", {}, (err, renderPage) => {
+      if (err) {
+        res.status(500).send("Rendering failed");
+        return reject(err);
+      }
+      res.send(renderPage);
+      resolve();
+    });
+  });
+}
+
+function renderAdminPage(req, res) {
+  return new Promise(async (resolve, reject) => {
+    const users = await userModel.find();
+    res.render("adminPage.jade", { users }, (err, renderPage) => {
       if (err) {
         res.status(500).send("Rendering failed");
         return reject(err);
@@ -119,6 +134,7 @@ module.exports = {
   renderGallery,
   renderBooking,
   renderHomePage,
+  renderAdminPage,
   // renderError,
   // loadImage,
 };

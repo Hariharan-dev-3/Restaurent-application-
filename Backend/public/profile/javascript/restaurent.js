@@ -609,13 +609,23 @@ $(document).ready(function () {
           sessionStorage.setItem(
             "loggedIn",
             JSON.stringify([
-              { userName: data.result.userName, isLoggedIn: true },
+              {
+                userName: data.result.userName,
+                userEmail: data.result.userEmail,
+                userRole: data.result.userRole,
+                isLoggedIn: true,
+              },
             ])
           );
 
-          // Update UI
           $("#loginToggle").text("Logout");
           $("#authendication").removeClass("show");
+
+          // ⛳️ Redirect to admin page if role is admin
+          if (data.result.userRole === "admin") {
+            window.location.href =
+              "http://localhost:8000/api/v1/index/adminPage";
+          }
         } else {
           if (response.status === 401) {
             showAlert("warning", "❗ Password mismatch. Please try again.");
