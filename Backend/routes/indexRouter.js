@@ -9,7 +9,7 @@ router.get("/gallery", controllers.renderGallery);
 router.get("/booking", controllers.renderBooking);
 router.get("/homePage", controllers.renderHomePage);
 router.get("/adminPage", controllers.renderAdminPage);
-router.post("/storeTable", controllers.storeTable);
-router.post("/bookTable", controllers.bookTable);
+
+
 
 module.exports = router;

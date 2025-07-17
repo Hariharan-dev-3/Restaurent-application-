@@ -5,6 +5,12 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 const secretKey = process.env.JWT_SECRET || "yourSuperSecretKey";
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function registerUser(req, res) {
   try {
     const { userName, email, password } = req.body;
@@ -116,7 +122,7 @@ async function loginUser(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const { id, name, role } = req.params;
+    const { id, name, role ,Email } = req.params;
     const requestingUser = req.user; // comes from JWT middleware
 
     // 🛡️ Authorization check: must be admin or the user themselves
@@ -136,6 +142,7 @@ async function updateUser(req, res) {
       {
         userName: name,
         userRole: role,
+        userEmail:Email
       },
       {
         new: true,

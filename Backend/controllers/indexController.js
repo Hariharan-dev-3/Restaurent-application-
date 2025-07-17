@@ -161,19 +161,16 @@ async function bookTable(req, res) {
   try {
     const { userId, tableId, bookingDate, fromTime, toTime } = req.body;
 
-    // Find the parent table document containing the unit tableId
     const table = await tableModel.findOne({ "tables.tableId": tableId });
     if (!table) {
-      return res.status(404).json({ error: "Table unit not found." });
+      return res.status(404).json({ error: "Table id not found." });
     }
 
-    // Access the correct table unit from the matched document
     const tableUnit = table.tables.find((t) => t.tableId === tableId);
     if (!tableUnit || !tableUnit.isAvailable) {
       return res.status(409).json({ error: "Table is not available." });
     }
 
-    // Check for overlapping bookings for this table and time
     const overlappingBooking = await bookingModel.findOne({
       tableId,
       bookingDate,
@@ -194,6 +191,7 @@ async function bookTable(req, res) {
       bookingDate,
       fromTime,
       toTime,
+      craetedAt: Date.now(),
     });
 
     await newBooking.save();

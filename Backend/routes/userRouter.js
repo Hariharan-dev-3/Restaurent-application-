@@ -5,6 +5,7 @@ const regValidator = require("../middleware/regValidator");
 const loginValidator = require("../middleware/loginValidator");
 const isAuthenticated = require("../middleware/commonMiddleware");
 
+// route info
 router.post("/register", regValidator, controllers.registerUser);
 router.post("/login", loginValidator, controllers.loginUser);
 router.get("/getAllUsers", isAuthenticated, controllers.renderUserdata);
@@ -15,7 +16,7 @@ router.delete(
   controllers.deleteUserByEmail
 );
 router.put(
-  "/updateUser/:id/:name/:role",
+  "/updateUser/:id/:name/:role/:Email",
   isAuthenticated,
   controllers.updateUser
 );

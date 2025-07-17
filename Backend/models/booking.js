@@ -6,6 +6,7 @@ const bookingSchema = new mongoose.Schema({
   bookingDate: String,
   fromTime: String,
   toTime: String,
+  createdAt: String,
 });
 
 const Booking = mongoose.model("booking", bookingSchema);

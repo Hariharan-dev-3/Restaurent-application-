@@ -334,14 +334,14 @@ function bookingFormTemplate(tableType, userName) {
       </div>  
       <div class="date">
         <label for="date">Select date 📆</label>
-        <input type="date" name="date" min="${today}" value="${today}">
+        <input type="date" name="date" min="${today}" value="${today}" required>
       </div>
-      <p class="note"><b> ⏳ Choose time between 10.00AM to 08.00PM ⏳</b></p>
+      <p class="note"><b>⏳ Choose time between 10.00AM to 08.00PM ⏳</b></p>
       <div class="time">
         <label for="stime">🕘 Starting time</label>
-        <input type="time" name="stime" min="10:00" max="20:00" value="10:00"><br>
+        <input type="time" name="stime" min="10:00" max="20:00" value="12:00" required><br>
         <label for="etime">🕗 Ending time</label>
-        <input type="time" name="etime" min="10:00" max="20:00" value="20:00">
+        <input type="time" name="etime" min="10:00" max="20:00" value="14:00" required>
       </div>
       <div class="buttons">
         <button class="closeBooking">Close</button>
@@ -350,6 +350,71 @@ function bookingFormTemplate(tableType, userName) {
     </div>`;
 }
 
+// 🔧 Booking Button Handler
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("bookBtn")) return;
+
+  const userData = JSON.parse(sessionStorage.getItem("loggedIn"));
+  if (!userData || !userData[0]?.isLoggedIn || !userData[0]?.userId) {
+    alert("⚠️ You must be logged in to book a table.");
+    return;
+  }
+
+  const userId = Number(userData[0].userId);
+  const tableType = document
+    .querySelector("#table_type strong")
+    ?.innerText.trim();
+  const bookingDate = document.querySelector("input[name='date']")?.value;
+  const fromTime = document.querySelector("input[name='stime']")?.value;
+  const toTime = document.querySelector("input[name='etime']")?.value;
+
+  if (!tableType || !bookingDate || !fromTime || !toTime) {
+    alert("⚠️ All fields are required.");
+    return;
+  }
+
+  if (fromTime >= toTime) {
+    alert("⚠️ Start time must be earlier than end time.");
+    return;
+  }
+
+  const tableId = `${tableType}-02`; // Adjusted to match working Postman body
+
+  const payload = {
+    userId,
+    tableId,
+    bookingDate,
+    fromTime,
+    toTime,
+  };
+
+  console.log("Booking payload:", payload);
+
+  try {
+    const response = await fetch(
+      "http://localhost:8000/api/v1/index/bookTable",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.status === 201) {
+      alert(result.message);
+    } else {
+      alert(
+        result.error +
+          (result.nextAvailable ? ` (${result.nextAvailable})` : "")
+      );
+    }
+  } catch (error) {
+    console.error("❌ Booking request failed:", error);
+    alert("❌ Unable to process booking. Please try again later.");
+  }
+});
 function forBooking(tableType, userName) {
   const bookingPage = document.getElementById("bookingPage"); // Add this line
   bookingPage.classList.remove("hide");
@@ -867,6 +932,7 @@ $(document).ready(function () {
                 userName: data.result.userName,
                 userEmail: data.result.userEmail,
                 userRole: data.result.userRole,
+                userId: data.result.userId,
                 isLoggedIn: true,
               },
             ])
