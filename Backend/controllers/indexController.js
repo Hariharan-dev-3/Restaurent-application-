@@ -1,5 +1,7 @@
 const frontendData = require("../dataModels/frontendData");
 const userModel = require("../models/user");
+const tableModel = require("../models/table");
+const bookingModel = require("../models/booking");
 
 async function renderNavs(req, res) {
   try {
@@ -127,6 +129,52 @@ function renderBookingServices() {
   });
 }
 
+async function storeTable(req, res) {
+  try {
+    const { tableType, tablePrice, totalStack } = req.body;
+    const tables = [];
+    for (let i = 1; i <= totalStack; i++) {
+      const tableId = `${tableType}-${i.toString().padStart(2, "0")}`; // e.g. VIP-01
+      tables.push({ tableId, isAvailable: true });
+    }
+
+    const newTable = new tableModel({
+      tableType,
+      tablePrice,
+      totalStack,
+      inStack: totalStack,
+      createdAt: new Date().toISOString(),
+      tables,
+    });
+
+    await newTable.save();
+    res.status(201).json({ message: "✅ Table created successfully!" });
+  } catch (error) {
+    console.error("❌ Error saving table:", error);
+    res.status(500).json({ error: "Failed to store table data" });
+  }
+}
+
+async function bookTable(req, res) {
+  try {
+    const { userId, tableId, bookingDate, fromTime, toTime } = req.body;
+
+    const newBooking = new bookingModel({
+      userId,
+      tableId,
+      bookingDate,
+      fromTime,
+      toTime,
+    });
+
+    await newBooking.save();
+    res.status(201).json({ message: "📌 Booking stored successfully!" });
+  } catch (error) {
+    console.error("❌ Error saving booking:", error);
+    res.status(500).json({ error: "Failed to store booking data" });
+  }
+}
+
 module.exports = {
   renderNavs,
   renderMenuitems,
@@ -135,6 +183,8 @@ module.exports = {
   renderBooking,
   renderHomePage,
   renderAdminPage,
+  storeTable,
+  bookTable,
   // renderError,
   // loadImage,
 };

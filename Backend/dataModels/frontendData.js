@@ -64,32 +64,32 @@ const galleryPics = [
 const bookingPics = [
   {
     image: "/static/profile/Images/two seat.jpg",
-    tableName: "Double Seator",
+    tableName: "Double Seater",
     count: 3,
   },
   {
     image: "/static/profile/Images/3 seat.jpg",
-    tableName: "Triple Seator",
+    tableName: "Triple Seater",
     count: 2,
   },
   {
     image: "/static/profile/Images/four seat.jpg",
-    tableName: "Four Seator",
+    tableName: "Four Seater",
     count: 3,
   },
   {
     image: "/static/profile/Images/five seat.png",
-    tableName: "Five Seator",
+    tableName: "Five Seater",
     count: 3,
   },
   {
     image: "/static/profile/Images/6 seat.jpg",
-    tableName: "Six Seator",
+    tableName: "Six Seater",
     count: 2,
   },
   {
     image: "/static/profile/Images/8 seat.jpeg",
-    tableName: "Eight Seator",
+    tableName: "Eight Seater",
     count: 2,
   },
 ];

@@ -330,7 +330,7 @@ function bookingFormTemplate(tableType, userName) {
       </div>
       <div class="head">
         <p><strong>👋 Hello ${userName}</strong></p>
-        <p>Table-type : <strong>${tableType}</strong></p>
+        <p id="table_type">Table-type : <strong>${tableType}</strong></p>
       </div>  
       <div class="date">
         <label for="date">Select date 📆</label>
