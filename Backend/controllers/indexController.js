@@ -134,7 +134,7 @@ async function storeTable(req, res) {
     const { tableType, tablePrice, totalStack } = req.body;
     const tables = [];
     for (let i = 1; i <= totalStack; i++) {
-      const tableId = `${tableType}-${i.toString().padStart(2, "0")}`; // e.g. VIP-01
+      const tableId = `${tableType}-${i.toString().padStart(2, "0")}`;
       tables.push({ tableId, isAvailable: true });
     }
 
@@ -151,7 +151,9 @@ async function storeTable(req, res) {
     res.status(201).json({ message: "✅ Table created successfully!" });
   } catch (error) {
     console.error("❌ Error saving table:", error);
-    res.status(500).json({ error: "Failed to store table data" });
+    res
+      .status(500)
+      .json({ error: "Failed to store table data or already existed" });
   }
 }
 
@@ -159,6 +161,33 @@ async function bookTable(req, res) {
   try {
     const { userId, tableId, bookingDate, fromTime, toTime } = req.body;
 
+    // Find the parent table document containing the unit tableId
+    const table = await tableModel.findOne({ "tables.tableId": tableId });
+    if (!table) {
+      return res.status(404).json({ error: "Table unit not found." });
+    }
+
+    // Access the correct table unit from the matched document
+    const tableUnit = table.tables.find((t) => t.tableId === tableId);
+    if (!tableUnit || !tableUnit.isAvailable) {
+      return res.status(409).json({ error: "Table is not available." });
+    }
+
+    // Check for overlapping bookings for this table and time
+    const overlappingBooking = await bookingModel.findOne({
+      tableId,
+      bookingDate,
+      $or: [{ fromTime: { $lt: toTime }, toTime: { $gt: fromTime } }],
+    });
+
+    if (overlappingBooking) {
+      return res.status(409).json({
+        error: "Table is already booked.",
+        nextAvailable: `Try after ${overlappingBooking.toTime}`,
+      });
+    }
+
+    // Store the booking
     const newBooking = new bookingModel({
       userId,
       tableId,
@@ -168,10 +197,20 @@ async function bookTable(req, res) {
     });
 
     await newBooking.save();
-    res.status(201).json({ message: "📌 Booking stored successfully!" });
+
+    // Mark the table unit as unavailable and update inStack
+    await tableModel.updateOne(
+      { "tables.tableId": tableId },
+      {
+        $set: { "tables.$.isAvailable": false },
+        $inc: { inStack: -1 },
+      }
+    );
+
+    res.status(201).json({ message: "Booking successful." });
   } catch (error) {
-    console.error("❌ Error saving booking:", error);
-    res.status(500).json({ error: "Failed to store booking data" });
+    console.error("❌ Booking error:", error);
+    res.status(500).json({ error: error.message || "Booking failed." });
   }
 }
 

@@ -1,15 +1,15 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-const bookingSchema=new mongoose.Schema({
-   
-    userId: Number,
-    tableId: Number,
-    bookingDate: String,
-    fromTime: String,
-    toTime: String, 
-})
+const bookingSchema = new mongoose.Schema({
+  userId: Number,
+  tableId: String,
+  bookingDate: String,
+  fromTime: String,
+  toTime: String,
+});
 
-const booking=mongoose.model('booking',bookingSchema);
+const Booking = mongoose.model("booking", bookingSchema);
 
-module.exports=booking;
+module.exports = Booking;
+
 //TableId, UserId, BookedDate, FromTime, ToTime
