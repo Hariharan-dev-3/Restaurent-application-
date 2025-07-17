@@ -945,6 +945,9 @@ $(document).ready(function () {
           if (data.result.userRole === "admin") {
             $("#adminSection").show();
             $("#adminPageIframe").attr("src", "/api/v1/index/adminPage").show();
+            $("#sideAdminUBookings").css("display", "block");
+            
+
 
             // Append admin-specific navbar links if not already present
             if ($("#navAdminUsers").length === 0) {

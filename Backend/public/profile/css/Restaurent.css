@@ -1049,3 +1049,6 @@ display: block;
     align-content: center;
     justify-items: center;
 }
+#sideAdminUBookings {
+    display: none;
+}
