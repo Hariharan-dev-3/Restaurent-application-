@@ -318,6 +318,7 @@ function bookingRender(bookingarray) {
 
 // 
 
+
 const today = new Date().toISOString().split("T")[0];
 
 function bookingFormTemplate(tableType, userName) {
@@ -384,7 +385,10 @@ function initBookingFormEvents(tableType) {
       }
 
       if (startTime < "10:00" || endTime > "20:00") {
-        showAlert("warning", "Restaurant is open from 10:00 AM to 08:00 PM only.");
+        showAlert(
+          "warning",
+          "Restaurant is open from 10:00 AM to 08:00 PM only."
+        );
         startInput.value = "";
         endInput.value = "";
         return;
@@ -405,7 +409,6 @@ function initBookingFormEvents(tableType) {
     });
   });
 }
-
 
 function showAlert(type, message) {
   const alertPlaceholder = document.querySelector("#alertPlaceholder");
@@ -559,113 +562,113 @@ $(document).ready(function () {
   //
 
   // 🧩 Login Button Handler
-  $(document).on("click", "#loginBtn", () => {
-    loginFormValidationNode();
-  });
+  // $(document).on("click", "#loginBtn", () => {
+  //   loginFormValidationNode();
+  // });
 
-  //
-  // 🔍 Validate Login Credentials
-  //
-  //
-  // 🔍 Validate Login Credentials
-  //
-  function loginFormValidationNode() {
-    $("#authendication").addClass("show");
+  // //
+  // // 🔍 Validate Login Credentials
+  // //
+  // //
+  // // 🔍 Validate Login Credentials
+  // //
+  // function loginFormValidationNode() {
+  //   $("#authendication").addClass("show");
 
-    const loginEmail = $("#loginMail").val().trim();
-    const loginPass = $("#loginPass").val().trim();
+  //   const loginEmail = $("#loginMail").val().trim();
+  //   const loginPass = $("#loginPass").val().trim();
 
-    if (!loginEmail || !loginPass) {
-      showAlert("warning", "⚠️ Please fill in all the details.");
-      return;
-    }
+  //   if (!loginEmail || !loginPass) {
+  //     showAlert("warning", "⚠️ Please fill in all the details.");
+  //     return;
+  //   }
 
-    const logindataForserver = {
-      userEmail: loginEmail,
-      userPassword: loginPass,
-    };
+  //   const logindataForserver = {
+  //     userEmail: loginEmail,
+  //     userPassword: loginPass,
+  //   };
 
-    fetch("http://localhost:8000/api/v1/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(logindataForserver),
-    })
-      .then(async (response) => {
-        const data = await response.json();
-        console.log("Login response:", data);
+  //   fetch("http://localhost:8000/api/v1/user/login", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(logindataForserver),
+  //   })
+  //     .then(async (response) => {
+  //       const data = await response.json();
+  //       console.log("Login response:", data);
 
-        if (response.ok && data.success && data.result?.userName) {
-          showAlert("success", "✅ Logged in successfully!");
-          afterLoginNode(data.result.userName);
+  //       if (response.ok && data.success && data.result?.userName) {
+  //         showAlert("success", "✅ Logged in successfully!");
+  //         afterLoginNode(data.result.userName);
 
-          $("#loginMail").val("");
-          $("#loginPass").val("");
+  //         $("#loginMail").val("");
+  //         $("#loginPass").val("");
 
-          sessionStorage.setItem("authToken", data.result.token);
-          sessionStorage.setItem(
-            "loggedIn",
-            JSON.stringify([
-              {
-                userName: data.result.userName,
-                userEmail: data.result.userEmail,
-                userRole: data.result.userRole,
-                isLoggedIn: true,
-              },
-            ])
-          );
+  //         sessionStorage.setItem("authToken", data.result.token);
+  //         sessionStorage.setItem(
+  //           "loggedIn",
+  //           JSON.stringify([
+  //             {
+  //               userName: data.result.userName,
+  //               userEmail: data.result.userEmail,
+  //               userRole: data.result.userRole,
+  //               isLoggedIn: true,
+  //             },
+  //           ])
+  //         );
 
-          $("#loginToggle").text("Logout");
-          $("#authendication").removeClass("show");
+  //         $("#loginToggle").text("Logout");
+  //         $("#authendication").removeClass("show");
 
-          if (data.result.userRole === "admin") {
-            window.location.href =
-              "http://localhost:8000/api/v1/index/adminPage";
-          }
-        } else {
-          if (response.status === 401) {
-            showAlert("warning", "❗ Password mismatch. Please try again.");
-          } else if (response.status === 404) {
-            showAlert("warning", "❗ User not found. Please register first.");
-          } else {
-            showAlert("warning", `❗ ${data.message || "Login failed."}`);
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("❌ Network error:", error);
-        showAlert("error", "❌ Server unreachable. Please try again later.");
-      });
-  }
-  $(document).on("click", "#loginBtn", () => {
-    loginFormValidationNode();
-  });
+  //         if (data.result.userRole === "admin") {
+  //           window.location.href =
+  //             "http://localhost:8000/api/v1/index/adminPage";
+  //         }
+  //       } else {
+  //         if (response.status === 401) {
+  //           showAlert("warning", "❗ Password mismatch. Please try again.");
+  //         } else if (response.status === 404) {
+  //           showAlert("warning", "❗ User not found. Please register first.");
+  //         } else {
+  //           showAlert("warning", `❗ ${data.message || "Login failed."}`);
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("❌ Network error:", error);
+  //       showAlert("error", "❌ Server unreachable. Please try again later.");
+  //     });
+  // }
+  // $(document).on("click", "#loginBtn", () => {
+  //   loginFormValidationNode();
+  // });
 
-  $(document).on("click", "#loginTag", (e) => {
-    e.preventDefault();
+  // $(document).on("click", "#loginTag", (e) => {
+  //   e.preventDefault();
 
-    const isLoggedIn = $("#loginTag").attr("data-status") === "true";
+  //   const isLoggedIn = $("#loginTag").attr("data-status") === "true";
 
-    if (isLoggedIn) {
-      $("#authendication").removeClass("show");
-      $("#loader").addClass("show");
-      localStorage.setItem("logoutFlag", "true");
-      sessionStorage.clear();
+  //   if (isLoggedIn) {
+  //     $("#authendication").removeClass("show");
+  //     $("#loader").addClass("show");
+  //     localStorage.setItem("logoutFlag", "true");
+  //     sessionStorage.clear();
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    } else {
-      $("#loginMail").val("");
-      $("#loginPass").val("");
-    }
-  });
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //     }, 500);
+  //   } else {
+  //     $("#loginMail").val("");
+  //     $("#loginPass").val("");
+  //   }
+  // });
 
-  if (localStorage.getItem("logoutFlag")) {
-    showAlert("success", "👋 You’ve successfully logged out.");
-    localStorage.removeItem("logoutFlag");
-  }
+  // if (localStorage.getItem("logoutFlag")) {
+  //   showAlert("success", "👋 You’ve successfully logged out.");
+  //   localStorage.removeItem("logoutFlag");
+  // }
   // function loginFormValidation() {
   //   $("#authendication").addClass("show");
   //   const loginEmail = $("#loginMail").val().trim();
@@ -816,7 +819,117 @@ $(document).ready(function () {
   //       }, 3000);
   //     });
   // }
-  function afterLoginNode(userName) {
+  //
+
+  $(document).on("click", "#loginBtn", () => {
+    loginFormValidationNode();
+  });
+
+  function loginFormValidationNode() {
+    $("#authendication").addClass("show");
+
+    const loginEmail = $("#loginMail").val().trim();
+    const loginPass = $("#loginPass").val().trim();
+
+    if (!loginEmail || !loginPass) {
+      showAlert("warning", "⚠️ Please fill in all the details.");
+      return;
+    }
+
+    const logindataForserver = {
+      userEmail: loginEmail,
+      userPassword: loginPass,
+    };
+
+    fetch("http://localhost:8000/api/v1/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logindataForserver),
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        console.log("Login response:", data);
+
+        if (response.ok && data.success && data.result?.userName) {
+          showAlert("success", "✅ Logged in successfully!");
+          afterLoginNode(data.result.userName, data.result.userRole);
+
+          $("#loginMail").val("");
+          $("#loginPass").val("");
+
+          sessionStorage.setItem("authToken", data.result.token);
+          sessionStorage.setItem(
+            "loggedIn",
+            JSON.stringify([
+              {
+                userName: data.result.userName,
+                userEmail: data.result.userEmail,
+                userRole: data.result.userRole,
+                isLoggedIn: true,
+              },
+            ])
+          );
+
+          $("#loginToggle").text("Logout");
+          $("#authendication").removeClass("show");
+
+          // 🔥 REMOVE REDIRECT — Show admin section in homepage instead
+          if (data.result.userRole === "admin") {
+            $("#adminSection").show();
+            $("#adminPageIframe").attr("src", "/api/v1/index/adminPage").show();
+
+            // Append admin-specific navbar links if not already present
+            if ($("#navAdminUsers").length === 0) {
+              $(".navbar").append(`
+              <a class="nav-link" href="#adminSection" id="navAdminUsers">👥 View Users</a>
+              <a class="nav-link" href="#adminSection" id="navAdminBookings">📋 View Bookings</a>
+            `);
+            }
+          }
+        } else {
+          if (response.status === 401) {
+            showAlert("warning", "❗ Password mismatch. Please try again.");
+          } else if (response.status === 404) {
+            showAlert("warning", "❗ User not found. Please register first.");
+          } else {
+            showAlert("warning", `❗ ${data.message || "Login failed."}`);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("❌ Network error:", error);
+        showAlert("error", "❌ Server unreachable. Please try again later.");
+      });
+  }
+
+  $(document).on("click", "#loginTag", (e) => {
+    e.preventDefault();
+
+    const isLoggedIn = $("#loginTag").attr("data-status") === "true";
+
+    if (isLoggedIn) {
+      $("#authendication").removeClass("show");
+      $("#loader").addClass("show");
+      localStorage.setItem("logoutFlag", "true");
+      sessionStorage.clear();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } else {
+      $("#loginMail").val("");
+      $("#loginPass").val("");
+    }
+  });
+
+  if (localStorage.getItem("logoutFlag")) {
+    showAlert("success", "👋 You’ve successfully logged out.");
+    localStorage.removeItem("logoutFlag");
+  }
+
+  function afterLoginNode(userName, userRole) {
     const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
 
     const updatedUsers = loggedInUsers.map((user) => {
@@ -842,6 +955,20 @@ $(document).ready(function () {
         .css("display", "block")
         .text(`👨‍🍳 Welcome ${userName}`);
       showAlert("success", " ✅ Logged in successfully ✅");
+
+      if (userRole === "admin") {
+        $("#adminSection").show();
+        $("#navAdminUsers").show();
+        $("#navAdminBookings").show();
+        $("#adminPageIframe").attr("src", "/api/v1/index/adminPage").show();
+
+        if ($("#navAdminUsers").length === 0) {
+          $(".navbar").append(`
+          <a class="nav-link" href="#adminSection" id="navAdminUsers">👥 View Users</a>
+          <a class="nav-link" href="#adminSection" id="navAdminBookings">📋 View Bookings</a>
+        `);
+        }
+      }
     }, 3000);
   }
 
@@ -886,7 +1013,4 @@ $(document).ready(function () {
   //     showAlert("warning", "not Registered");
   //   }
   // }
-
-  
-
 });

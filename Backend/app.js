@@ -22,26 +22,6 @@ mongoose
     console.error("mongodb connection failed", err.message);
   });
 
-// login register seperate api
-// app.use((req, res, next) => {
-//   const token = req.header.authorization;
-//   if (!token) {
-//     return res.status(401).json({
-//       success: false,
-//       messege: "invalid token",
-//     });
-//   }
-//   jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
-//     if (err) {
-//       return res.status(403).json({
-//         success: false,
-//         messege: "token verification failed",
-//       });
-//     }
-//     req.user = data;
-//     next();
-//   });
-// });
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/index", indexRouter);
 app.use("/static", express.static(path.join(__dirname, "public")));

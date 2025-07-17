@@ -16,7 +16,7 @@
     width: 100%;
     height: 12%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr;
     align-items: center;
 }
 
@@ -36,8 +36,10 @@
 }
 
 .navbar{
-   justify-self: center;
-   gap: 5em;
+justify-self: right;
+    justify-items: space-around;
+    right: 5%;
+    gap: 2.5em;
 }
 .navbar a{
     text-decoration: none;
@@ -906,7 +908,7 @@
     color: rgb(255, 204, 0);
     position: relative;
     left: 14%;
-    font-size: 1.8em;
+    font-size: 1.5em;
     font-family: cursive;
     display: none;
     margin-top: 2%;
@@ -959,7 +961,7 @@
   background-color: #294646;
   color: #333;
   width: 100vw;
-  height: 280vh;
+height: max-content;
   display: block;
   justify-items: center;
   padding-top: 2%;
@@ -1001,10 +1003,12 @@
 }
 
 .about-image {
-  width: 100%;
+width: 70vw;
   object-fit: cover;
   border-radius: 10px;
   margin: 1.5rem 0;
+display: block;
+    justify-content: center;
 }
 
 .highlight {
@@ -1022,4 +1026,26 @@
 }
 .below{
     background-color: transparent;
+}
+#adminSection {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-items: center;
+}
+
+#adminPageIframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-items: center;
 }

@@ -23,7 +23,7 @@
 }
 
 .tableContainer th {
-    background-color: #0077cc;
+    background-color: #24a4ff;
       color: white;
       font-size: 1.1rem;
 }
@@ -51,25 +51,26 @@
 #popupContainer {
     display: none;
       position: fixed;
-      top: 30%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #f8f9fa;
+      background-color: #eaf4ff;
       padding: 25px;
       border: 2px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      width: 300px;
+      width: 40vw;
       font-family: Arial, sans-serif;
 }
 
 #popupContainer h3 {
     margin-top: 0;
       margin-bottom: 15px;
-      font-size: 18px;
+      font-size: 2rem;
       text-align: center;
       color: #333;
+      font-weight: 700;
 }
 
 #popupContainer label {
@@ -86,6 +87,7 @@
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      text-align: center;
 }
 
 #popupContainer button {
@@ -105,7 +107,7 @@
 }
 
 #popupContainer button:last-of-type {
-    background-color: #6c757d;
+    background-color: #ed0000;
 }
 
 #popupContainer button:last-of-type:hover {

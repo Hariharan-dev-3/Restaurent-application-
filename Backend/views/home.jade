@@ -17,6 +17,8 @@ html
               rect(y="24", width="40", height="5", fill="black")
           p#loginUserName
         nav.navbar
+          a#navAdminUsers(href="#adminSection", style="display: none") View Users
+          a#navAdminBookings(href="#adminSection", style="display: none") View Bookings
           a#navMenu(href="#menu")
           a#navGallery(href="#gallery")
           a#navBooking(href="#booking")
@@ -104,6 +106,8 @@ html
         li ✅ Vegetarian & vegan-friendly options
         li ✅ Cozy ambiance with live music
         li ✅ Friendly staff and fast service
+    section.admin-container#adminSection(style="display: none")
+      iframe#adminPageIframe(src="/api/v1/index/adminPage")
 
     script(src="https://code.jquery.com/jquery-3.6.0.min.js")
     script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")

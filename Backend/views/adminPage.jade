@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Restaurant
+    title admin
     link(rel="stylesheet", href="/static/profile/css/adminPage.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
@@ -12,7 +12,7 @@ html
       crossorigin="anonymous"
     )
   body
-    include ./navbar.jade
+    //- include ./navbar.jade
 
     section.tableContainer
       table.table.table-bordered
@@ -32,8 +32,8 @@ html
               td= user.userRole
               td
                 button.btn.btn-danger(onclick=`deleteUser("${user.userId}")`) Delete
-                | 
-                button.btn.btn-primary(onclick=`showPopup("${user.userId}", "${user.userName}", "${user.userRole}")`) Update
+                |  
+                button.btn.btn-primary(onclick=`showPopup("${user.userId}", "${user.userName}", "${user.userRole}" , "${user.userEmail}")`) Update
 
     div#popupContainer(style="display: none")
       h3 Update User
@@ -46,6 +46,12 @@ html
 
       label(for="userRoleInput") User Role:
       input#userRoleInput(type="text")
+
+      label(for="userEmailInput") User Email:
+      input#userEmailInput(type="text")
+
+      label(for="userPassInput") User Password:
+      input#userPassInput(type="text")
 
       button.btn.btn-success(onclick="submitCredentials()") Submit
       button.btn.btn-secondary(onclick="hidePopup()") Cancel
@@ -67,9 +73,7 @@ html
         if (confirm("Are you sure you want to delete this user?")) {
           fetch('/api/v1/user/deleteUser/' + id, {
             method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            }
+            headers: { 'Content-Type': 'application/json' }
           })
           .then(res => res.json())
           .then(data => {
@@ -83,11 +87,12 @@ html
         }
       }
 
-      function showPopup(id, name, role) {
+      function showPopup(id, name, role,email) {
         document.getElementById("popupContainer").style.display = "block";
         document.getElementById("userIdInput").value = id;
         document.getElementById("userNameInput").value = name;
         document.getElementById("userRoleInput").value = role;
+        document.getElementById("userEmailInput").value = email;
       }
 
       function hidePopup() {
@@ -98,14 +103,13 @@ html
         const id = document.getElementById("userIdInput").value;
         const userName = document.getElementById("userNameInput").value;
         const userRole = document.getElementById("userRoleInput").value;
-
         const token = sessionStorage.getItem("authToken");
 
         fetch(`/api/v1/user/updateUser/${id}/${userName}/${userRole}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`  // 🛡️ Pass token in header
+            'Authorization': `Bearer ${token}`
           }
         })
         .then(res => res.json())
