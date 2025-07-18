@@ -14,13 +14,24 @@ html
   body
     //- include ./navbar.jade
 
+    section.search-sort-controls
+      .mb-3
+        label(for="searchInput") 🔍 Search Users:
+        input#searchInput.form-control(type="text", placeholder="Search by name")
+
+      .mb-3
+        label(for="sortSelect") ↕️ Sort by username:
+        select#sortSelect.form-select
+          option(value="") -- Select Order --
+          option(value="asc") A–Z
+          option(value="desc") Z–A
+
     section.tableContainer
       table.table.table-bordered
         thead
           tr
             th UserName
             th Email
-            th Password
             th Role
             th Action
         tbody
@@ -49,8 +60,6 @@ html
       label(for="userEmailInput") User Email:
       input#userEmailInput(type="text")
 
-      label(for="userPassInput") User Password:
-      input#userPassInput(type="text")
 
       button.btn.btn-success(onclick="submitCredentials()") Submit
       button.btn.btn-secondary(onclick="hidePopup()") Cancel
@@ -137,3 +146,36 @@ html
           alert("🚫 Unauthorized or something went wrong.");
         });
       }
+
+      document.getElementById("sortSelect").addEventListener("change", function () {
+        const order = this.value;
+
+        fetch(`/api/v1/user/sort?order=${order}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              const tbody = document.querySelector("tbody");
+              tbody.innerHTML = ""; // Clear old content
+
+              data.users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${user.userName}</td>
+                  <td>${user.userEmail}</td>
+                  <td>${user.userRole}</td>
+                  <td>
+                    <button class="btn btn-danger" onclick='deleteUser("${user.userId}")'>Delete</button> 
+                    <button class="btn btn-primary" onclick='showPopup("${user.userId}", "${user.userName}", "${user.userRole}", "${user.userEmail}")'>Update</button>
+                  </td>
+                `;
+                tbody.appendChild(row);
+              });
+            } else {
+              alert("⚠️ Failed to sort users.");
+            }
+          })
+          .catch(err => {
+            console.error("Fetch error:", err);
+            alert("❌ Error loading sorted users.");
+          });
+      });

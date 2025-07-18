@@ -377,6 +377,19 @@ async function deleteUserByEmail(req, res) {
   // }
 }
 
+async function sortUsers(req, res) {
+  try {
+    const order = req.query.order || "asc";
+    const sortDirection = order === "asc" ? 1 : -1;
+
+    const users = await userModel.find().sort({ userName: sortDirection });
+
+    res.json({ success: true, users });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Error fetching users" });
+  }
+}
+
 function registerUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const jsonPath = path.join(__dirname, "..", "models", "users.json");
@@ -570,6 +583,7 @@ module.exports = {
   deleteUserByEmail,
   updateUser,
   renderSpecificUserdata,
+  sortUsers,
 
   // renderError,
   // loadImage,

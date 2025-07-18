@@ -20,6 +20,7 @@ router.put(
   isAuthenticated,
   controllers.updateUser
 );
+router.get("/sort", controllers.sortUsers);
 
 
 module.exports = router;
