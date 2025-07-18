@@ -21,6 +21,7 @@ router.put(
   controllers.updateUser
 );
 router.get("/sort", controllers.sortUsers);
+router.get("/search", controllers.searchUsers);
 
 
 module.exports = router;

@@ -179,3 +179,39 @@ html
             alert("❌ Error loading sorted users.");
           });
       });
+
+      const token = sessionStorage.getItem("authToken");
+      const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+
+      searchInput.addEventListener("input", function () {
+        const query = this.value.trim();
+        const tbody = document.querySelector("tbody");
+
+        const url = query.length === 0
+          ? "/api/v1/user/getAllUsers"
+          : `/api/v1/user/search?query=${encodeURIComponent(query)}`;
+
+        const options = query.length === 0 ? { headers } : {}; // only send token with protected route
+
+        fetch(url, options)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              tbody.innerHTML = "";
+              data.users.forEach(user => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${user.userName}</td>
+                  <td>${user.userEmail}</td>
+                  <td>${user.userRole}</td>
+                  <td>
+                    <button class="btn btn-danger" onclick='deleteUser("${user.userId}")'>Delete</button>
+                    <button class="btn btn-primary" onclick='showPopup("${user.userId}", "${user.userName}", "${user.userRole}", "${user.userEmail}")'>Update</button>
+                  </td>
+                `;
+                tbody.appendChild(row);
+              });
+            }
+          })
+          .catch(err => console.error("User fetch error:", err));
+        });

@@ -216,9 +216,9 @@ function updateUserRender(id, name, role) {
 
 async function renderUserdata(req, res) {
   try {
-    const requestingUser = req.user; // comes from decoded JWT in middleware
+    const requestingUser = req.user; 
 
-    // Optional: Restrict to admin only
+  
     if (requestingUser.userRole !== "admin") {
       return res.status(403).json({
         success: false,
@@ -244,9 +244,7 @@ async function renderUserdata(req, res) {
 async function renderSpecificUserdata(req, res) {
   try {
     const { id } = req.params;
-    const requestingUser = req.user; // added via JWT middleware
-
-    // ✅ Permission check: must be self or admin
+    const requestingUser = req.user; 
     if (
       Number(id) !== requestingUser.userId &&
       requestingUser.userRole !== "admin"
@@ -390,6 +388,19 @@ async function sortUsers(req, res) {
   }
 }
 
+async function searchUsers(req, res) {
+  try {
+    const query = req.query.query || "";
+    const regex = new RegExp(query, "i"); // case-insensitive partial match
+
+    const users = await userModel.find({ userName: { $regex: regex } });
+
+    res.json({ success: true, users });
+  } catch (error) {
+    console.error("Search failed:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 function registerUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const jsonPath = path.join(__dirname, "..", "models", "users.json");
@@ -584,6 +595,7 @@ module.exports = {
   updateUser,
   renderSpecificUserdata,
   sortUsers,
+  searchUsers,
 
   // renderError,
   // loadImage,
