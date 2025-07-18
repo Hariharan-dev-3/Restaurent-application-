@@ -1052,3 +1052,6 @@ display: block;
 #sideAdminUBookings {
     display: none;
 }
+#sideAdminUsers {
+    display: none;
+}

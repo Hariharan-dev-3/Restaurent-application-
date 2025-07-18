@@ -391,7 +391,7 @@ async function sortUsers(req, res) {
 async function searchUsers(req, res) {
   try {
     const query = req.query.query || "";
-    const regex = new RegExp(query, "i"); // case-insensitive partial match
+    const regex = new RegExp(query, "i");
 
     const users = await userModel.find({ userName: { $regex: regex } });
 

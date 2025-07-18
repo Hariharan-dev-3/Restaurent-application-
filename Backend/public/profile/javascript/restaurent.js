@@ -941,15 +941,12 @@ $(document).ready(function () {
           $("#loginToggle").text("Logout");
           $("#authendication").removeClass("show");
 
-          // 🔥 REMOVE REDIRECT — Show admin section in homepage instead
           if (data.result.userRole === "admin") {
             $("#adminSection").show();
             $("#adminPageIframe").attr("src", "/api/v1/index/adminPage").show();
             $("#sideAdminUBookings").css("display", "block");
+            $("#sideAdminUsers").show();
             
-
-
-            // Append admin-specific navbar links if not already present
             if ($("#navAdminUsers").length === 0) {
               $(".navbar").append(`
               <a class="nav-link" href="#adminSection" id="navAdminUsers">👥 View Users</a>

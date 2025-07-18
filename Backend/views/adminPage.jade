@@ -15,12 +15,12 @@ html
     //- include ./navbar.jade
 
     section.search-sort-controls
-      .mb-3
-        label(for="searchInput") 🔍 Search Users:
+      .inputGroup
+        label(for="searchInput") 🔍 Search Users
         input#searchInput.form-control(type="text", placeholder="Search by name")
 
-      .mb-3
-        label(for="sortSelect") ↕️ Sort by username:
+      .inputGroup
+        label(for="sortSelect") ↕️ Sort by username
         select#sortSelect.form-select
           option(value="") -- Select Order --
           option(value="asc") A–Z
@@ -155,7 +155,7 @@ html
           .then(data => {
             if (data.success) {
               const tbody = document.querySelector("tbody");
-              tbody.innerHTML = ""; // Clear old content
+              tbody.innerHTML = ""; 
 
               data.users.forEach(user => {
                 const row = document.createElement("tr");
@@ -191,7 +191,7 @@ html
           ? "/api/v1/user/getAllUsers"
           : `/api/v1/user/search?query=${encodeURIComponent(query)}`;
 
-        const options = query.length === 0 ? { headers } : {}; // only send token with protected route
+        const options = query.length === 0 ? { headers } : {}; 
 
         fetch(url, options)
           .then(res => res.json())
