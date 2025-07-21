@@ -59,10 +59,10 @@ html
                 |  
                 button.btn.btn-primary(onclick=`showPopup("${user.userId}", "${user.userName}", "${user.userRole}" , "${user.userEmail}")`) Update
 
-    section.paginationControls
-        button#prevPageBtn.btn.btn-secondary(type="button") ⬅️ Previous
-        button#nextPageBtn.btn.btn-secondary(type="button") ➡️ Next
-        span#pageInfo Page #{currentPage} of #{totalPages}
+      section.paginationControls
+          button#prevPageBtn.btn.btn-secondary(type="button") ⬅️ Previous
+          button#nextPageBtn.btn.btn-secondary(type="button") ➡️ Next
+          span#pageInfo Page #{currentPage} of #{totalPages}
 
 
 
@@ -171,91 +171,7 @@ html
         });
       }
 
-      //- document.getElementById("sortSelect").addEventListener("change", function () {
-      //-   const order = this.value;
-
-      //-   fetch(`/api/v1/user/sort?order=${order}`)
-      //-     .then(res => res.json())
-      //-     .then(data => {
-      //-       if (data.success) {
-      //-         const tbody = document.querySelector("tbody");
-      //-         tbody.innerHTML = ""; 
-
-      //-         data.users.forEach(user => {
-      //-           const row = document.createElement("tr");
-      //-           row.innerHTML = `
-      //-             <td>${user.userName}</td>
-      //-             <td>${user.userEmail}</td>
-      //-             <td>${user.userRole}</td>
-      //-             <td>
-      //-               <button class="btn btn-danger" onclick='deleteUser("${user.userId}")'>Delete</button> 
-      //-               <button class="btn btn-primary" onclick='showPopup("${user.userId}", "${user.userName}", "${user.userRole}", "${user.userEmail}")'>Update</button>
-      //-             </td>
-      //-           `;
-      //-           tbody.appendChild(row);
-      //-         });
-      //-       } else {
-      //-         alert("⚠️ Failed to sort users.");
-      //-       }
-      //-     })
-      //-     .catch(err => {
-      //-       console.error("Fetch error:", err);
-      //-       alert("❌ Error loading sorted users.");
-      //-     });
-      //- });
-
-      //- const searchInput = document.getElementById("searchInput");
-      //- const tbody = document.querySelector("tbody");
-      //- const token = sessionStorage.getItem("authToken");
-      //- console .log(token);
-      //- const headers = token ? { "Authorization": `Bearer ${token}` } : {};
-
-      //- searchInput.addEventListener("input", function () {
-      //-   const query = this.value.trim();
-
-      //-   if (query.length === 0) {
-      //-     fetchAllUsers();  // Call getAllUsers
-      //-   } else {
-      //-     searchUsers(query); // Call search endpoint
-      //-   }
-      //- });
-
-      //- function fetchAllUsers() {
-      //-   fetch("/api/v1/user/getAllUsers", { headers })
-      //-     .then(res => res.json())
-      //-     .then(data => {
-      //-       tbody.innerHTML = "";
-
-      //-       if (data.success && Array.isArray(data.result) && data.result.length > 0) {
-      //-         renderUsers(data.result);
-      //-       } else {
-      //-         showEmptyMessage("🔍 No users found.");
-      //-       }
-      //-     })
-      //-     .catch(err => {
-      //-       console.error("Fetch all users failed:", err);
-      //-       showEmptyMessage("❌ Error loading users.");
-      //-     });
-      //- }
-
-      //- function searchUsers(query) {
-      //-   fetch(`/api/v1/user/search?query=${encodeURIComponent(query)}`)
-      //-     .then(res => res.json())
-      //-     .then(data => {
-      //-       tbody.innerHTML = "";
-
-      //-       if (data.success && Array.isArray(data.users) && data.users.length > 0) {
-      //-         renderUsers(data.users);
-      //-       } else {
-      //-         showEmptyMessage("🔍 No matching users.");
-      //-       }
-      //-     })
-      //-     .catch(err => {
-      //-       console.error("Search error:", err);
-      //-       showEmptyMessage("❌ Error searching users.");
-      //-     });
-      //- }
-
+    
       function renderUsers(users) {
         console.log(users)
         users.forEach(user => {
@@ -370,4 +286,8 @@ html
           </tr>
         `;
       }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        handleUserFetch();
+      });
 
