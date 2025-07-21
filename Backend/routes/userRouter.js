@@ -20,8 +20,10 @@ router.put(
   isAuthenticated,
   controllers.updateUser
 );
-router.get("/sort", controllers.sortUsers);
-router.get("/search", controllers.searchUsers);
+// router.get("/sort", controllers.sortUsers);
+// router.get("/search", controllers.searchUsers);
+
+router.post("/getUsers", controllers.getUsers);
 
 
 module.exports = router;

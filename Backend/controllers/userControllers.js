@@ -375,32 +375,73 @@ async function deleteUserByEmail(req, res) {
   // }
 }
 
-async function sortUsers(req, res) {
+// async function sortUsers(req, res) {
+//   try {
+//     const order = req.query.order || "asc";
+//     const sortDirection = order === "asc" ? 1 : -1;
+
+//     const users = await userModel.find().sort({ userName: sortDirection });
+
+//     res.json({ success: true, users });
+//   } catch (err) {
+//     res.status(500).json({ success: false, message: "Error fetching users" });
+//   }
+// }
+
+// async function searchUsers(req, res) {
+//   try {
+//     const query = req.query.query || "";
+//     const regex = new RegExp(query, "i");
+
+//     const users = await userModel.find({ userName: { $regex: regex } });
+
+//     res.json({ success: true, users });
+//   } catch (error) {
+//     console.error("Search failed:", error);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// }
+
+
+
+async function getUsers(req, res) {
   try {
-    const order = req.query.order || "asc";
-    const sortDirection = order === "asc" ? 1 : -1;
+    const {
+      search = "",
+      sortBy = "userName",
+      sortOrder = "asc",
+      page = 1,
+      pageSize = 10,
+    } = req.body;
 
-    const users = await userModel.find().sort({ userName: sortDirection });
+    const query = search
+      ? { userName: { $regex: new RegExp(search, "i") } }
+      : {};
 
-    res.json({ success: true, users });
+    const sortDirection = sortOrder === "asc" ? 1 : -1;
+
+    const users = await userModel
+      .find(query)
+      .sort({ [sortBy]: sortDirection })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    const total = await userModel.countDocuments(query);
+
+    res.json({
+      success: true,
+      users,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Error fetching users" });
-  }
-}
-
-async function searchUsers(req, res) {
-  try {
-    const query = req.query.query || "";
-    const regex = new RegExp(query, "i");
-
-    const users = await userModel.find({ userName: { $regex: regex } });
-
-    res.json({ success: true, users });
-  } catch (error) {
-    console.error("Search failed:", error);
+    console.error("User fetch error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 }
+
+
 function registerUserRender(req) {
   return new Promise(async (resolve, reject) => {
     const jsonPath = path.join(__dirname, "..", "models", "users.json");
@@ -594,8 +635,9 @@ module.exports = {
   deleteUserByEmail,
   updateUser,
   renderSpecificUserdata,
-  sortUsers,
-  searchUsers,
+  // sortUsers,
+  // searchUsers,
+  getUsers
 
   // renderError,
   // loadImage,

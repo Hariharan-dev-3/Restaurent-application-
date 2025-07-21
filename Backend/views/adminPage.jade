@@ -26,6 +26,13 @@ html
           option(value="asc") A–Z
           option(value="desc") Z–A
 
+      .inputGroup
+        label(for="sortFieldSelect") 🗂️ Sort By Field
+        select#sortFieldSelect.form-select
+          option(value="userName") Username
+          option(value="userEmail") Email
+          option(value="userRole") Role
+
     section.tableContainer
       table.table.table-bordered
         thead
@@ -147,90 +154,90 @@ html
         });
       }
 
-      document.getElementById("sortSelect").addEventListener("change", function () {
-        const order = this.value;
+      //- document.getElementById("sortSelect").addEventListener("change", function () {
+      //-   const order = this.value;
 
-        fetch(`/api/v1/user/sort?order=${order}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              const tbody = document.querySelector("tbody");
-              tbody.innerHTML = ""; 
+      //-   fetch(`/api/v1/user/sort?order=${order}`)
+      //-     .then(res => res.json())
+      //-     .then(data => {
+      //-       if (data.success) {
+      //-         const tbody = document.querySelector("tbody");
+      //-         tbody.innerHTML = ""; 
 
-              data.users.forEach(user => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                  <td>${user.userName}</td>
-                  <td>${user.userEmail}</td>
-                  <td>${user.userRole}</td>
-                  <td>
-                    <button class="btn btn-danger" onclick='deleteUser("${user.userId}")'>Delete</button> 
-                    <button class="btn btn-primary" onclick='showPopup("${user.userId}", "${user.userName}", "${user.userRole}", "${user.userEmail}")'>Update</button>
-                  </td>
-                `;
-                tbody.appendChild(row);
-              });
-            } else {
-              alert("⚠️ Failed to sort users.");
-            }
-          })
-          .catch(err => {
-            console.error("Fetch error:", err);
-            alert("❌ Error loading sorted users.");
-          });
-      });
+      //-         data.users.forEach(user => {
+      //-           const row = document.createElement("tr");
+      //-           row.innerHTML = `
+      //-             <td>${user.userName}</td>
+      //-             <td>${user.userEmail}</td>
+      //-             <td>${user.userRole}</td>
+      //-             <td>
+      //-               <button class="btn btn-danger" onclick='deleteUser("${user.userId}")'>Delete</button> 
+      //-               <button class="btn btn-primary" onclick='showPopup("${user.userId}", "${user.userName}", "${user.userRole}", "${user.userEmail}")'>Update</button>
+      //-             </td>
+      //-           `;
+      //-           tbody.appendChild(row);
+      //-         });
+      //-       } else {
+      //-         alert("⚠️ Failed to sort users.");
+      //-       }
+      //-     })
+      //-     .catch(err => {
+      //-       console.error("Fetch error:", err);
+      //-       alert("❌ Error loading sorted users.");
+      //-     });
+      //- });
 
-      const searchInput = document.getElementById("searchInput");
-      const tbody = document.querySelector("tbody");
-      const token = sessionStorage.getItem("authToken");
-      console .log(token);
-      const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+      //- const searchInput = document.getElementById("searchInput");
+      //- const tbody = document.querySelector("tbody");
+      //- const token = sessionStorage.getItem("authToken");
+      //- console .log(token);
+      //- const headers = token ? { "Authorization": `Bearer ${token}` } : {};
 
-      searchInput.addEventListener("input", function () {
-        const query = this.value.trim();
+      //- searchInput.addEventListener("input", function () {
+      //-   const query = this.value.trim();
 
-        if (query.length === 0) {
-          fetchAllUsers();  // Call getAllUsers
-        } else {
-          searchUsers(query); // Call search endpoint
-        }
-      });
+      //-   if (query.length === 0) {
+      //-     fetchAllUsers();  // Call getAllUsers
+      //-   } else {
+      //-     searchUsers(query); // Call search endpoint
+      //-   }
+      //- });
 
-      function fetchAllUsers() {
-        fetch("/api/v1/user/getAllUsers", { headers })
-          .then(res => res.json())
-          .then(data => {
-            tbody.innerHTML = "";
+      //- function fetchAllUsers() {
+      //-   fetch("/api/v1/user/getAllUsers", { headers })
+      //-     .then(res => res.json())
+      //-     .then(data => {
+      //-       tbody.innerHTML = "";
 
-            if (data.success && Array.isArray(data.result) && data.result.length > 0) {
-              renderUsers(data.result);
-            } else {
-              showEmptyMessage("🔍 No users found.");
-            }
-          })
-          .catch(err => {
-            console.error("Fetch all users failed:", err);
-            showEmptyMessage("❌ Error loading users.");
-          });
-      }
+      //-       if (data.success && Array.isArray(data.result) && data.result.length > 0) {
+      //-         renderUsers(data.result);
+      //-       } else {
+      //-         showEmptyMessage("🔍 No users found.");
+      //-       }
+      //-     })
+      //-     .catch(err => {
+      //-       console.error("Fetch all users failed:", err);
+      //-       showEmptyMessage("❌ Error loading users.");
+      //-     });
+      //- }
 
-      function searchUsers(query) {
-        fetch(`/api/v1/user/search?query=${encodeURIComponent(query)}`)
-          .then(res => res.json())
-          .then(data => {
-            tbody.innerHTML = "";
+      //- function searchUsers(query) {
+      //-   fetch(`/api/v1/user/search?query=${encodeURIComponent(query)}`)
+      //-     .then(res => res.json())
+      //-     .then(data => {
+      //-       tbody.innerHTML = "";
 
-            if (data.success && Array.isArray(data.users) && data.users.length > 0) {
-              renderUsers(data.users);
-            } else {
-              showEmptyMessage("🔍 No matching users.");
-            }
-          })
-          .catch(err => {
-            console.error("Search error:", err);
-            showEmptyMessage("❌ Error searching users.");
-          });
-      }
+      //-       if (data.success && Array.isArray(data.users) && data.users.length > 0) {
+      //-         renderUsers(data.users);
+      //-       } else {
+      //-         showEmptyMessage("🔍 No matching users.");
+      //-       }
+      //-     })
+      //-     .catch(err => {
+      //-       console.error("Search error:", err);
+      //-       showEmptyMessage("❌ Error searching users.");
+      //-     });
+      //- }
 
       function renderUsers(users) {
         console.log(users)
@@ -249,12 +256,77 @@ html
         });
       }
 
+
+      const searchInput = document.getElementById("searchInput");
+      const sortSelect = document.getElementById("sortSelect");
+      const tbody = document.querySelector("tbody");
+      const token = sessionStorage.getItem("authToken");
+      const sortFieldSelect = document.getElementById("sortFieldSelect");
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      };
+
+      let currentPage = 1;
+      const pageSize = 10;
+
+      function handleUserFetch() {
+        const search = searchInput.value.trim();
+        const sortOrder = sortSelect.value;
+        const sortBy = sortFieldSelect.value || "userName";  
+
+        const payload = {
+          search,
+          sortBy,
+          sortOrder,
+          page: currentPage,
+          pageSize
+        };
+        console.log(payload)
+
+        fetch("/api/v1/user/getUsers", {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then(data => {
+            tbody.innerHTML = "";
+
+            if (data.success && data.users.length > 0) {
+              renderUsers(data.users);
+            } else if (data.success && data.users.length === 0) {
+              showEmptyMessage("🔍 No matching users found.");
+            } else {
+              showEmptyMessage("❌ Server error. Please try again.");
+            }
+          })
+          .catch(err => {
+            console.error("Fetch error:", err);
+            showEmptyMessage("❌ Failed to load users.");
+          });
+      }
+
+      searchInput.addEventListener("input", () => {
+        currentPage = 1; 
+        handleUserFetch();
+      });
+
+      sortSelect.addEventListener("change", () => {
+        currentPage = 1;
+        handleUserFetch();
+      });
+
+      sortFieldSelect.addEventListener("change", () => {
+      currentPage = 1;
+      handleUserFetch();
+        });
+
       function showEmptyMessage(message) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="4" style="text-align: center;">${message}</td>
+            <td colspan="4" style="text-align: center; color: #888;">${message}</td>
           </tr>
         `;
       }
-
 
