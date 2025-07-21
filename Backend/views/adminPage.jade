@@ -33,6 +33,13 @@ html
           option(value="userEmail") Email
           option(value="userRole") Role
 
+      //- .inputGroup
+      //-     label(for="pageSizeSelect") 📏 Page Size
+      //-     select#pageSizeSelect.form-select
+      //-       option(value="5") 5
+      //-       option(value="10") 10
+      //-       option(value="20") 20
+
     section.tableContainer
       table.table.table-bordered
         thead
@@ -51,6 +58,16 @@ html
                 button.btn.btn-danger(onclick=`deleteUser("${user.userId}")`) Delete
                 |  
                 button.btn.btn-primary(onclick=`showPopup("${user.userId}", "${user.userName}", "${user.userRole}" , "${user.userEmail}")`) Update
+
+    section.paginationControls
+        button#prevPageBtn.btn.btn-secondary(type="button") ⬅️ Previous
+        button#nextPageBtn.btn.btn-secondary(type="button") ➡️ Next
+        span#pageInfo Page #{currentPage} of #{totalPages}
+
+
+
+
+
 
     div#popupContainer(style="display: none")
       h3 Update User
@@ -268,21 +285,14 @@ html
       };
 
       let currentPage = 1;
-      const pageSize = 10;
+      const pageSize = 5;
 
       function handleUserFetch() {
         const search = searchInput.value.trim();
         const sortOrder = sortSelect.value;
-        const sortBy = sortFieldSelect.value || "userName";  
-
-        const payload = {
-          search,
-          sortBy,
-          sortOrder,
-          page: currentPage,
-          pageSize
-        };
-        console.log(payload)
+        const sortBy = sortFieldSelect.value || "userName";
+        
+        const payload = { search, sortBy, sortOrder, page: currentPage, pageSize };
 
         fetch("/api/v1/user/getUsers", {
           method: "POST",
@@ -295,8 +305,12 @@ html
 
             if (data.success && data.users.length > 0) {
               renderUsers(data.users);
+              totalPages = data.totalPages;
+              updatePagination();
             } else if (data.success && data.users.length === 0) {
               showEmptyMessage("🔍 No matching users found.");
+              totalPages = data.totalPages || 1;
+              updatePagination();
             } else {
               showEmptyMessage("❌ Server error. Please try again.");
             }
@@ -306,6 +320,7 @@ html
             showEmptyMessage("❌ Failed to load users.");
           });
       }
+
 
       searchInput.addEventListener("input", () => {
         currentPage = 1; 
@@ -321,6 +336,32 @@ html
       currentPage = 1;
       handleUserFetch();
         });
+
+
+        const prevPageBtn = document.getElementById("prevPageBtn");
+        const nextPageBtn = document.getElementById("nextPageBtn");
+        const pageInfo = document.getElementById("pageInfo");
+
+        function updatePagination() {
+          pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+          prevPageBtn.disabled = currentPage <= 1;
+          nextPageBtn.disabled = currentPage >= totalPages;
+        }
+
+        prevPageBtn.addEventListener("click", () => {
+          if (currentPage > 1) {
+            currentPage--;
+            handleUserFetch();
+          }
+        });
+
+        nextPageBtn.addEventListener("click", () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            handleUserFetch();
+          }
+        });
+
 
       function showEmptyMessage(message) {
         tbody.innerHTML = `

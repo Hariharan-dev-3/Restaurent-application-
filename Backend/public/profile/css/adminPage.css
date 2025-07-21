@@ -155,3 +155,15 @@ select {
 .inputGroup label {
   margin-bottom: 1em;
 }
+
+.paginationControls {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 10vw;
+}
+
+.paginationControls button {
+  background-color: #24a4ff;
+  color: black;
+}
