@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const controllers = require("../controllers/indexController");
+const controllers = require("../controllers/tableController");
 
-
-router.post("/bookTable", controllers.bookTable);
+router.post("/createTable", controllers.createTable);
 
 
 module.exports=router;

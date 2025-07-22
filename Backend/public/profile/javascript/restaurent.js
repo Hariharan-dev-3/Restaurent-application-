@@ -301,8 +301,7 @@ function bookingRender(bookingarray) {
   bookImg.forEach((bmg) => {
     bmg.addEventListener("click", () => {
       const tableType = bmg.getAttribute("data-table");
-      const loggedInUsers =
-        JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+      const loggedInUsers = JSON.parse(localStorage.getItem("loggedIn")) || [];
       const activeUser = loggedInUsers.find((user) => user.isLoggedIn === true);
 
       if (activeUser) {
@@ -316,8 +315,7 @@ function bookingRender(bookingarray) {
 
 // bookingRender(bookingPics);
 
-// 
-
+//
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -354,7 +352,7 @@ function bookingFormTemplate(tableType, userName) {
 document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("bookBtn")) return;
 
-  const userData = JSON.parse(sessionStorage.getItem("loggedIn"));
+  const userData = JSON.parse(localStorage.getItem("loggedIn"));
   if (!userData || !userData[0]?.isLoggedIn || !userData[0]?.userId) {
     alert("⚠️ You must be logged in to book a table.");
     return;
@@ -392,7 +390,7 @@ document.addEventListener("click", async (e) => {
 
   try {
     const response = await fetch(
-      "http://localhost:8000/api/v1/index/bookTable",
+      "http://localhost:8000/api/v1/book/bookTable",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
