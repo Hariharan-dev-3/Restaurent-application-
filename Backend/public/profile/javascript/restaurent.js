@@ -524,6 +524,13 @@ function registerRender() {
 
 //login validation
 $(document).ready(function () {
+
+  const token = localStorage.getItem("authToken");
+  const userData = JSON.parse(localStorage.getItem("loggedIn"));
+
+  if (token && userData?.[0]?.isLoggedIn) {
+    afterLoginNode(userData[0].userName, userData[0].userRole);
+  }
   $(document).on("click", "#registerBtn", () => {
     // registerFormValidation();
     registerFormValidationNode();
@@ -924,8 +931,8 @@ $(document).ready(function () {
           $("#loginMail").val("");
           $("#loginPass").val("");
 
-          sessionStorage.setItem("authToken", data.result.token);
-          sessionStorage.setItem(
+          localStorage.setItem("authToken", data.result.token);
+          localStorage.setItem(
             "loggedIn",
             JSON.stringify([
               {
@@ -946,7 +953,7 @@ $(document).ready(function () {
             $("#adminPageIframe").attr("src", "/api/v1/index/adminPage").show();
             $("#sideAdminUBookings").css("display", "block");
             $("#sideAdminUsers").show();
-            
+
             if ($("#navAdminUsers").length === 0) {
               $(".navbar").append(`
               <a class="nav-link" href="#adminSection" id="navAdminUsers">👥 View Users</a>
@@ -979,7 +986,7 @@ $(document).ready(function () {
       $("#authendication").removeClass("show");
       $("#loader").addClass("show");
       localStorage.setItem("logoutFlag", "true");
-      sessionStorage.clear();
+      localStorage.clear();
 
       setTimeout(() => {
         window.location.reload();
@@ -996,7 +1003,7 @@ $(document).ready(function () {
   }
 
   function afterLoginNode(userName, userRole) {
-    const loggedInUsers = JSON.parse(sessionStorage.getItem("loggedIn")) || [];
+    const loggedInUsers = JSON.parse(localStorage.getItem("loggedIn")) || [];
 
     const updatedUsers = loggedInUsers.map((user) => {
       if (user.userName === userName) {
@@ -1009,7 +1016,7 @@ $(document).ready(function () {
       updatedUsers.push({ userName, isLoggedIn: true });
     }
 
-    sessionStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
+    localStorage.setItem("loggedIn", JSON.stringify(updatedUsers));
 
     $("#loader").addClass("show");
     $("#authendication").removeClass("show");
